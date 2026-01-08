@@ -1,0 +1,490 @@
+---
+/**
+ * Premium About Page
+ * Builds trust and showcases the team and values
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ContactForm from '@components/ContactForm.astro';
+import TrustBadges from '@components/TrustBadges.astro';
+import CTABanner from '@components/CTABanner.astro';
+import ProcessSteps from '@components/ProcessSteps.astro';
+
+const services = [
+  { name: 'Cirugías Corporales', icon: 'body' },
+  { name: 'Cirugías Faciales', icon: 'face' },
+  { name: 'Rejuvenecimiento Facial', icon: 'rejuvenation' },
+  { name: 'Metabolismo y Obesidad', icon: 'health' },
+  { name: 'Análisis de Exámenes Médicos', icon: 'analysis' }
+];
+
+const values = [
+  {
+    title: 'Excelencia Médica',
+    description: 'Cada procedimiento se realiza con los más altos estándares de calidad y seguridad.',
+    icon: 'excellence'
+  },
+  {
+    title: 'Empatía y Cuidado',
+    description: 'Te acompañamos con comprensión y cariño en cada etapa de tu transformación.',
+    icon: 'care'
+  },
+  {
+    title: 'Resultados Naturales',
+    description: 'Buscamos realzar tu belleza natural, no cambiar quién eres.',
+    icon: 'natural'
+  },
+  {
+    title: 'Innovación Constante',
+    description: 'Utilizamos las técnicas y tecnologías más avanzadas del mercado.',
+    icon: 'innovation'
+  }
+];
+
+const team = [
+  {
+    name: 'Dra. Daniela Correa',
+    role: 'Cirujana Plástica',
+    image: 'https://thetrueyou.com.co/wp-content/uploads/2025/05/daniela-2-1.webp',
+    credentials: ['Miembro SCCP', 'Especialista en Cirugía Estética', '10+ años de experiencia'],
+    description: 'Especialista en cirugía plástica, reconstructiva y estética con enfoque en resultados naturales y armoniosos.'
+  },
+  {
+    name: 'Dr. Martín Quirós',
+    role: 'Médico Internista',
+    image: 'https://thetrueyou.com.co/wp-content/uploads/2025/05/martin-1.webp',
+    credentials: ['Medicina Interna', 'Especialista en Metabolismo', 'Experto en Sueroterapia'],
+    description: 'Experto en medicina interna y metabólica, enfocado en la salud integral y el bienestar de los pacientes.'
+  }
+];
+---
+
+<BaseLayout
+  title="Nosotros | Dra. Daniela Benitez y Dr. Martín Quirós | The True You Medellín"
+  description="Conoce a la Dra. Daniela Benitez, cirujana plástica certificada, y al Dr. Martín Quirós, médico internista. The True You: cirugía plástica y medicina interna en Medellín. 10+ años de experiencia."
+  keywords="Dra Daniela Benitez cirujana plástica, Dr Martín Quirós internista, The True You Medellín, equipo médico cirugía plástica Colombia, clínica estética Medellín, cirujanos certificados SCCP"
+>
+  <!-- Hero Section -->
+  <section class="w-full bg-gradient-to-br from-cream via-primary-50 to-cream py-16 md:py-24" data-hero-section>
+    <div class="container-premium">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Content -->
+        <div class="animate-on-scroll">
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 rounded-full text-sm font-medium text-primary-700 mb-6">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+            Conoce más de nosotros
+          </span>
+
+          <h1 class="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-dark leading-tight mb-6">
+            Bienvenidos a <span class="text-primary">The True You</span>
+          </h1>
+
+          <div class="space-y-4 mb-8">
+            <p class="text-lg text-dark/70 leading-relaxed">
+              El mejor momento de tu vida es aquel en el que decides empezar a <strong>cuidarte, amarte y ser tu mejor versión</strong>.
+            </p>
+            <p class="text-lg text-dark/70 leading-relaxed">
+              The True You es un lugar diseñado para que tu exterior refleje la belleza que hay en ti.
+            </p>
+            <p class="text-lg text-dark/70 leading-relaxed">
+              Te invitamos a disfrutar de esta nueva aventura de la mano de la <strong>Dra. Daniela Correa</strong> y el <strong>Dr. Martín Quirós</strong>.
+            </p>
+          </div>
+
+          <a href="#contactForm" class="btn-primary scroll-to-contact">
+            Agendar Consulta Gratuita
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Video -->
+        <div class="animate-on-scroll order-first lg:order-last" style="animation-delay: 150ms">
+          <div class="relative">
+            <!-- Decorative elements -->
+            <div class="absolute -top-6 -right-6 w-32 h-32 bg-primary-200/50 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-6 -left-6 w-40 h-40 bg-gold/20 rounded-full blur-3xl"></div>
+
+            <div class="relative bg-dark rounded-2xl overflow-hidden shadow-2xl">
+              <div class="absolute -inset-1 bg-gradient-to-r from-primary-200 via-gold/30 to-primary-200 rounded-3xl blur opacity-50"></div>
+              <iframe
+                class="relative w-full aspect-video"
+                src="https://www.youtube.com/embed/Qo1G0Rzu8R0"
+                title="Bienvenidos a The True You"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission & Vision -->
+  <section class="w-full bg-white py-16 md:py-20" data-mission-section>
+    <div class="container-premium">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <!-- Mission -->
+        <div class="p-8 bg-cream rounded-2xl animate-on-scroll">
+          <div class="w-14 h-14 rounded-xl bg-primary flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3 class="font-serif text-2xl font-bold text-dark mb-4">Nuestra Misión</h3>
+          <p class="text-dark/70 leading-relaxed">
+            Lograr encontrar en ti, a través de la Cirugía Plástica y Medicina Interna, la versión que te hace feliz. Acompañarte con profesionalismo y cariño en cada paso de tu transformación.
+          </p>
+        </div>
+
+        <!-- Vision -->
+        <div class="p-8 bg-cream rounded-2xl animate-on-scroll" style="animation-delay: 100ms">
+          <div class="w-14 h-14 rounded-xl bg-gold flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+            </svg>
+          </div>
+          <h3 class="font-serif text-2xl font-bold text-dark mb-4">Nuestra Visión</h3>
+          <p class="text-dark/70 leading-relaxed">
+            Que The True You continúe creciendo para poder expandir nuestro servicio a nivel internacional, llevando nuestra filosofía de belleza natural y cuidado integral a más personas.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Badges -->
+  <TrustBadges
+    badges={[
+      { icon: 'experience', value: 10, suffix: '+', label: 'Años de Experiencia' },
+      { icon: 'patients', value: 3000, suffix: '+', label: 'Pacientes Satisfechos' },
+      { icon: 'certificate', value: 8, label: 'Certificaciones' },
+      { icon: 'rating', value: 4.9, label: 'Calificación Promedio' }
+    ]}
+    variant="cards"
+    animate={false}
+  />
+
+  <!-- Services Section -->
+  <section class="w-full bg-white py-16 md:py-24" data-services-section>
+    <div class="container-premium">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Content -->
+        <div class="animate-on-scroll">
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-gold/20 rounded-full text-sm font-medium text-gold mb-6">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+            </svg>
+            Servicios Integrales
+          </span>
+
+          <h2 class="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-dark leading-tight mb-4">
+            Tú eres tu mejor <span class="text-primary">inversión</span>
+          </h2>
+
+          <p class="text-lg text-dark/70 leading-relaxed mb-8">
+            En The True You contamos con servicios integrales para que puedas desarrollar tu mejor versión y realzar tu belleza natural.
+          </p>
+
+          <ul class="space-y-4 mb-8">
+            {services.map((service, index) => (
+              <li
+                class="flex items-center gap-4 p-4 bg-cream rounded-xl hover:shadow-md transition-shadow group"
+                style={`animation-delay: ${index * 100}ms`}
+              >
+                <span class="flex-shrink-0 w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center group-hover:bg-primary group-hover:scale-110 transition-all">
+                  <svg class="w-5 h-5 text-primary group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </span>
+                <span class="font-medium text-dark">{service.name}</span>
+              </li>
+            ))}
+          </ul>
+
+          <a href="#contactForm" class="btn-primary scroll-to-contact">
+            Agendar Cita
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Image -->
+        <div class="animate-on-scroll" style="animation-delay: 150ms">
+          <div class="relative">
+            <div class="absolute -inset-4 bg-gradient-to-br from-primary-200 via-primary-100 to-gold/30 rounded-3xl"></div>
+            <img
+              src="https://thetrueyou.com.co/wp-content/uploads/2025/05/daniela-1-e1749233759641.png"
+              alt="Equipo The True You"
+              class="relative w-full rounded-2xl shadow-2xl object-cover"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class="w-full bg-cream py-16 md:py-24" data-values-section>
+    <div class="container-premium">
+      <div class="text-center mb-12 animate-on-scroll">
+        <span class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 rounded-full text-sm font-medium text-primary-700 mb-4">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+          </svg>
+          Nuestros Valores
+        </span>
+
+        <h2 class="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-dark leading-tight mb-4">
+          ¿Por Qué <span class="text-primary">Elegirnos</span>?
+        </h2>
+
+        <p class="text-lg text-dark/70 max-w-2xl mx-auto">
+          Contamos con la mejor tecnología médica y profesionales altamente calificados, comprometidos en brindar la mejor atención.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-on-scroll">
+        {values.map((value, index) => (
+          <div
+            class="p-6 bg-white rounded-2xl shadow-soft hover:shadow-lg transition-all duration-300 group text-center"
+            style={`animation-delay: ${index * 100}ms`}
+          >
+            <div class="w-16 h-16 mx-auto rounded-full bg-primary-100 flex items-center justify-center mb-4 group-hover:bg-primary group-hover:scale-110 transition-all">
+              {value.icon === 'excellence' && (
+                <svg class="w-8 h-8 text-primary group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                </svg>
+              )}
+              {value.icon === 'care' && (
+                <svg class="w-8 h-8 text-primary group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                </svg>
+              )}
+              {value.icon === 'natural' && (
+                <svg class="w-8 h-8 text-primary group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                </svg>
+              )}
+              {value.icon === 'innovation' && (
+                <svg class="w-8 h-8 text-primary group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                </svg>
+              )}
+            </div>
+            <h3 class="font-semibold text-lg text-dark mb-2">{value.title}</h3>
+            <p class="text-sm text-dark/60">{value.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="w-full bg-white py-16 md:py-24" data-team-section>
+    <div class="container-premium">
+      <div class="text-center mb-12 animate-on-scroll">
+        <span class="inline-flex items-center gap-2 px-4 py-2 bg-gold/20 rounded-full text-sm font-medium text-gold mb-4">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          Equipo Médico
+        </span>
+
+        <h2 class="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-dark leading-tight mb-4">
+          Conoce a Nuestros <span class="text-primary">Especialistas</span>
+        </h2>
+
+        <p class="text-lg text-dark/70 max-w-2xl mx-auto">
+          Enamórate del proceso de convertirte en tu mejor versión. Nosotros te ayudamos en cada parte del camino.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+        {team.map((member, index) => (
+          <div
+            class="group animate-on-scroll"
+            style={`animation-delay: ${index * 150}ms`}
+          >
+            <div class="bg-cream rounded-3xl p-6 md:p-8 shadow-soft hover:shadow-lg transition-all">
+              <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+                <!-- Photo -->
+                <div class="relative flex-shrink-0">
+                  <div class="w-40 h-52 rounded-2xl overflow-hidden shadow-lg">
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  <!-- Badge -->
+                  <div class="absolute -bottom-2 -right-2 w-12 h-12 rounded-full bg-primary flex items-center justify-center shadow-lg">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- Info -->
+                <div class="text-center md:text-left flex-1">
+                  <h3 class="font-serif text-2xl font-bold text-dark mb-1">{member.name}</h3>
+                  <p class="text-primary font-medium mb-4">{member.role}</p>
+                  <p class="text-dark/70 text-sm leading-relaxed mb-4">{member.description}</p>
+
+                  <!-- Credentials -->
+                  <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                    {member.credentials.map(cred => (
+                      <span class="inline-flex items-center gap-1 px-3 py-1 bg-white rounded-full text-xs font-medium text-dark/70 border border-primary-100">
+                        <svg class="w-3 h-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        {cred}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Clinics Section -->
+  <section class="w-full bg-cream py-16 md:py-24" data-clinics-section>
+    <div class="container-premium">
+      <div class="text-center mb-12 animate-on-scroll">
+        <span class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 rounded-full text-sm font-medium text-primary-700 mb-4">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+          </svg>
+          Instalaciones Premium
+        </span>
+
+        <h2 class="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-dark leading-tight mb-4">
+          ¿Dónde Realizamos Tu <span class="text-primary">Cirugía</span>?
+        </h2>
+
+        <p class="text-lg text-dark/70 max-w-2xl mx-auto">
+          Operamos en clínicas certificadas con los más altos estándares de seguridad y tecnología.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto animate-on-scroll">
+        <!-- Clinic 1 -->
+        <div class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-xl transition-all duration-300">
+          <div class="relative h-64 overflow-hidden">
+            <img
+              src="https://thetrueyou.com.co/wp-content/uploads/2025/05/rionegro-1.webp"
+              alt="Clínica Llanogrande"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="w-2 h-2 rounded-full bg-primary"></span>
+              <span class="text-sm text-primary font-medium">Rionegro</span>
+            </div>
+            <h3 class="font-serif text-xl font-bold text-dark mb-2">Clínica Llanogrande</h3>
+            <p class="text-dark/60 text-sm mb-4">Instalaciones modernas con tecnología de punta y equipo médico especializado.</p>
+            <a href="/donde-opero" class="inline-flex items-center gap-1 text-primary text-sm font-medium hover:underline">
+              Ver más información
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Clinic 2 -->
+        <div class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-xl transition-all duration-300">
+          <div class="relative h-64 overflow-hidden">
+            <img
+              src="https://thetrueyou.com.co/wp-content/uploads/2025/05/medellin-1.webp"
+              alt="Interquirófanos Medellín"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="w-2 h-2 rounded-full bg-gold"></span>
+              <span class="text-sm text-gold font-medium">Medellín</span>
+            </div>
+            <h3 class="font-serif text-xl font-bold text-dark mb-2">Interquirófanos</h3>
+            <p class="text-dark/60 text-sm mb-4">Centro quirúrgico con certificación internacional y los más altos estándares de calidad.</p>
+            <a href="/donde-opero" class="inline-flex items-center gap-1 text-primary text-sm font-medium hover:underline">
+              Ver más información
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-10">
+        <a href="#contactForm" class="btn-primary scroll-to-contact">
+          Agendar Tu Cita
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <CTABanner
+    title="Tu Mejor Versión Te Espera"
+    subtitle="Agenda tu consulta de valoración gratuita y comienza tu transformación"
+    backgroundImage="https://thetrueyou.com.co/wp-content/uploads/2025/05/mujer-cama.webp"
+    variant="premium"
+  />
+
+  <!-- Contact Form -->
+  <ContactForm />
+</BaseLayout>
+
+<style>
+  /* Animate on scroll */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  [data-hero-section].is-visible .animate-on-scroll,
+  [data-mission-section].is-visible .animate-on-scroll,
+  [data-services-section].is-visible .animate-on-scroll,
+  [data-values-section].is-visible .animate-on-scroll,
+  [data-team-section].is-visible .animate-on-scroll,
+  [data-clinics-section].is-visible .animate-on-scroll {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('[data-hero-section], [data-mission-section], [data-services-section], [data-values-section], [data-team-section], [data-clinics-section]');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    sections.forEach(section => observer.observe(section));
+  });
+</script>

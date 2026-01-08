@@ -1,0 +1,36 @@
+# Robots.txt para The True You - Cirugia Plastica Medellin
+# https://thetrueyou.com.co
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://thetrueyou.com.co/sitemap.xml
+
+# Bloquear recursos innecesarios para crawlers
+Disallow: /api/
+Disallow: /_astro/
+Disallow: /admin/
+
+# Permitir todas las imagenes
+Allow: /images/
+
+# Crawl-delay para ser amigable con el servidor
+Crawl-delay: 1
+
+# Google específico
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Google Images
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: *.webp
+Allow: *.jpg
+Allow: *.png
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1

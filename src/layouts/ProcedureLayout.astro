@@ -1,0 +1,693 @@
+---
+/**
+ * Premium ProcedureLayout - SEO Optimizado
+ * Layout para páginas de procedimientos con Schema.org MedicalProcedure y FAQPage
+ */
+import BaseLayout from './BaseLayout.astro';
+import ContactForm from '@components/ContactForm.astro';
+import CTABanner from '@components/CTABanner.astro';
+import FAQAccordion from '@components/FAQAccordion.astro';
+import TrustBadges from '@components/TrustBadges.astro';
+
+interface ProcedureDetail {
+  icon: string;
+  label: string;
+  value: string;
+}
+
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  // SEO Props
+  title: string;
+  metaDescription?: string;
+  keywords?: string;
+  // Content Props
+  procedureName: string;
+  subtitle: string;
+  description: string[];
+  heroImage: string;
+  videoUrl?: string;
+  videoType?: 'youtube' | 'mp4';
+  benefits?: string[];
+  details?: ProcedureDetail[];
+  beforeAfterImages?: string[];
+  faqs?: FAQ[];
+  faqImage?: string;
+  ctaTitle?: string;
+  ctaSubtitle?: string;
+  ctaImage?: string;
+  pricingText?: string;
+  technologySection?: {
+    title: string;
+    subtitle: string;
+    backgroundImage: string;
+    columns: { title: string; text: string }[];
+  };
+}
+
+const {
+  title,
+  metaDescription,
+  keywords,
+  procedureName,
+  subtitle,
+  description,
+  heroImage,
+  videoUrl,
+  videoType = 'youtube',
+  benefits = [],
+  details = [],
+  beforeAfterImages = [],
+  faqs = [],
+  faqImage,
+  ctaTitle,
+  ctaSubtitle,
+  ctaImage = 'https://thetrueyou.com.co/wp-content/uploads/2025/05/mujer-cama.webp',
+  pricingText,
+  technologySection
+} = Astro.props;
+
+// Generar meta description si no se proporciona
+const seoDescription = metaDescription || `${procedureName} en Medellín con la Dra. Daniela Benitez. ${description[0]?.replace(/<[^>]*>/g, '').substring(0, 120)}... Consulta gratuita.`;
+
+// Schema.org - MedicalProcedure
+const procedureSchema = {
+  "@context": "https://schema.org",
+  "@type": "MedicalProcedure",
+  "name": procedureName,
+  "alternateName": subtitle,
+  "description": description.map(d => d.replace(/<[^>]*>/g, '')).join(' '),
+  "image": heroImage,
+  "url": `https://thetrueyou.com.co${Astro.url.pathname}`,
+  "procedureType": "https://health-lifesci.schema.org/CosmeticProcedure",
+  "bodyLocation": subtitle.toLowerCase().includes('facial') ? 'Face' :
+                  subtitle.toLowerCase().includes('mamari') ? 'Breast' :
+                  subtitle.toLowerCase().includes('corporal') ? 'Body' : 'Body',
+  "preparation": "Consulta de valoración previa con la Dra. Daniela Benitez",
+  "followup": "Control postoperatorio incluido",
+  "howPerformed": description[1]?.replace(/<[^>]*>/g, '') || description[0]?.replace(/<[^>]*>/g, ''),
+  "status": "https://health-lifesci.schema.org/ActiveNotRecruiting",
+  "study": {
+    "@type": "MedicalStudy",
+    "status": "ResultsAvailable"
+  },
+  "recognizingAuthority": {
+    "@type": "Organization",
+    "name": "Sociedad Colombiana de Cirugía Plástica"
+  },
+  "relevantSpecialty": {
+    "@type": "MedicalSpecialty",
+    "name": "Plastic Surgery"
+  },
+  "performer": {
+    "@type": "Physician",
+    "name": "Dra. Daniela Benitez",
+    "medicalSpecialty": "PlasticSurgery",
+    "telephone": "+573332841861"
+  },
+  "location": {
+    "@type": "MedicalClinic",
+    "name": "The True You - Cirugía Plástica",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Portanova Medical Center, Cons. 320-321",
+      "addressLocality": "Rionegro",
+      "addressRegion": "Antioquia",
+      "addressCountry": "CO"
+    }
+  }
+};
+
+// Schema.org - FAQPage (si hay FAQs)
+const faqSchema = faqs.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+} : null;
+
+// Combinar schemas
+const combinedSchema = faqSchema ? [procedureSchema, faqSchema] : procedureSchema;
+
+// Icon mapping for details
+const getIcon = (iconName: string) => {
+  const icons: Record<string, string> = {
+    clock: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>',
+    calendar: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>',
+    hospital: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>',
+    check: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>',
+    star: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>'
+  };
+  return icons[iconName] || icons.check;
+};
+---
+
+<BaseLayout
+  title={title}
+  description={seoDescription}
+  keywords={keywords}
+  ogImage={heroImage}
+  schema={combinedSchema}
+>
+  <!-- Hero Section -->
+  <section class="w-full bg-cream py-16 md:py-24" data-hero-section>
+    <div class="container-premium">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Image -->
+        <div class="relative animate-on-scroll order-2 lg:order-1">
+          <!-- Decorative elements -->
+          <div class="absolute -top-6 -left-6 w-32 h-32 bg-primary-200/50 rounded-full blur-3xl"></div>
+          <div class="absolute -bottom-6 -right-6 w-40 h-40 bg-gold/20 rounded-full blur-3xl"></div>
+
+          <div class="relative">
+            <!-- Frame -->
+            <div class="absolute -inset-4 bg-gradient-to-br from-primary-200 via-primary-100 to-gold/30 rounded-3xl"></div>
+            <img
+              src={heroImage}
+              alt={procedureName}
+              class="relative w-full rounded-2xl shadow-2xl object-cover"
+            />
+
+            <!-- Badge -->
+            <div class="absolute -bottom-5 -right-5 bg-white rounded-2xl shadow-xl p-4 border border-primary-100">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                  </svg>
+                </div>
+                <div>
+                  <p class="font-semibold text-dark text-sm">Certificación</p>
+                  <p class="text-xs text-dark/60">Internacional</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="animate-on-scroll order-1 lg:order-2">
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 rounded-full text-sm font-medium text-primary-700 mb-6">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+            </svg>
+            {subtitle}
+          </span>
+
+          <h1 class="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-dark leading-tight mb-6">
+            ¿Qué es <span class="text-primary">{procedureName}</span>?
+          </h1>
+
+          <div class="space-y-4 mb-8">
+            {description.map(p => (
+              <p class="text-lg text-dark/70 leading-relaxed" set:html={p} />
+            ))}
+          </div>
+
+          <div class="flex flex-wrap gap-4">
+            <a href="#contactForm" class="btn-primary scroll-to-contact">
+              Cotizar {procedureName}
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </a>
+            {videoUrl && (
+              <a href="#video" class="btn-secondary">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                Ver Video
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video Section -->
+  {videoUrl && (
+    <section class="w-full bg-white py-16 md:py-20" id="video" data-video-section>
+      <div class="container-premium">
+        <div class="max-w-4xl mx-auto">
+          <!-- Header -->
+          <div class="text-center mb-10 animate-on-scroll">
+            <span class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 rounded-full text-sm font-medium text-primary-700 mb-4">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+              </svg>
+              Video Informativo
+            </span>
+            <h2 class="font-serif text-2xl md:text-3xl font-bold text-dark">
+              Conoce más sobre {procedureName}
+            </h2>
+          </div>
+
+          <!-- Video Container -->
+          <div class="relative rounded-2xl overflow-hidden shadow-2xl animate-on-scroll">
+            <div class="absolute -inset-1 bg-gradient-to-r from-primary-200 via-gold/30 to-primary-200 rounded-3xl blur opacity-50"></div>
+            <div class="relative bg-dark rounded-2xl overflow-hidden">
+              {videoType === 'youtube' ? (
+                <iframe
+                  class="w-full aspect-video"
+                  src={videoUrl}
+                  title={procedureName}
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+              ) : (
+                <video src={videoUrl} controls class="w-full aspect-video object-cover"></video>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA Banner -->
+  {ctaTitle && (
+    <CTABanner
+      title={ctaTitle}
+      subtitle={ctaSubtitle}
+      backgroundImage={ctaImage}
+      variant="standard"
+      overlay="gradient"
+      showTrustBadge={true}
+      trustText="Consulta de valoración gratuita"
+    />
+  )}
+
+  <!-- Details Section -->
+  {details.length > 0 && (
+    <section class="w-full bg-white py-16 md:py-24" data-details-section>
+      <div class="container-premium">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <!-- Content -->
+          <div class="animate-on-scroll">
+            <span class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 rounded-full text-sm font-medium text-primary-700 mb-6">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+              </svg>
+              {subtitle}
+            </span>
+
+            <h2 class="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-dark leading-tight mb-8">
+              ¿Cuál es el objetivo de <span class="text-primary">{procedureName}</span>?
+            </h2>
+
+            <div class="space-y-4 mb-8">
+              {details.map((detail, index) => (
+                <div
+                  class="flex items-start gap-4 p-4 bg-cream rounded-xl hover:shadow-md transition-shadow duration-300"
+                  style={`animation-delay: ${index * 100}ms`}
+                >
+                  <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-primary flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <Fragment set:html={getIcon(detail.icon)} />
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-dark mb-1">{detail.label}</p>
+                    <p class="text-dark/60 text-sm">{detail.value}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <a href="#contactForm" class="btn-primary scroll-to-contact">
+              Agendar Consulta
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Stats/Trust -->
+          <div class="animate-on-scroll">
+            <div class="bg-gradient-to-br from-primary-100 via-cream to-gold/20 rounded-3xl p-8 md:p-10">
+              <h3 class="font-serif text-2xl font-bold text-dark mb-6 text-center">¿Por qué elegirnos?</h3>
+
+              <div class="grid grid-cols-2 gap-6">
+                <div class="text-center p-4 bg-white rounded-2xl shadow-soft">
+                  <div class="w-12 h-12 mx-auto rounded-full bg-primary-100 flex items-center justify-center mb-3">
+                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                  </div>
+                  <p class="font-serif text-3xl font-bold text-primary">10+</p>
+                  <p class="text-sm text-dark/60">Años Experiencia</p>
+                </div>
+
+                <div class="text-center p-4 bg-white rounded-2xl shadow-soft">
+                  <div class="w-12 h-12 mx-auto rounded-full bg-primary-100 flex items-center justify-center mb-3">
+                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                  </div>
+                  <p class="font-serif text-3xl font-bold text-primary">5000+</p>
+                  <p class="text-sm text-dark/60">Pacientes</p>
+                </div>
+
+                <div class="text-center p-4 bg-white rounded-2xl shadow-soft">
+                  <div class="w-12 h-12 mx-auto rounded-full bg-primary-100 flex items-center justify-center mb-3">
+                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                  </div>
+                  <p class="font-serif text-3xl font-bold text-primary">JCI</p>
+                  <p class="text-sm text-dark/60">Certificación</p>
+                </div>
+
+                <div class="text-center p-4 bg-white rounded-2xl shadow-soft">
+                  <div class="w-12 h-12 mx-auto rounded-full bg-primary-100 flex items-center justify-center mb-3">
+                    <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                  </div>
+                  <p class="font-serif text-3xl font-bold text-primary">4.9</p>
+                  <p class="text-sm text-dark/60">Calificación</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Benefits Section -->
+  {benefits.length > 0 && (
+    <section class="w-full bg-cream py-16 md:py-24" data-benefits-section>
+      <div class="container-premium">
+        <!-- Header -->
+        <div class="text-center mb-12 animate-on-scroll">
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 rounded-full text-sm font-medium text-primary-700 mb-4">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+            </svg>
+            The True You
+          </span>
+
+          <h2 class="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-dark leading-tight mb-4">
+            Beneficios de <span class="text-primary">{procedureName}</span>
+          </h2>
+        </div>
+
+        <!-- Benefits Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto animate-on-scroll">
+          {benefits.map((benefit, index) => (
+            <div
+              class="flex items-start gap-4 p-5 bg-white rounded-xl shadow-soft hover:shadow-lg transition-all duration-300 group"
+              style={`animation-delay: ${index * 100}ms`}
+            >
+              <span class="flex-shrink-0 w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
+                <svg class="w-5 h-5 text-primary group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+              </span>
+              <p class="font-medium text-dark">{benefit}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Before/After Section -->
+  {beforeAfterImages.length > 0 && (
+    <section class="w-full bg-white py-16 md:py-24" data-results-section>
+      <div class="container-premium">
+        <!-- Header -->
+        <div class="text-center mb-12 animate-on-scroll">
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-gold/20 rounded-full text-sm font-medium text-gold mb-4">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            Resultados Reales
+          </span>
+
+          <h2 class="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-dark leading-tight mb-4">
+            Antes y Después de <span class="text-primary">{procedureName}</span>
+          </h2>
+
+          <p class="text-dark/60 max-w-xl mx-auto">
+            Conseguir un resultado armonioso y natural es posible. Conoce nuestros casos de éxito.
+          </p>
+        </div>
+
+        <!-- Swiper Gallery -->
+        <div class="relative animate-on-scroll" data-results-carousel>
+          <!-- Navigation -->
+          <button
+            class="results-prev absolute left-0 md:-left-5 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-xl border border-primary-100 flex items-center justify-center hover:bg-primary-50 transition-all duration-300 group"
+            aria-label="Anterior"
+          >
+            <svg class="w-5 h-5 text-primary-600 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+
+          <button
+            class="results-next absolute right-0 md:-right-5 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-xl border border-primary-100 flex items-center justify-center hover:bg-primary-50 transition-all duration-300 group"
+            aria-label="Siguiente"
+          >
+            <svg class="w-5 h-5 text-primary-600 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+
+          <!-- Swiper Container -->
+          <div class="swiper results-swiper mx-8 md:mx-0">
+            <div class="swiper-wrapper">
+              {beforeAfterImages.map((image, index) => (
+                <div class="swiper-slide">
+                  <div class="relative group rounded-2xl overflow-hidden shadow-lg">
+                    <img
+                      src={image}
+                      alt={`Antes y después ${index + 1}`}
+                      class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700"
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <!-- Pagination -->
+            <div class="swiper-pagination mt-8"></div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center mt-10 animate-on-scroll">
+          <a href="#contactForm" class="btn-primary scroll-to-contact">
+            Agenda Tu Consulta Gratuita
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- FAQ Section -->
+  {faqs.length > 0 && (
+    <FAQAccordion
+      title={`Preguntas Frecuentes sobre ${procedureName}`}
+      subtitle={subtitle}
+      description="Resolvemos las dudas más comunes sobre este procedimiento"
+      faqs={faqs}
+      image={faqImage}
+      variant="default"
+      showNumbers={true}
+    />
+  )}
+
+  <!-- Pricing Section -->
+  {pricingText && (
+    <section class="w-full bg-white py-16 md:py-24" data-pricing-section>
+      <div class="container-premium">
+        <div class="max-w-3xl mx-auto text-center animate-on-scroll">
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-gold/20 rounded-full text-sm font-medium text-gold mb-6">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            Inversión
+          </span>
+
+          <h2 class="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-dark leading-tight mb-6">
+            ¿Cuánto cuesta {procedureName} en <span class="text-primary">Medellín</span>?
+          </h2>
+
+          <div class="bg-cream rounded-2xl p-8 mb-8">
+            <p class="text-dark/70 leading-relaxed" set:html={pricingText} />
+          </div>
+
+          <a href="#contactForm" class="btn-gold scroll-to-contact">
+            Solicitar Cotización Personalizada
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Technology Section -->
+  {technologySection && (
+    <section class="relative w-full min-h-[600px] overflow-hidden" data-tech-section>
+      <!-- Background Image with Parallax -->
+      <div
+        class="absolute inset-0 bg-cover bg-center bg-fixed"
+        style={`background-image: url('${technologySection.backgroundImage}')`}
+      ></div>
+
+      <!-- Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/70 to-dark/50"></div>
+
+      <!-- Content -->
+      <div class="relative z-10 container-premium py-20 md:py-28">
+        <div class="max-w-5xl animate-on-scroll">
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium text-white/90 border border-white/20 mb-6">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+            </svg>
+            {technologySection.subtitle}
+          </span>
+
+          <h2 class="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-10">
+            {technologySection.title}
+          </h2>
+
+          <div class="grid md:grid-cols-2 gap-8 mb-10">
+            {technologySection.columns.map((col, index) => (
+              <div
+                class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-white/10"
+                style={`animation-delay: ${index * 150}ms`}
+              >
+                <h3 class="font-serif text-xl md:text-2xl font-bold text-white mb-4">{col.title}</h3>
+                <p class="text-white/80 leading-relaxed">{col.text}</p>
+              </div>
+            ))}
+          </div>
+
+          <a href="#contactForm" class="btn-gold scroll-to-contact">
+            Conoce más sobre {technologySection.title}
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Contact Form -->
+  <ContactForm />
+</BaseLayout>
+
+<style>
+  /* Animate on scroll */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  [data-hero-section].is-visible .animate-on-scroll,
+  [data-video-section].is-visible .animate-on-scroll,
+  [data-details-section].is-visible .animate-on-scroll,
+  [data-benefits-section].is-visible .animate-on-scroll,
+  [data-results-section].is-visible .animate-on-scroll,
+  [data-pricing-section].is-visible .animate-on-scroll,
+  [data-tech-section].is-visible .animate-on-scroll {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Staggered animations */
+  .animate-on-scroll:nth-child(2) {
+    transition-delay: 0.15s;
+  }
+
+  /* Swiper customization */
+  .results-swiper .swiper-pagination-bullet {
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--primary-200, #ebe1da);
+    opacity: 1;
+  }
+
+  .results-swiper .swiper-pagination-bullet-active {
+    background: var(--primary, #d9c3b9);
+  }
+</style>
+
+<script>
+  import Swiper from 'swiper';
+  import { Pagination, Navigation, Autoplay } from 'swiper/modules';
+  import 'swiper/css';
+  import 'swiper/css/pagination';
+  import 'swiper/css/navigation';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Intersection Observer for animations
+    const sections = document.querySelectorAll('[data-hero-section], [data-video-section], [data-details-section], [data-benefits-section], [data-results-section], [data-pricing-section], [data-tech-section]');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    sections.forEach(section => observer.observe(section));
+
+    // Results Swiper
+    const resultsContainer = document.querySelector('.results-swiper');
+    if (resultsContainer) {
+      new Swiper('.results-swiper', {
+        modules: [Pagination, Navigation, Autoplay],
+        loop: true,
+        autoplay: {
+          delay: 4000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true
+        },
+        slidesPerView: 1,
+        spaceBetween: 16,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        },
+        navigation: {
+          nextEl: '.results-next',
+          prevEl: '.results-prev'
+        },
+        breakpoints: {
+          640: { slidesPerView: 1.5, spaceBetween: 20 },
+          768: { slidesPerView: 2, spaceBetween: 24 },
+          1024: { slidesPerView: 3, spaceBetween: 24 }
+        }
+      });
+    }
+  });
+</script>

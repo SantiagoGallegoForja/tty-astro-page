@@ -1,0 +1,259 @@
+---
+/**
+ * Premium CTABanner Component
+ * High-conversion banner with parallax, elegant gradients, and dual CTAs
+ */
+interface Props {
+  title: string;
+  subtitle?: string;
+  description?: string;
+  buttonText?: string;
+  buttonLink?: string;
+  secondaryButtonText?: string;
+  secondaryButtonLink?: string;
+  backgroundImage: string;
+  variant?: 'standard' | 'premium' | 'compact' | 'glass';
+  alignment?: 'center' | 'left';
+  showTrustBadge?: boolean;
+  trustText?: string;
+  overlay?: 'dark' | 'gradient' | 'brand';
+}
+
+const {
+  title,
+  subtitle,
+  description,
+  buttonText = "Agenda Tu Consulta Gratuita",
+  buttonLink = "#contactForm",
+  secondaryButtonText,
+  secondaryButtonLink = "https://wa.me/573332841861",
+  backgroundImage,
+  variant = 'standard',
+  alignment = 'center',
+  showTrustBadge = false,
+  trustText = "Consulta de valoración sin costo",
+  overlay = 'gradient'
+} = Astro.props;
+
+const heightClasses = {
+  standard: 'min-h-[400px] md:min-h-[450px]',
+  premium: 'min-h-[500px] md:min-h-[550px]',
+  compact: 'min-h-[300px] md:min-h-[350px]',
+  glass: 'min-h-[400px] md:min-h-[450px]'
+};
+
+const overlayClasses = {
+  dark: 'bg-black/60',
+  gradient: 'bg-gradient-to-r from-black/70 via-black/50 to-black/30',
+  brand: 'bg-gradient-to-br from-primary-900/80 via-primary-800/70 to-primary-700/60'
+};
+
+const alignmentClasses = {
+  center: 'text-center items-center justify-center',
+  left: 'text-left items-start justify-center'
+};
+---
+
+<section
+  class={`relative w-full overflow-hidden ${heightClasses[variant]} flex ${alignmentClasses[alignment]}`}
+  data-cta-banner
+>
+  <!-- Parallax Background -->
+  <div
+    class="absolute inset-0 bg-cover bg-center bg-no-repeat parallax-bg"
+    style={`background-image: url('${backgroundImage}')`}
+  >
+    <!-- Animated subtle zoom -->
+    <div class="absolute inset-0 bg-cover bg-center scale-105 transition-transform duration-[20s] ease-out hover:scale-110"
+         style={`background-image: url('${backgroundImage}')`}>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <div class={`absolute inset-0 ${overlayClasses[overlay]}`}></div>
+
+  <!-- Additional gradient for depth -->
+  <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+
+  <!-- Decorative Elements -->
+  <div class="absolute top-0 left-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+  <div class="absolute bottom-0 right-0 w-96 h-96 bg-gold/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+
+  <!-- Content -->
+  <div class={`relative z-10 container-premium px-6 py-12 md:py-16 ${alignment === 'center' ? 'max-w-3xl mx-auto' : 'max-w-2xl'}`}>
+
+    {variant === 'glass' ? (
+      <!-- Glass Card Variant -->
+      <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 md:p-12 border border-white/20 shadow-2xl animate-on-scroll">
+        {subtitle && (
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-gold/20 backdrop-blur-sm rounded-full text-sm font-medium text-gold border border-gold/30 mb-6">
+            <span class="w-2 h-2 bg-gold rounded-full animate-pulse"></span>
+            {subtitle}
+          </span>
+        )}
+
+        <h2 class="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6">
+          {title}
+        </h2>
+
+        {description && (
+          <p class="text-lg text-white/80 leading-relaxed mb-8 max-w-xl">
+            {description}
+          </p>
+        )}
+
+        <div class={`flex flex-wrap gap-4 ${alignment === 'center' ? 'justify-center' : 'justify-start'}`}>
+          <a
+            href={buttonLink}
+            class="btn-primary group scroll-to-contact"
+          >
+            {buttonText}
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+
+          {secondaryButtonText && (
+            <a
+              href={secondaryButtonLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-3 px-6 py-3 bg-[#25D366]/20 backdrop-blur-sm text-white font-semibold rounded-full border border-[#25D366]/40 hover:bg-[#25D366]/30 transition-all duration-300 group"
+            >
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              {secondaryButtonText}
+            </a>
+          )}
+        </div>
+
+        {showTrustBadge && (
+          <div class="mt-8 flex items-center gap-2 text-white/70 text-sm justify-center">
+            <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            {trustText}
+          </div>
+        )}
+      </div>
+    ) : (
+      <!-- Standard/Premium/Compact Variants -->
+      <div class="animate-on-scroll">
+        {subtitle && (
+          <span class={`inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium text-white/90 border border-white/20 mb-6 ${variant === 'compact' ? 'mb-4' : 'mb-6'}`}>
+            <span class="w-2 h-2 bg-gold rounded-full animate-pulse"></span>
+            {subtitle}
+          </span>
+        )}
+
+        <h2 class={`font-serif font-bold text-white leading-tight mb-6 ${
+          variant === 'premium'
+            ? 'text-4xl md:text-5xl lg:text-6xl'
+            : variant === 'compact'
+            ? 'text-2xl md:text-3xl lg:text-4xl mb-4'
+            : 'text-3xl md:text-4xl lg:text-5xl'
+        }`}>
+          {title}
+        </h2>
+
+        {description && variant !== 'compact' && (
+          <p class={`text-white/80 leading-relaxed mb-8 ${alignment === 'center' ? 'mx-auto' : ''} max-w-xl ${
+            variant === 'premium' ? 'text-lg md:text-xl' : 'text-base md:text-lg'
+          }`}>
+            {description}
+          </p>
+        )}
+
+        <div class={`flex flex-wrap gap-4 ${alignment === 'center' ? 'justify-center' : 'justify-start'} ${variant === 'compact' ? 'mt-6' : ''}`}>
+          <a
+            href={buttonLink}
+            class={`btn-primary group scroll-to-contact ${variant === 'premium' ? 'text-lg px-8 py-4' : ''}`}
+          >
+            {buttonText}
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+
+          {secondaryButtonText && (
+            <a
+              href={secondaryButtonLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-3 px-6 py-3 bg-[#25D366]/20 backdrop-blur-sm text-white font-semibold rounded-full border border-[#25D366]/40 hover:bg-[#25D366]/30 transition-all duration-300 group"
+            >
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              {secondaryButtonText}
+            </a>
+          )}
+        </div>
+
+        {showTrustBadge && (
+          <div class={`mt-8 flex items-center gap-2 text-white/70 text-sm ${alignment === 'center' ? 'justify-center' : 'justify-start'}`}>
+            <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            {trustText}
+          </div>
+        )}
+      </div>
+    )}
+  </div>
+
+  <!-- Bottom decorative line -->
+  <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></div>
+</section>
+
+<style>
+  /* Parallax effect */
+  @media (min-width: 768px) {
+    .parallax-bg {
+      background-attachment: fixed;
+    }
+  }
+
+  /* Subtle animation on scroll visibility */
+  [data-cta-banner] .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  [data-cta-banner].is-visible .animate-on-scroll {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Ensure text shadow for readability */
+  h2 {
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Glass card shadow */
+  [data-cta-banner] .bg-white\/10 {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+</style>
+
+<script>
+  // Intersection Observer for scroll animation
+  document.addEventListener('DOMContentLoaded', () => {
+    const banners = document.querySelectorAll('[data-cta-banner]');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, {
+      threshold: 0.2,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    banners.forEach(banner => observer.observe(banner));
+  });
+</script>

@@ -1,0 +1,105 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ContactForm from '@components/ContactForm.astro';
+---
+
+<BaseLayout
+  title="Medicina Interna en Medellín 2025 | Dr. Martín Quirós | The True You"
+  description="Medicina interna en Medellín con el Dr. Martín Quirós. Especialista en obesidad, síndrome metabólico y análisis de exámenes. Consultas presenciales y virtuales. The True You."
+  keywords="medicina interna Medellín, Dr Martín Quirós internista, manejo obesidad Colombia, síndrome metabólico tratamiento, análisis exámenes médicos, médico internista Medellín, teleconsulta medicina interna"
+>
+  <!-- Hero Section -->
+  <section class="bg-white py-20 px-6">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div class="overflow-hidden rounded-3xl shadow-md">
+        <img src="https://thetrueyou.com.co/wp-content/uploads/2025/06/caru-1.jpg" alt="Dr. Martín Quirós" class="w-full h-full object-cover" />
+      </div>
+
+      <div>
+        <h5 class="uppercase text-sm tracking-widest text-primary mb-2">Medicina Interna en Medellín</h5>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Dr. Martín Quirós</h2>
+        <p class="text-lg text-dark mb-2">Médico Internista</p>
+        <div class="w-14 h-0.5 bg-primary mb-6"></div>
+        <p class="text-gray-600 mb-4">
+          El <strong>Dr. Martín Quirós</strong> es Médico Internista especializado en el manejo integral de enfermedades metabólicas, con énfasis en obesidad y síndrome metabólico.
+        </p>
+        <p class="text-gray-600 mb-4">
+          En The True You ofrecemos un enfoque integral que combina la medicina interna con la cirugía plástica para ayudarte a alcanzar tus objetivos de salud y estética.
+        </p>
+        <a href="#contactForm" class="bg-primary hover:bg-primary-hover text-white font-semibold px-8 py-3 rounded-full transition text-sm scroll-to-contact">
+          AGENDAR CONSULTA
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Servicios -->
+  <section class="py-20 px-6 bg-light">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-12 text-center">Nuestros Servicios de Medicina Interna</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-xl shadow-md text-center">
+          <div class="bg-primary w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Manejo de Obesidad</h3>
+          <p class="text-gray-600 text-sm">Tratamiento integral para la pérdida de peso saludable y sostenible.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-md text-center">
+          <div class="bg-primary w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Síndrome Metabólico</h3>
+          <p class="text-gray-600 text-sm">Evaluación y tratamiento de factores de riesgo cardiovascular.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-md text-center">
+          <div class="bg-primary w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Análisis de Exámenes</h3>
+          <p class="text-gray-600 text-sm">Interpretación especializada de exámenes preoperatorios y de rutina.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Teleconsulta -->
+  <section class="py-20 px-6 bg-white">
+    <div class="max-w-5xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Consultas Virtuales Disponibles</h2>
+      <p class="text-gray-600 mb-12">Atendemos pacientes de todo Colombia y el exterior a través de teleconsulta.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="border border-gray-200 p-6 rounded-xl">
+          <h3 class="font-semibold text-lg text-dark mb-2">Teleconsulta</h3>
+          <p class="text-gray-600 text-sm">Consulta médica virtual desde la comodidad de tu hogar.</p>
+        </div>
+
+        <div class="border border-gray-200 p-6 rounded-xl">
+          <h3 class="font-semibold text-lg text-dark mb-2">Múltiples Plataformas</h3>
+          <p class="text-gray-600 text-sm">Disponible por Zoom, Google Meet o WhatsApp.</p>
+        </div>
+
+        <div class="border border-gray-200 p-6 rounded-xl">
+          <h3 class="font-semibold text-lg text-dark mb-2">Seguimiento</h3>
+          <p class="text-gray-600 text-sm">Acompañamiento continuo en tu proceso de salud.</p>
+        </div>
+      </div>
+
+      <a href="#contactForm" class="inline-block mt-12 bg-primary hover:bg-primary-hover text-white font-semibold px-8 py-3 rounded-full transition scroll-to-contact">
+        AGENDAR TELECONSULTA
+      </a>
+    </div>
+  </section>
+
+  <ContactForm />
+</BaseLayout>

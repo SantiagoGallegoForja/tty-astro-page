@@ -1,0 +1,332 @@
+---
+/**
+ * ProcessSteps Component
+ * Visual timeline showing process steps with elegant animations
+ */
+interface Step {
+  title: string;
+  description: string;
+  icon?: 'consultation' | 'planning' | 'procedure' | 'recovery' | 'results' | 'custom';
+  customIcon?: string;
+}
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  steps?: Step[];
+  variant?: 'horizontal' | 'vertical' | 'cards';
+  showNumbers?: boolean;
+  accentColor?: 'primary' | 'gold';
+}
+
+const {
+  title = "Tu Proceso de Transformación",
+  subtitle = "Cómo Trabajamos",
+  description = "Te acompañamos en cada paso de tu transformación, desde la primera consulta hasta tu recuperación completa.",
+  steps = [
+    {
+      title: "Consulta de Valoración",
+      description: "Agenda tu cita gratuita donde evaluaremos tus objetivos y diseñaremos un plan personalizado.",
+      icon: "consultation"
+    },
+    {
+      title: "Planificación Detallada",
+      description: "Realizamos exámenes prequirúrgicos y definimos cada detalle del procedimiento.",
+      icon: "planning"
+    },
+    {
+      title: "Procedimiento",
+      description: "Llevamos a cabo la cirugía con la más alta tecnología y los mejores estándares de seguridad.",
+      icon: "procedure"
+    },
+    {
+      title: "Recuperación y Resultados",
+      description: "Te acompañamos en tu recuperación con controles regulares hasta ver tus resultados finales.",
+      icon: "results"
+    }
+  ],
+  variant = 'horizontal',
+  showNumbers = true,
+  accentColor = 'primary'
+} = Astro.props;
+
+const icons = {
+  consultation: `<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+  </svg>`,
+  planning: `<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+  </svg>`,
+  procedure: `<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+  </svg>`,
+  recovery: `<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+  </svg>`,
+  results: `<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+  </svg>`,
+  custom: ``
+};
+
+const accentClasses = {
+  primary: {
+    bg: 'bg-primary',
+    bgLight: 'bg-primary-100',
+    text: 'text-primary',
+    border: 'border-primary',
+    gradient: 'from-primary to-primary-600'
+  },
+  gold: {
+    bg: 'bg-gold',
+    bgLight: 'bg-gold/20',
+    text: 'text-gold',
+    border: 'border-gold',
+    gradient: 'from-gold to-amber-600'
+  }
+};
+
+const accent = accentClasses[accentColor];
+---
+
+<section class="w-full bg-white py-16 md:py-24" data-process-steps>
+  <div class="container-premium">
+    <!-- Header -->
+    <div class="text-center mb-12 md:mb-16 animate-on-scroll">
+      {subtitle && (
+        <span class={`inline-flex items-center gap-2 px-4 py-2 ${accent.bgLight} rounded-full text-sm font-medium ${accent.text} mb-4`}>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+          </svg>
+          {subtitle}
+        </span>
+      )}
+
+      <h2 class="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-dark leading-tight mb-4">
+        {title}
+      </h2>
+
+      {description && (
+        <p class="text-lg text-dark/70 leading-relaxed max-w-2xl mx-auto">
+          {description}
+        </p>
+      )}
+    </div>
+
+    {variant === 'horizontal' ? (
+      <!-- Horizontal Timeline -->
+      <div class="relative animate-on-scroll">
+        <!-- Connection Line -->
+        <div class="hidden md:block absolute top-[60px] left-0 right-0 h-0.5 bg-primary-100">
+          <div class={`absolute inset-0 bg-gradient-to-r ${accent.gradient} origin-left scale-x-0 transition-transform duration-1000`} data-progress-line></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {steps.map((step, index) => (
+            <div
+              class="relative flex flex-col items-center text-center group"
+              data-step
+              style={`animation-delay: ${index * 150}ms`}
+            >
+              {/* Step Circle */}
+              <div class={`relative z-10 w-[120px] h-[120px] rounded-full ${accent.bgLight} flex items-center justify-center mb-6 group-hover:scale-105 transition-transform duration-300`}>
+                <div class={`w-[90px] h-[90px] rounded-full bg-white shadow-lg flex items-center justify-center`}>
+                  {showNumbers ? (
+                    <span class={`font-serif text-3xl font-bold ${accent.text}`}>
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                  ) : (
+                    <span class={accent.text}>
+                      {step.icon === 'custom' && step.customIcon ? (
+                        <Fragment set:html={step.customIcon} />
+                      ) : (
+                        <Fragment set:html={icons[step.icon || 'consultation']} />
+                      )}
+                    </span>
+                  )}
+                </div>
+
+                {/* Icon badge (when showing numbers) */}
+                {showNumbers && (
+                  <div class={`absolute -bottom-1 -right-1 w-10 h-10 rounded-full ${accent.bg} flex items-center justify-center text-white shadow-lg`}>
+                    <span class="w-5 h-5">
+                      {step.icon === 'custom' && step.customIcon ? (
+                        <Fragment set:html={step.customIcon} />
+                      ) : (
+                        <Fragment set:html={icons[step.icon || 'consultation'].replace('w-7 h-7', 'w-5 h-5')} />
+                      )}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Content */}
+              <h3 class="font-semibold text-lg text-dark mb-2 group-hover:text-primary transition-colors">
+                {step.title}
+              </h3>
+              <p class="text-dark/60 text-sm leading-relaxed max-w-xs">
+                {step.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    ) : variant === 'vertical' ? (
+      <!-- Vertical Timeline -->
+      <div class="relative max-w-3xl mx-auto animate-on-scroll">
+        {/* Connection Line */}
+        <div class="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-primary-100 md:-translate-x-0.5">
+          <div class={`absolute inset-0 bg-gradient-to-b ${accent.gradient} origin-top scale-y-0 transition-transform duration-1000`} data-progress-line></div>
+        </div>
+
+        <div class="space-y-12">
+          {steps.map((step, index) => (
+            <div
+              class={`relative flex items-start gap-6 md:gap-12 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+              data-step
+              style={`animation-delay: ${index * 150}ms`}
+            >
+              {/* Step Circle */}
+              <div class={`relative z-10 flex-shrink-0 w-16 h-16 rounded-full ${accent.bg} flex items-center justify-center text-white shadow-lg md:absolute md:left-1/2 md:-translate-x-1/2`}>
+                {showNumbers ? (
+                  <span class="font-serif text-xl font-bold">{String(index + 1).padStart(2, '0')}</span>
+                ) : (
+                  <span class="w-6 h-6">
+                    <Fragment set:html={icons[step.icon || 'consultation'].replace('w-7 h-7', 'w-6 h-6')} />
+                  </span>
+                )}
+              </div>
+
+              {/* Content Card */}
+              <div class={`flex-1 bg-cream rounded-2xl p-6 shadow-soft ml-4 md:ml-0 ${index % 2 === 0 ? 'md:mr-auto md:pr-20' : 'md:ml-auto md:pl-20'} md:w-[calc(50%-4rem)]`}>
+                <div class={`flex items-center gap-3 mb-3 ${index % 2 !== 0 ? 'md:flex-row-reverse md:text-right' : ''}`}>
+                  {!showNumbers && (
+                    <span class={`w-10 h-10 rounded-full ${accent.bgLight} flex items-center justify-center ${accent.text}`}>
+                      <Fragment set:html={icons[step.icon || 'consultation'].replace('w-7 h-7', 'w-5 h-5')} />
+                    </span>
+                  )}
+                  <h3 class="font-semibold text-lg text-dark">{step.title}</h3>
+                </div>
+                <p class={`text-dark/60 text-sm leading-relaxed ${index % 2 !== 0 ? 'md:text-right' : ''}`}>
+                  {step.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ) : (
+      <!-- Cards Variant -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-on-scroll">
+        {steps.map((step, index) => (
+          <div
+            class="relative bg-cream rounded-2xl p-6 md:p-8 shadow-soft hover:shadow-lg transition-all duration-300 group overflow-hidden"
+            data-step
+            style={`animation-delay: ${index * 150}ms`}
+          >
+            {/* Background Number */}
+            <span class="absolute -top-4 -right-2 font-serif text-[120px] font-bold text-primary-100/50 leading-none pointer-events-none">
+              {index + 1}
+            </span>
+
+            {/* Icon */}
+            <div class={`relative z-10 w-14 h-14 rounded-xl ${accent.bgLight} flex items-center justify-center mb-5 ${accent.text} group-hover:scale-110 transition-transform duration-300`}>
+              {step.icon === 'custom' && step.customIcon ? (
+                <Fragment set:html={step.customIcon} />
+              ) : (
+                <Fragment set:html={icons[step.icon || 'consultation']} />
+              )}
+            </div>
+
+            {/* Number Badge */}
+            {showNumbers && (
+              <span class={`absolute top-6 right-6 w-8 h-8 rounded-full ${accent.bg} flex items-center justify-center text-white text-sm font-semibold`}>
+                {index + 1}
+              </span>
+            )}
+
+            {/* Content */}
+            <h3 class="relative z-10 font-semibold text-lg text-dark mb-3 group-hover:text-primary transition-colors">
+              {step.title}
+            </h3>
+            <p class="relative z-10 text-dark/60 text-sm leading-relaxed">
+              {step.description}
+            </p>
+
+            {/* Arrow to next */}
+            {index < steps.length - 1 && (
+              <div class="hidden lg:flex absolute -right-3 top-1/2 -translate-y-1/2 z-20 w-6 h-6 rounded-full bg-white shadow-md items-center justify-center">
+                <svg class={`w-4 h-4 ${accent.text}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    )}
+
+    <!-- CTA -->
+    <div class="text-center mt-12 animate-on-scroll">
+      <a href="#contactForm" class="btn-primary scroll-to-contact">
+        Comienza Tu Transformación
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Animate on scroll */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  [data-process-steps].is-visible .animate-on-scroll {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Step animation */
+  [data-step] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  [data-process-steps].is-visible [data-step] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Progress line animation */
+  [data-process-steps].is-visible [data-progress-line] {
+    transform: scaleX(1);
+  }
+
+  [data-process-steps].is-visible [data-progress-line][style*="scaleY"] {
+    transform: scaleY(1) !important;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('[data-process-steps]');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    sections.forEach(section => observer.observe(section));
+  });
+</script>

@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The True You</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap');
+      html, body { font-family: "League Spartan", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+      /* Scroll fino en descripción */
+      #modal-desc::-webkit-scrollbar { width: 6px; }
+      #modal-desc::-webkit-scrollbar-thumb { background: #ddd; border-radius: 9999px; }
+
+      /* Panel del carrito: estado base y abierto (a prueba de tema/JS externos) */
+      #cart-panel{ transform: translateY(120%); opacity: 0; pointer-events: none; }
+      #cart-panel.is-open{ transform: translateY(0); opacity: 1; pointer-events: auto; }
+    </style>
+  </head>
+  <body class="bg-white text-gray-800">
+    <!-- Top bar -->
+    <div class="bg-gray-100 text-sm text-center py-2">
+      Km 2.2 Vía Rionegro-Aeropuerto Portanova Medical Center Cons. 320-321
+    </div>
+
+    [wpcode id="1064"]
+
+    <main class="max-w-7xl mx-auto px-5 lg:px-8 py-12">
+      <!-- Encabezado -->
+      <section class="mb-10 text-center">
+        <p class="tracking-widest text-xs uppercase text-gray-500">Catálogo Exclusivo</p>
+        <h1 class="text-3xl md:text-4xl font-semibold text-[#2d2d2d] mt-2">
+          Medicina Interna
+        </h1>
+        <p class="max-w-2xl mx-auto text-gray-600 mt-3">
+          Productos seleccionados para acompañar procesos de salud y recuperación. Haz clic para ver detalles y agrégalos a tu consulta.
+        </p>
+      </section>
+
+      <!-- Grid -->
+      <section id="catalogo-grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></section>
+
+      <!-- =========================
+          Modal de detalle (oculto)
+          ========================= -->
+      <div id="product-modal" class="fixed inset-0 z-[60] hidden" aria-hidden="true">
+        <!-- Fondo -->
+        <div id="modal-backdrop" class="absolute inset-0 bg-black/40 opacity-0 transition-opacity"></div>
+
+        <!-- Contenido (scroll + alineado arriba en mobile) -->
+        <div class="absolute inset-0 overflow-y-auto p-0 md:p-4 flex items-start md:items-center justify-center">
+          <article id="modal-card"
+            class="relative w-full md:w-[90%] max-w-5xl bg-white/95 backdrop-blur rounded-none md:rounded-3xl shadow-2xl ring-1 ring-black/5 overflow-hidden
+                   opacity-0 translate-y-6 scale-[.98] transition-all duration-300">
+            
+            <!-- Barra móvil con botón cerrar (SIEMPRE visible en móviles) -->
+            <div class="md:hidden sticky top-0 z-10 bg-white/90 backdrop-blur border-b border-black/5 flex items-center justify-between px-4 py-3">
+              <span class="text-sm font-medium text-gray-700">Detalle del producto</span>
+              <button id="modal-close-mobile" class="h-10 w-10 grid place-items-center rounded-full bg-white text-gray-700 shadow ring-1 ring-black/5" aria-label="Cerrar">✕</button>
+            </div>
+
+            <!-- Botón cerrar (desktop) -->
+            <button id="modal-close"
+              class="hidden md:inline-flex absolute top-3 right-3 md:top-4 md:right-4 h-10 w-10 items-center justify-center rounded-full
+                     bg-white/80 text-gray-700 hover:bg-white shadow-sm ring-1 ring-black/5"
+              aria-label="Cerrar">
+              ✕
+            </button>
+
+            <div class="grid md:grid-cols-2 gap-0 h-full">
+              <!-- Galería -->
+              <div class="relative">
+                <div class="relative w-full h-[40vh] md:h-[64vh] bg-white overflow-hidden p-3 md:p-4">
+                  <img id="modal-image" src="" alt=""
+                       class="w-full h-full object-contain select-none pointer-events-none">
+                  <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/5 via-transparent to-transparent"></div>
+
+                  <button id="btn-prev" class="absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full hover:bg-white shadow ring-1 ring-black/5 grid place-items-center">‹</button>
+                  <button id="btn-next" class="absolute right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full hover:bg-white shadow ring-1 ring-black/5 grid place-items-center">›</button>
+                </div>
+
+                <!-- Thumbs -->
+                <div id="thumbs" class="flex gap-2 p-3 overflow-x-auto no-scrollbar bg-white/70"></div>
+              </div>
+
+              <!-- Info (scroll interno para textos largos) -->
+              <div class="p-6 md:p-8 overflow-y-auto">
+                <p id="modal-provider" class="text-xs tracking-widest uppercase text-gray-500">Proveedor</p>
+                <h3 id="modal-title" class="mt-1 text-2xl md:text-3xl font-semibold text-[#2d2d2d] leading-tight"></h3>
+                <p id="modal-sku" class="mt-2 text-sm text-gray-500">ID inventario</p>
+
+                <!-- Tallas (seleccionables) -->
+                <div class="mt-4">
+                  <p class="text-sm text-gray-600 mb-2">Presentación</p>
+                  <div id="modal-sizes" class="flex flex-wrap gap-2"></div>
+                </div>
+
+                <!-- Descripción -->
+                <p id="modal-desc" class="mt-5 text-gray-700 text-[12px] md:text-[13px] leading-snug overflow-y-auto pr-2 max-h-52 md:max-h-[45vh]"></p>
+
+                <!-- Precio + CTA -->
+                <div class="mt-6 flex items-center gap-4">
+                  <span id="modal-price" class="text-xl font-semibold text-[#a98f83]"></span>
+                  <button id="modal-add-btn"
+                    class="rounded-full bg-[#d9c7bd] px-5 py-2.5 text-sm text-white shadow-md hover:shadow-lg">
+                    Agregar al carrito
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <!-- JSON: productos -->
+      <script type="application/json" id="catalogo-data">
+      [
+        {
+          "proveedor": "THE TRUE YOU",
+          "descripcion": "Biometa",
+          "inventarioId": "01",
+          "tallas": ["Sobres"],
+          "precio": null,
+          "imgs": [
+            "https://thetrueyou.com.co/wp-content/uploads/2025/08/WhatsApp-Image-2025-08-11-at-9.16.02-AM.jpeg",
+            "https://thetrueyou.com.co/wp-content/uploads/2025/08/WhatsApp-Image-2025-08-11-at-9.16.03-AM.jpeg"
+          ],
+          "detalle": "Biometa es un suplemento innovador... (texto original que enviaste)"
+        },
+        {
+          "proveedor": "VITALITE",
+          "descripcion": "Relax Gel Ultra",
+          "inventarioId": "02",
+          "tallas": ["120g"],
+          "precio": null,
+          "imgs": [
+            "https://thetrueyou.com.co/wp-content/uploads/2025/08/WhatsApp-Image-2025-08-11-at-9.16.03-AM-1.jpeg",
+            "https://thetrueyou.com.co/wp-content/uploads/2025/08/WhatsApp-Image-2025-08-11-at-9.16.04-AM.jpeg"
+          ],
+          "detalle": "Formulado con una combinación de extractos..."
+        },
+        {
+          "proveedor": "MAGNOFARMA",
+          "descripcion": "Vitamina C",
+          "inventarioId": "03",
+          "tallas": ["100ml"],
+          "precio": null,
+          "imgs": [
+            "https://thetrueyou.com.co/wp-content/uploads/2025/08/WhatsApp-Image-2025-08-11-at-9.16.04-AM-1.jpeg"
+          ],
+          "detalle": "Principios activos... (texto original que enviaste)"
+        }
+      ]
+      </script>
+    </main>
+
+    <!-- Carrito flotante -->
+    <button id="fab-cart" class="fixed bottom-5 right-5 z-[150] shadow-xl rounded-full p-0 bg-[#d9c7bd] hover:scale-105 transition">
+      <span class="relative inline-flex items-center justify-center w-14 h-14">
+        <!-- Icono carrito -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.45A1.99 1.99 0 0 0 10 18h9v-2h-8.42a.25.25 0 0 1-.22-.37L11.1 13h5.45c.75 0 1.41-.41 1.75-1.03L21 6H7.42l-.75-2ZM7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10 0a2 2 0 1 0 .001-4.001A2 2 0 0 0 17 20Z"/></svg>
+        <span id="cart-badge" class="absolute -top-1 -right-1 bg-[#a98f83] text-white text-xs rounded-full min-w-[20px] h-5 px-1 grid place-items-center">0</span>
+      </span>
+    </button>
+
+    <!-- Panel del carrito (pegado al FAB y sin cortes) -->
+    <div id="cart-panel" class="fixed z-[200] right-5 bottom-20 transition-all duration-300">
+      <div class="bg-white w-[92vw] max-w-[420px] max-h-[75vh] rounded-3xl shadow-2xl ring-1 ring-black/5 overflow-hidden flex flex-col">
+        <!-- Header -->
+        <div class="sticky top-0 bg-white border-b border-black/5 px-4 py-3 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-semibold text-[#2d2d2d]">Tu selección</span>
+            <span id="cart-count" class="text-xs text-gray-500">(0 ítems)</span>
+          </div>
+          <button id="cart-close" class="h-9 w-9 grid place-items-center rounded-full bg-white text-gray-700 shadow ring-1 ring-black/5" aria-label="Cerrar">✕</button>
+        </div>
+
+        <!-- Lista -->
+        <div id="cart-list" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+
+        <!-- Footer -->
+        <div class="border-t border-black/5 p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-600">Total estimado</span>
+            <span id="cart-total" class="text-lg font-semibold text-[#a98f83]">—</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <button id="cart-clear" class="flex-1 rounded-full border border-gray-300 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Vaciar</button>
+            <button id="cart-checkout" class="flex-1 rounded-full bg-[#d9c7bd] px-4 py-2 text-sm text-white shadow-md hover:shadow-lg">Consultar productos</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    [wpcode id="802"]]
+
+    <script>
+      /* =========================
+         Utilidades de precios
+      ==========================*/
+      const fmtPrice = (p) => p == null
+        ? 'Consultar precio'
+        : new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(p);
+
+      const chip = (t, active=false) =>
+        `<button data-size="${t}" class="size-chip inline-flex items-center rounded-full border ${active ? 'border-[#a98f83] bg-[#f1e9e5] text-[#7a6a64]' : 'border-[#d9c7bd] text-[#7a6a64]'} px-2.5 py-1 text-xs font-medium">${t}</button>`;
+
+      /* =========================
+         Render del catálogo
+      ==========================*/
+      const grid = document.getElementById('catalogo-grid');
+      const rawNode = document.getElementById('catalogo-data');
+      const rawData = rawNode ? JSON.parse(rawNode.textContent) : [];
+      const data = rawData.map(p => { if (!p.imgs && p.img) p.imgs = [p.img]; return p; });
+
+      const card = (p, i) => {
+        const portada = (p.imgs && p.imgs.length) ? p.imgs[0] : '';
+        return `
+          <article data-idx="${i}" class="product-card group cursor-pointer relative bg-white/80 backdrop-blur rounded-3xl overflow-hidden shadow-sm ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+            <div class="relative overflow-hidden">
+              <img src="${portada}" alt="${p.descripcion}" class="h-56 w-full object-cover transition duration-500 group-hover:scale-105">
+              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/15 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+            </div>
+
+            <div class="p-5">
+              <h3 class="text-[#2d2d2d] font-medium leading-tight">${p.descripcion ?? ''}</h3>
+              <p class="text-xs text-gray-500 mt-1">Proveedor: ${p.proveedor ?? ''} • ID: ${p.inventarioId ?? ''}</p>
+              <div class="mt-3 flex flex-wrap gap-2">${(p.tallas || []).map(t => chip(t)).join('')}</div>
+
+              <div class="relative mt-4 h-12 overflow-hidden">
+                <span class="absolute inset-y-0 left-0 w-full flex items-center text-lg font-semibold text-[#a98f83]
+                              will-change-transform transition-all duration-300 ease-out
+                              group-hover:translate-x-full group-hover:opacity-0">
+                  ${fmtPrice(p.precio)}
+                </span>
+                <button class="add-to-cart absolute inset-y-0 left-0 w-max flex items-center rounded-full bg-[#d9c7bd] px-5 py-2 text-sm text-white/95 shadow-md hover:shadow-lg
+                               will-change-transform transition-all duration-300 ease-out
+                               -translate-x-full opacity-0 group-hover:translate-x-0 group-hover:opacity-100">
+                  Agregar al carrito
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      };
+
+      grid.innerHTML = data.map((p, i) => card(p, i)).join('');
+
+      /* =========================
+         MODAL lógica
+      ==========================*/
+      const modal = document.getElementById('product-modal');
+      const modalBackdrop = document.getElementById('modal-backdrop');
+      const modalCard = document.getElementById('modal-card');
+      const closeBtn = document.getElementById('modal-close');
+      const closeBtnMobile = document.getElementById('modal-close-mobile');
+
+      const elTitle = document.getElementById('modal-title');
+      const elProv  = document.getElementById('modal-provider');
+      const elSku   = document.getElementById('modal-sku');
+      const elSizes = document.getElementById('modal-sizes');
+      const elDesc  = document.getElementById('modal-desc');
+      const elPrice = document.getElementById('modal-price');
+      const elImg   = document.getElementById('modal-image');
+      const thumbs  = document.getElementById('thumbs');
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      const modalAddBtn = document.getElementById('modal-add-btn');
+
+      let currentProduct = null;
+      let currentImageIdx = 0;
+      let currentSize = null;
+
+      function updateModalImage() {
+        if (!currentProduct || !currentProduct.imgs?.length) return;
+        const url = currentProduct.imgs[currentImageIdx];
+        elImg.src = url;
+        elImg.alt = currentProduct.descripcion + ' - imagen ' + (currentImageIdx+1);
+
+        [...thumbs.children].forEach((t, i) => {
+          if (i === currentImageIdx) {
+            t.classList.add('ring-2','ring-[#d9c7bd]');
+            t.classList.remove('opacity-60');
+          } else {
+            t.classList.remove('ring-2','ring-[#d9c7bd]');
+            t.classList.add('opacity-60');
+          }
+        });
+      }
+
+      function buildThumbs() {
+        thumbs.innerHTML = '';
+        (currentProduct.imgs || []).forEach((u, i) => {
+          const b = document.createElement('button');
+          b.className = "shrink-0 w-16 h-16 rounded-xl overflow-hidden ring-1 ring-black/5 bg-white";
+          b.innerHTML = `<img src="${u}" alt="miniatura ${i+1}" class="w-full h-full object-cover">`;
+          b.addEventListener('click', () => { currentImageIdx = i; updateModalImage(); });
+          thumbs.appendChild(b);
+        });
+        updateModalImage();
+      }
+
+      function renderSizes(sizes) {
+        elSizes.innerHTML = sizes.map((t, i) => chip(t, i===0)).join('');
+        currentSize = sizes?.[0] ?? null;
+      }
+
+      function nextImage(){ if (!currentProduct) return; currentImageIdx = (currentImageIdx + 1) % currentProduct.imgs.length; updateModalImage(); }
+      function prevImage(){ if (!currentProduct) return; currentImageIdx = (currentImageIdx - 1 + currentProduct.imgs.length) % currentProduct.imgs.length; updateModalImage(); }
+
+      function openModal(p){
+        currentProduct = p;
+        currentImageIdx = 0;
+
+        elTitle.textContent = p.descripcion || '';
+        elProv.textContent  = p.proveedor || '';
+        elSku.textContent   = `ID inventario: ${p.inventarioId || ''}`;
+        renderSizes(p.tallas || []);
+        elDesc.textContent  = p.detalle || '';
+        elPrice.textContent = fmtPrice(p.precio);
+
+        buildThumbs();
+
+        modal.classList.remove('hidden');
+        requestAnimationFrame(() => {
+          modalBackdrop.classList.remove('opacity-0');
+          modalCard.classList.remove('opacity-0','translate-y-6','scale-[.98]');
+        });
+        document.documentElement.classList.add('overflow-hidden');
+        modal.setAttribute('aria-hidden','false');
+      }
+
+      function closeModal(){
+        modalBackdrop.classList.add('opacity-0');
+        modalCard.classList.add('opacity-0','translate-y-6','scale-[.98]');
+        document.documentElement.classList.remove('overflow-hidden');
+        setTimeout(() => {
+          modal.classList.add('hidden');
+          modal.setAttribute('aria-hidden','true');
+          currentProduct = null;
+        }, 250);
+      }
+
+      // Abrir modal desde grid
+      grid.addEventListener('click', (e) => {
+        const btn = e.target.closest('.add-to-cart');
+        const card = e.target.closest('.product-card');
+        if (!card) return;
+
+        const idx = Number(card.dataset.idx);
+        const prod = data[idx];
+
+        // Agregar directo desde tarjeta (usa primera talla)
+        if (btn) {
+          const talla = (prod.tallas && prod.tallas[0]) ? prod.tallas[0] : null;
+          addToCart({ ...prod, talla });
+          return;
+        }
+
+        // Abrir modal
+        openModal(prod);
+      });
+
+      // Selección de talla dentro del modal
+      elSizes.addEventListener('click', (e) => {
+        const b = e.target.closest('.size-chip');
+        if (!b) return;
+        const size = b.dataset.size;
+        currentSize = size;
+
+        [...elSizes.querySelectorAll('.size-chip')].forEach(ch => {
+          ch.classList.remove('border-[#a98f83]','bg-[#f1e9e5]');
+          ch.classList.add('border-[#d9c7bd]');
+        });
+        b.classList.add('border-[#a98f83]','bg-[#f1e9e5]');
+        b.classList.remove('border-[#d9c7bd]');
+      });
+
+      // Cerrar / navegación
+      (closeBtn || {addEventListener:()=>{}}).addEventListener('click', closeModal);
+      (closeBtnMobile || {addEventListener:()=>{}}).addEventListener('click', closeModal);
+      modalBackdrop.addEventListener('click', closeModal);
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+        if (!currentProduct) return;
+        if (e.key === 'ArrowRight') nextImage();
+        if (e.key === 'ArrowLeft')  prevImage();
+      });
+
+      btnPrev.addEventListener('click', prevImage);
+      btnNext.addEventListener('click', nextImage);
+
+      // Gestos táctiles (swipe)
+      let touchStartX = null;
+      elImg.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].clientX; }, {passive:true});
+      elImg.addEventListener('touchend', (e) => {
+        if (touchStartX === null) return;
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 40) dx < 0 ? nextImage() : prevImage();
+        touchStartX = null;
+      }, {passive:true});
+
+      // Agregar desde modal
+      modalAddBtn.addEventListener('click', () => {
+        if (!currentProduct) return;
+        addToCart({ ...currentProduct, talla: currentSize });
+      });
+
+      /* =========================
+         CARRITO con localStorage
+      ==========================*/
+      const CART_KEY = 'tty_cart';
+      const fabCart = document.getElementById('fab-cart');
+      const cartPanel = document.getElementById('cart-panel');
+      const cartBadge = document.getElementById('cart-badge');
+      const cartList  = document.getElementById('cart-list');
+      const cartCount = document.getElementById('cart-count');
+      const cartTotal = document.getElementById('cart-total');
+      const cartClose = document.getElementById('cart-close');
+      const cartClear = document.getElementById('cart-clear');
+      const cartCheckout = document.getElementById('cart-checkout');
+
+      function loadCart(){
+        try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
+        catch { return []; }
+      }
+      function saveCart(items){ localStorage.setItem(CART_KEY, JSON.stringify(items)); }
+      function cartTotals(items){
+        const count = items.reduce((a,b)=>a+b.qty,0);
+        const total = items.reduce((a,b)=> a + (b.precio ? (b.precio*b.qty) : 0), 0);
+        return {count, total: total || null};
+      }
+
+      function updateCartUI(){
+        const items = loadCart();
+        const {count, total} = cartTotals(items);
+        cartBadge.textContent = String(count);
+        cartCount.textContent = `(${count} ítems)`;
+        cartTotal.textContent = total == null ? '—' : fmtPrice(total);
+
+        // Render lista
+        cartList.innerHTML = items.length ? items.map((it, idx) => `
+          <div class="border border-black/5 rounded-2xl p-3 flex gap-3 items-center">
+            <div class="w-16 h-16 rounded-xl overflow-hidden bg-gray-50 ring-1 ring-black/5">
+              <img src="${(it.imgs && it.imgs[0]) || ''}" alt="" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1">
+              <div class="text-sm font-semibold text-[#2d2d2d] leading-tight">${it.descripcion}</div>
+              <div class="text-xs text-gray-500">ID: ${it.inventarioId}${it.talla ? ' • ' + it.talla : ''}</div>
+              <div class="mt-1 flex items-center gap-2">
+                <button data-idx="${idx}" data-op="dec" class="h-7 w-7 grid place-items-center rounded-full border text-gray-700">−</button>
+                <span class="text-sm min-w-[1.25rem] text-center">${it.qty}</span>
+                <button data-idx="${idx}" data-op="inc" class="h-7 w-7 grid place-items-center rounded-full border text-gray-700">+</button>
+                <button data-idx="${idx}" data-op="del" class="ml-2 text-xs text-red-600 hover:underline">Eliminar</button>
+              </div>
+            </div>
+            <div class="text-sm font-medium text-[#7a6a64]">${it.precio == null ? 'Consultar' : fmtPrice(it.precio * it.qty)}</div>
+          </div>
+        `).join('') : `
+          <div class="text-center text-gray-500 py-8">
+            Tu selección está vacía. Agrega productos para consultarlos.
+          </div>
+        `;
+      }
+
+      function addToCart(product){
+        // Cierra modal si estaba abierto
+        if (!modal.classList.contains('hidden')) closeModal();
+
+        const items = loadCart();
+        const key = `${product.inventarioId}::${product.talla ?? ''}`;
+        const idx = items.findIndex(i => `${i.inventarioId}::${i.talla ?? ''}` === key);
+        if (idx >= 0) {
+          items[idx].qty += 1;
+        } else {
+          items.push({
+            inventarioId: product.inventarioId,
+            descripcion: product.descripcion,
+            proveedor: product.proveedor,
+            talla: product.talla ?? null,
+            precio: product.precio ?? null,
+            imgs: product.imgs ?? [],
+            qty: 1
+          });
+        }
+        saveCart(items);
+        updateCartUI();
+        openCart(); // feedback visual
+      }
+
+      // Eventos de la lista (+, -, eliminar)
+      cartList.addEventListener('click', (e) => {
+        const btn = e.target.closest('button');
+        if (!btn) return;
+        const idx = Number(btn.dataset.idx);
+        const op = btn.dataset.op;
+        const items = loadCart();
+        if (!items[idx]) return;
+
+        if (op === 'inc') items[idx].qty += 1;
+        if (op === 'dec') items[idx].qty = Math.max(1, items[idx].qty - 1);
+        if (op === 'del') items.splice(idx, 1);
+
+        saveCart(items);
+        updateCartUI();
+      });
+
+      // Abrir/cerrar panel carrito (clase is-open)
+      function openCart(){ cartPanel.classList.add('is-open'); }
+      function closeCart(){ cartPanel.classList.remove('is-open'); }
+
+      if (!fabCart.dataset.bound){
+        fabCart.addEventListener('click', openCart);
+        fabCart.dataset.bound = '1';
+      }
+      cartClose.addEventListener('click', closeCart);
+
+      // Vaciar
+      cartClear.addEventListener('click', () => {
+        saveCart([]);
+        updateCartUI();
+      });
+
+      // Consultar productos (placeholder → alert con resumen)
+      cartCheckout.addEventListener('click', () => {
+        const items = loadCart();
+        if (!items.length) {
+          alert('No tienes productos en tu selección.');
+          return;
+        }
+        const resumen = items.map(i => `• ${i.descripcion}${i.talla ? ' ('+i.talla+')' : ''} x${i.qty}${i.precio ? ' - ' + fmtPrice(i.precio*i.qty) : ''}`).join('\n');
+        const total = items.reduce((a,b)=> a + (b.precio ? b.precio*b.qty : 0), 0);
+        const msg = `Hola, estoy interesad@ en los siguientes productos:\n\n${resumen}\n`;
+        
+
+        // 👉 Para WhatsApp:
+        const phone = '573332841861';
+        const text = encodeURIComponent(msg);
+        window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+      });
+
+      // Inicializar UI carrito
+      updateCartUI();
+    </script>
+
+    <!-- Encapsulado del menú móvil para evitar colisiones con el tema -->
+    <script>
+      (() => {
+        const t = document.getElementById("menuToggle");
+        const c = document.getElementById("closeMenu");
+        const m = document.getElementById("mobileMenu");
+        if (t && c && m && !m.dataset.ttyBound) {
+          t.addEventListener("click", () => m.classList.remove("translate-x-full"));
+          c.addEventListener("click", () => m.classList.add("translate-x-full"));
+          m.dataset.ttyBound = "1";
+        }
+      })();
+    </script>
+
+  </body>
+</html>

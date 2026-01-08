@@ -1,0 +1,308 @@
+---
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import '@styles/globals.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  keywords?: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article' | 'product';
+  noIndex?: boolean;
+  schema?: object;
+}
+
+const {
+  title,
+  description = "Cirugía plástica en Medellín con la Dra. Daniela Benitez. Especialistas en liposucción, rinoplastia, aumento mamario y mommy makeover. Clínica certificada JCI. Consulta gratuita.",
+  keywords = "cirugía plástica Medellín, cirujano plástico Medellín, liposucción Colombia, rinoplastia Medellín, aumento de senos, mommy makeover, Dra Daniela Benitez",
+  canonicalUrl,
+  ogImage = "https://thetrueyou.com.co/wp-content/uploads/2025/05/mujer-cama.webp",
+  ogType = "website",
+  noIndex = false,
+  schema
+} = Astro.props;
+
+// Construir URL canónica
+const siteUrl = "https://thetrueyou.com.co";
+const currentPath = Astro.url.pathname;
+const canonical = canonicalUrl || `${siteUrl}${currentPath === '/' ? '' : currentPath}`;
+
+// Schema.org - Organization (siempre presente)
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "MedicalBusiness",
+  "@id": `${siteUrl}/#organization`,
+  "name": "The True You - Cirugía Plástica",
+  "alternateName": "The True You",
+  "url": siteUrl,
+  "logo": `${siteUrl}/images/logo-1-Photoroom-removebg-preview-1.png`,
+  "image": ogImage,
+  "description": "Clínica de cirugía plástica y estética en Medellín, Colombia. Especialistas en procedimientos corporales, faciales y mamarios con certificación internacional.",
+  "telephone": "+573332841861",
+  "email": "contactotty@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Km 2.2 Vía Rionegro-Aeropuerto, Portanova Medical Center, Consultorio 320-321",
+    "addressLocality": "Rionegro",
+    "addressRegion": "Antioquia",
+    "postalCode": "054040",
+    "addressCountry": "CO"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "6.1449",
+    "longitude": "-75.4231"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "18:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Saturday",
+      "opens": "08:00",
+      "closes": "14:00"
+    }
+  ],
+  "priceRange": "$$$",
+  "currenciesAccepted": "COP, USD",
+  "paymentAccepted": "Efectivo, Tarjeta de crédito, Transferencia bancaria",
+  "areaServed": [
+    {
+      "@type": "City",
+      "name": "Medellín"
+    },
+    {
+      "@type": "City",
+      "name": "Rionegro"
+    },
+    {
+      "@type": "State",
+      "name": "Antioquia"
+    },
+    {
+      "@type": "Country",
+      "name": "Colombia"
+    }
+  ],
+  "sameAs": [
+    "https://www.instagram.com/thetrueyou.co/",
+    "https://www.facebook.com/thetrueyou.co",
+    "https://www.tiktok.com/@thetrueyou.co",
+    "https://www.youtube.com/@thetrueyouco"
+  ],
+  "founder": {
+    "@type": "Person",
+    "name": "Dra. Daniela Benitez",
+    "jobTitle": "Cirujana Plástica",
+    "description": "Cirujana plástica certificada con más de 10 años de experiencia en procedimientos estéticos y reconstructivos."
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "3000",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
+  "medicalSpecialty": [
+    "PlasticSurgery",
+    "CosmeticSurgery"
+  ],
+  "hasCredential": [
+    {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "Certificación JCI",
+      "name": "Joint Commission International"
+    }
+  ]
+};
+
+// Physician Schema
+const physicianSchema = {
+  "@context": "https://schema.org",
+  "@type": "Physician",
+  "name": "Dra. Daniela Benitez",
+  "url": `${siteUrl}/nosotros`,
+  "image": "https://thetrueyou.com.co/wp-content/uploads/2025/05/daniela-2-1.webp",
+  "telephone": "+573332841861",
+  "email": "contactotty@gmail.com",
+  "medicalSpecialty": "PlasticSurgery",
+  "description": "Cirujana plástica certificada especializada en cirugía estética corporal, facial y mamaria. Más de 10 años de experiencia y 3000+ procedimientos exitosos.",
+  "worksFor": {
+    "@type": "MedicalBusiness",
+    "name": "The True You - Cirugía Plástica"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Km 2.2 Vía Rionegro-Aeropuerto, Portanova Medical Center",
+    "addressLocality": "Rionegro",
+    "addressRegion": "Antioquia",
+    "addressCountry": "CO"
+  }
+};
+
+// WebSite Schema para SearchBox
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "The True You - Cirugía Plástica Medellín",
+  "url": siteUrl,
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": `${siteUrl}/?s={search_term_string}`,
+    "query-input": "required name=search_term_string"
+  }
+};
+
+// Combinar schemas
+const allSchemas = [organizationSchema, physicianSchema, websiteSchema];
+if (schema) {
+  allSchemas.push(schema);
+}
+---
+
+<!DOCTYPE html>
+<html lang="es-CO">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content="Dra. Daniela Benitez - The True You" />
+    <meta name="publisher" content="The True You - Cirugía Plástica" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonical} />
+
+    <!-- Robots -->
+    {noIndex ? (
+      <meta name="robots" content="noindex, nofollow" />
+    ) : (
+      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    )}
+    <meta name="googlebot" content="index, follow" />
+    <meta name="bingbot" content="index, follow" />
+
+    <!-- Geo Tags para SEO Local -->
+    <meta name="geo.region" content="CO-ANT" />
+    <meta name="geo.placename" content="Medellín, Antioquia, Colombia" />
+    <meta name="geo.position" content="6.1449;-75.4231" />
+    <meta name="ICBM" content="6.1449, -75.4231" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The True You - Cirugía Plástica en Medellín" />
+    <meta property="og:site_name" content="The True You - Cirugía Plástica" />
+    <meta property="og:locale" content="es_CO" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonical} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content="The True You - Cirugía Plástica en Medellín" />
+
+    <!-- Hreflang para idioma -->
+    <link rel="alternate" hreflang="es-CO" href={canonical} />
+    <link rel="alternate" hreflang="es" href={canonical} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
+
+    <!-- Preconnect for faster loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://thetrueyou.com.co" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=League+Spartan:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#d9c3b9" />
+    <meta name="msapplication-TileColor" content="#d9c3b9" />
+
+    <!-- Structured Data / Schema.org -->
+    <script type="application/ld+json" set:html={JSON.stringify(allSchemas)} />
+
+    <!-- Google Search Console Verification (agregar tu código) -->
+    <!-- <meta name="google-site-verification" content="TU_CODIGO_AQUI" /> -->
+
+    <!-- Bing Webmaster Tools Verification (agregar tu código) -->
+    <!-- <meta name="msvalidate.01" content="TU_CODIGO_AQUI" /> -->
+  </head>
+
+  <body class="bg-white font-body text-gray-800 antialiased">
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- Global Scripts -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Smooth scroll to contact form
+        document.querySelectorAll('.scroll-to-contact, a[href="#contactForm"]').forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+              contactForm.scrollIntoView({ behavior: 'smooth' });
+            }
+          });
+        });
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+          root: null,
+          rootMargin: '0px 0px -10% 0px',
+          threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+            }
+          });
+        }, observerOptions);
+
+        // Observe all elements with animate-on-scroll class
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+          observer.observe(el);
+        });
+
+        // Image lazy load handler
+        document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+          img.addEventListener('load', () => {
+            img.classList.add('loaded');
+          });
+          if (img.complete) {
+            img.classList.add('loaded');
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

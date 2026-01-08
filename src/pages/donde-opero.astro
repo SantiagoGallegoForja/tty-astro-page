@@ -1,0 +1,378 @@
+---
+/**
+ * Premium Locations Page
+ * Showcases clinics and surgical facilities
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ContactForm from '@components/ContactForm.astro';
+import CTABanner from '@components/CTABanner.astro';
+import TrustBadges from '@components/TrustBadges.astro';
+
+const locations = [
+  {
+    name: 'Portanova Medical Center',
+    type: 'Consultorio',
+    location: 'Rionegro, Antioquia',
+    address: 'Km 2.2 Vía Rionegro-Aeropuerto, Cons. 320-321',
+    image: 'https://thetrueyou.com.co/wp-content/uploads/2025/06/1-1.webp',
+    features: ['Consultas de valoración', 'Procedimientos no invasivos', 'Seguimiento postoperatorio'],
+    link: null
+  },
+  {
+    name: 'Clínica Llanogrande',
+    type: 'Quirófano',
+    location: 'Rionegro, Antioquia',
+    address: 'Km 2 Milla de Oro, Llanogrande',
+    image: 'https://thetrueyou.com.co/wp-content/uploads/2025/06/2-1.webp',
+    features: ['Certificación internacional', 'Tecnología de punta', 'Hospitalización'],
+    link: 'https://clinicallanogrande.com/'
+  },
+  {
+    name: 'Interquirófanos IQ',
+    type: 'Quirófano',
+    location: 'Medellín, Antioquia',
+    address: 'Centro de Medellín',
+    image: 'https://thetrueyou.com.co/wp-content/uploads/2025/06/3-1.webp',
+    features: ['Alta tecnología', 'Equipo especializado', 'Ubicación céntrica'],
+    link: 'https://iqinterquirofanos.com/'
+  }
+];
+
+const services = [
+  { name: 'Cirugías Corporales', icon: 'body' },
+  { name: 'Cirugías Faciales', icon: 'face' },
+  { name: 'Procedimientos no Invasivos', icon: 'noninvasive' }
+];
+
+const credentials = [
+  { title: 'Médica y Cirujana', institution: 'Universidad de Antioquia' },
+  { title: 'Especialista en Cirugía Plástica, Maxilofacial y de la Mano', institution: 'Universidad de Antioquia' }
+];
+---
+
+<BaseLayout
+  title="Dónde Operamos | Clínicas Certificadas en Medellín | The True You"
+  description="Operamos en las mejores clínicas de Medellín: Clínica Llanogrande e Interquirófanos IQ. Certificación JCI internacional. Quirófanos con tecnología de última generación. Seguridad garantizada."
+  keywords="clínicas cirugía plástica Medellín, Clínica Llanogrande Rionegro, Interquirófanos Medellín, quirófanos certificados Colombia, donde operan cirujanos plásticos, clínicas certificadas JCI"
+>
+  <!-- Hero Section -->
+  <section class="w-full bg-gradient-to-br from-cream via-primary-50 to-cream py-16 md:py-24" data-hero-section>
+    <div class="container-premium">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Image -->
+        <div class="animate-on-scroll order-2 lg:order-1">
+          <div class="relative">
+            <!-- Decorative elements -->
+            <div class="absolute -top-6 -left-6 w-32 h-32 bg-primary-200/50 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-6 -right-6 w-40 h-40 bg-gold/20 rounded-full blur-3xl"></div>
+
+            <div class="relative">
+              <div class="absolute -inset-4 bg-gradient-to-br from-primary-200 via-primary-100 to-gold/30 rounded-3xl"></div>
+              <img
+                src="https://thetrueyou.com.co/wp-content/uploads/2025/06/Screenshot-2025-06-20-at-10.17.33%E2%80%AFAM.png"
+                alt="Dra. Daniela Correa en Medellín"
+                class="relative w-full rounded-2xl shadow-2xl object-cover"
+              />
+
+              <!-- Badge -->
+              <div class="absolute -bottom-5 -right-5 bg-white rounded-2xl shadow-xl p-4 border border-primary-100">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-dark text-sm">Certificación</p>
+                    <p class="text-xs text-dark/60">JCI Internacional</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="animate-on-scroll order-1 lg:order-2">
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 rounded-full text-sm font-medium text-primary-700 mb-6">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+            Nuestras Instalaciones
+          </span>
+
+          <h1 class="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-dark leading-tight mb-6">
+            ¿Buscas un Cirujano Plástico en <span class="text-primary">Medellín</span>?
+          </h1>
+
+          <div class="space-y-4 mb-8">
+            <p class="text-lg text-dark/70 leading-relaxed">
+              En The True You, nos enorgullece ofrecer a nuestros pacientes los <strong>más altos estándares de calidad y seguridad</strong> en cada procedimiento.
+            </p>
+            <p class="text-lg text-dark/70 leading-relaxed">
+              Operamos en los mejores quirófanos de la ciudad, que cuentan con <strong>tecnología de última generación</strong> y un equipo altamente capacitado.
+            </p>
+          </div>
+
+          <!-- Services List -->
+          <ul class="space-y-3 mb-8">
+            {services.map((service, index) => (
+              <li
+                class="flex items-center gap-4 p-3 bg-cream rounded-xl group"
+                style={`animation-delay: ${index * 100}ms`}
+              >
+                <span class="flex-shrink-0 w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center group-hover:bg-primary group-hover:scale-110 transition-all">
+                  <svg class="w-5 h-5 text-primary group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </span>
+                <span class="font-medium text-dark">{service.name}</span>
+              </li>
+            ))}
+          </ul>
+
+          <a href="#contactForm" class="btn-primary scroll-to-contact">
+            Agendar Consulta
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Badges -->
+  <TrustBadges
+    badges={[
+      { icon: 'clinic', value: 2, label: 'Ubicaciones Premium' },
+      { icon: 'certificate', value: 2, label: 'Clínicas Certificadas' },
+      { icon: 'experience', value: 10, suffix: '+', label: 'Años de Experiencia' },
+      { icon: 'patients', value: 3000, suffix: '+', label: 'Cirugías Exitosas' }
+    ]}
+    variant="default"
+    animate={false}
+  />
+
+  <!-- Locations Grid -->
+  <section class="w-full bg-white py-16 md:py-24" data-locations-section>
+    <div class="container-premium">
+      <div class="text-center mb-12 animate-on-scroll">
+        <span class="inline-flex items-center gap-2 px-4 py-2 bg-gold/20 rounded-full text-sm font-medium text-gold mb-4">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          Ubicaciones
+        </span>
+
+        <h2 class="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-dark leading-tight mb-4">
+          Nuestras <span class="text-primary">Instalaciones</span>
+        </h2>
+
+        <p class="text-lg text-dark/70 max-w-2xl mx-auto">
+          Cada espacio está diseñado para garantizar tu seguridad y comodidad durante todo el proceso.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 animate-on-scroll">
+        {locations.map((location, index) => (
+          <div
+            class="group bg-cream rounded-2xl overflow-hidden shadow-soft hover:shadow-xl transition-all duration-300"
+            style={`animation-delay: ${index * 100}ms`}
+          >
+            <!-- Image -->
+            <div class="relative h-56 overflow-hidden">
+              {location.link ? (
+                <a href={location.link} target="_blank" rel="noopener">
+                  <img
+                    src={location.image}
+                    alt={location.name}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </a>
+              ) : (
+                <img
+                  src={location.image}
+                  alt={location.name}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              )}
+
+              <div class="absolute inset-0 bg-gradient-to-t from-dark/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+              <!-- Type Badge -->
+              <span class={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium ${location.type === 'Quirófano' ? 'bg-primary text-white' : 'bg-gold text-white'}`}>
+                {location.type}
+              </span>
+            </div>
+
+            <!-- Content -->
+            <div class="p-6">
+              <div class="flex items-center gap-2 mb-2">
+                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                </svg>
+                <span class="text-sm text-primary font-medium">{location.location}</span>
+              </div>
+
+              <h3 class="font-serif text-xl font-bold text-dark mb-2">{location.name}</h3>
+              <p class="text-sm text-dark/60 mb-4">{location.address}</p>
+
+              <!-- Features -->
+              <ul class="space-y-2 mb-4">
+                {location.features.map(feature => (
+                  <li class="flex items-center gap-2 text-sm text-dark/70">
+                    <svg class="w-4 h-4 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+
+              {location.link && (
+                <a
+                  href={location.link}
+                  target="_blank"
+                  rel="noopener"
+                  class="inline-flex items-center gap-1 text-primary text-sm font-medium hover:underline"
+                >
+                  Visitar sitio web
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                  </svg>
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="text-center mt-10 max-w-3xl mx-auto animate-on-scroll">
+        <p class="text-dark/70 leading-relaxed">
+          Por operar en los mejores quirófanos en Medellín, podemos garantizar a nuestros pacientes los más altos estándares de calidad y seguridad en cada procedimiento. Nos comprometemos a ofrecer una atención personalizada y un enfoque empático.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Doctor Section -->
+  <section class="w-full bg-cream py-16 md:py-24" data-doctor-section>
+    <div class="container-premium">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Video -->
+        <div class="animate-on-scroll">
+          <div class="relative">
+            <span class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 rounded-full text-sm font-medium text-primary-700 mb-6">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+              </svg>
+              Conoce Nuestras Instalaciones
+            </span>
+
+            <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+              <div class="absolute -inset-1 bg-gradient-to-r from-primary-200 via-gold/30 to-primary-200 rounded-3xl blur opacity-50"></div>
+              <video controls class="relative w-full rounded-2xl">
+                <source src="/videos/clinica-llanogrande.mp4" type="video/mp4" />
+                Tu navegador no admite la reproducción de video.
+              </video>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="animate-on-scroll" style="animation-delay: 150ms">
+          <h2 class="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-dark leading-tight mb-6">
+            El Cambio que Buscas con la <span class="text-primary">Seguridad</span> que Mereces
+          </h2>
+
+          <div class="space-y-4 mb-8">
+            <p class="text-dark/70 leading-relaxed">
+              Soy la <strong>Dra. Daniela Correa</strong>, cirujana plástica especializada en procedimientos que buscan resaltar la mejor versión de ti. Mi compromiso es ofrecer atención personalizada, acompañamiento cercano y los más altos estándares médicos y estéticos.
+            </p>
+            <p class="text-dark/70 leading-relaxed">
+              Trabajo con un equipo médico altamente capacitado en clínicas de primer nivel para brindarte seguridad, confianza y resultados naturales.
+            </p>
+          </div>
+
+          <!-- Doctor Card -->
+          <div class="bg-white rounded-2xl p-6 shadow-soft">
+            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+              <div class="relative flex-shrink-0">
+                <img
+                  src="https://thetrueyou.com.co/wp-content/uploads/2025/06/¿Que-son-las-cirugias-plasticas-y-como-funcionan-9.webp"
+                  alt="Dra. Daniela Correa"
+                  class="w-32 h-40 rounded-xl object-cover shadow-lg"
+                />
+                <div class="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+              </div>
+
+              <div class="text-center sm:text-left flex-1">
+                <h3 class="font-serif text-xl font-bold text-dark mb-1">Dra. Daniela Correa</h3>
+                <p class="text-primary font-medium mb-4">Cirujana Plástica</p>
+
+                <div class="space-y-3">
+                  {credentials.map(cred => (
+                    <div>
+                      <p class="text-sm font-medium text-dark">{cred.title}</p>
+                      <p class="text-xs text-dark/60">{cred.institution}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <CTABanner
+    title="¿Te Encuentras Fuera de Antioquia?"
+    subtitle="Agenda tu Cita Virtual y déjanos conocer tu caso. Atendemos pacientes de todo el mundo."
+    backgroundImage="https://thetrueyou.com.co/wp-content/uploads/2025/05/mujer-cama.webp"
+    variant="premium"
+    showWhatsApp={true}
+  />
+
+  <!-- Contact Form -->
+  <ContactForm />
+</BaseLayout>
+
+<style>
+  /* Animate on scroll */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  [data-hero-section].is-visible .animate-on-scroll,
+  [data-locations-section].is-visible .animate-on-scroll,
+  [data-doctor-section].is-visible .animate-on-scroll {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('[data-hero-section], [data-locations-section], [data-doctor-section]');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    sections.forEach(section => observer.observe(section));
+  });
+</script>

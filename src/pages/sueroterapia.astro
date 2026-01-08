@@ -1,0 +1,104 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ContactForm from '@components/ContactForm.astro';
+---
+
+<BaseLayout
+  title="Sueroterapia en Medellín 2025 | Vitaminas IV | The True You"
+  description="Sueroterapia en Medellín. Tratamiento intravenoso de vitaminas, minerales y antioxidantes. Sueros energizantes, inmunológicos, de belleza y detox. Absorción 100%. Resultados inmediatos."
+  keywords="sueroterapia Medellín, vitaminas intravenosas Colombia, suero vitamínico precio, terapia IV Medellín, suero energizante, suero inmunológico, suero de belleza, tratamiento antifatiga"
+>
+  <!-- Hero Section -->
+  <section class="bg-[#fefefe] py-20 px-6">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div class="overflow-hidden rounded-3xl shadow-md">
+        <img src="https://thetrueyou.com.co/wp-content/uploads/2025/06/Screenshot-2025-06-11-at-2.46.08-AM.png" alt="Sueroterapia" class="w-full h-full object-cover" />
+      </div>
+
+      <div>
+        <h5 class="uppercase text-sm tracking-widest text-primary mb-2">Sueroterapia en Medellín</h5>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">¿Qué es la Sueroterapia?</h2>
+        <div class="w-14 h-0.5 bg-primary mb-6"></div>
+        <p class="text-gray-600 mb-4">
+          La <strong>Sueroterapia</strong> es un tratamiento que consiste en la administración intravenosa de vitaminas, minerales, aminoácidos y otros nutrientes esenciales directamente en el torrente sanguíneo.
+        </p>
+        <p class="text-gray-600 mb-4">
+          Este tratamiento permite una absorción del 100% de los nutrientes, mejorando la energía, el sistema inmunológico, la hidratación y el aspecto de la piel.
+        </p>
+        <a href="#contactForm" class="bg-primary hover:bg-primary-hover text-white font-semibold px-8 py-3 rounded-full transition text-sm scroll-to-contact">
+          COTIZAR SUEROTERAPIA
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Beneficios -->
+  <section class="py-20 px-6 bg-white">
+    <div class="max-w-5xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-12">Beneficios de la Sueroterapia</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-light p-6 rounded-xl">
+          <div class="bg-primary w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Energía y Vitalidad</h3>
+          <p class="text-gray-600 text-sm">Aumenta los niveles de energía y combate la fatiga de forma inmediata.</p>
+        </div>
+
+        <div class="bg-light p-6 rounded-xl">
+          <div class="bg-primary w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Sistema Inmune</h3>
+          <p class="text-gray-600 text-sm">Fortalece las defensas del cuerpo con vitaminas y antioxidantes.</p>
+        </div>
+
+        <div class="bg-light p-6 rounded-xl">
+          <div class="bg-primary w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Piel Radiante</h3>
+          <p class="text-gray-600 text-sm">Mejora la hidratación y luminosidad de la piel desde adentro.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tipos de sueros -->
+  <section class="py-20 px-6 bg-light">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-12 text-center">Tipos de Sueros Disponibles</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-md">
+          <h3 class="font-semibold text-lg text-primary mb-2">Suero Energizante</h3>
+          <p class="text-gray-600 text-sm">Ideal para combatir la fatiga y aumentar la energía. Contiene vitaminas del complejo B y aminoácidos.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-md">
+          <h3 class="font-semibold text-lg text-primary mb-2">Suero Inmunológico</h3>
+          <p class="text-gray-600 text-sm">Fortalece el sistema inmune con alta dosis de vitamina C y zinc.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-md">
+          <h3 class="font-semibold text-lg text-primary mb-2">Suero de Belleza</h3>
+          <p class="text-gray-600 text-sm">Mejora la piel, cabello y uñas con biotina, vitamina E y antioxidantes.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-md">
+          <h3 class="font-semibold text-lg text-primary mb-2">Suero Detox</h3>
+          <p class="text-gray-600 text-sm">Ayuda a eliminar toxinas y mejora la función hepática.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ContactForm />
+</BaseLayout>

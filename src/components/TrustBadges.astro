@@ -1,0 +1,224 @@
+---
+/**
+ * TrustBadges Component
+ * Display trust indicators with animated counters and elegant design
+ */
+interface Badge {
+  icon: 'experience' | 'patients' | 'rating' | 'certificate' | 'clinic' | 'custom';
+  value: string | number;
+  label: string;
+  suffix?: string;
+  prefix?: string;
+  customIcon?: string;
+}
+
+interface Props {
+  badges?: Badge[];
+  variant?: 'default' | 'cards' | 'inline' | 'dark';
+  showDividers?: boolean;
+  animate?: boolean;
+  columns?: 2 | 3 | 4;
+}
+
+const {
+  badges = [
+    { icon: 'experience', value: 10, suffix: '+', label: 'Años de Experiencia' },
+    { icon: 'patients', value: 5000, suffix: '+', label: 'Pacientes Satisfechos' },
+    { icon: 'certificate', value: 15, suffix: '+', label: 'Certificaciones' },
+    { icon: 'rating', value: 4.9, label: 'Calificación Promedio', prefix: '' }
+  ],
+  variant = 'default',
+  showDividers = true,
+  animate = true,
+  columns = 4
+} = Astro.props;
+
+const icons = {
+  experience: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+  </svg>`,
+  patients: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+  </svg>`,
+  rating: `<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+  </svg>`,
+  certificate: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+  </svg>`,
+  clinic: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+  </svg>`,
+  custom: ``
+};
+
+const variantClasses = {
+  default: 'bg-cream',
+  cards: 'bg-white',
+  inline: 'bg-transparent',
+  dark: 'bg-dark'
+};
+
+const textClasses = {
+  default: 'text-dark',
+  cards: 'text-dark',
+  inline: 'text-dark',
+  dark: 'text-white'
+};
+
+const iconClasses = {
+  default: 'text-primary bg-primary-100',
+  cards: 'text-primary bg-primary-50',
+  inline: 'text-primary',
+  dark: 'text-gold bg-white/10'
+};
+---
+
+<section
+  class={`w-full py-12 md:py-16 ${variantClasses[variant]}`}
+  data-trust-badges
+  data-animate={animate}
+>
+  <div class="container-premium">
+    <div class={`grid gap-6 md:gap-8 ${
+      columns === 2 ? 'grid-cols-2' :
+      columns === 3 ? 'grid-cols-2 md:grid-cols-3' :
+      'grid-cols-2 md:grid-cols-4'
+    } ${variant === 'cards' ? '' : ''}`}>
+
+      {badges.map((badge, index) => (
+        <div
+          class={`relative flex flex-col items-center text-center p-6 md:p-8 ${
+            variant === 'cards'
+              ? 'bg-white rounded-2xl shadow-soft border border-primary-100 hover:shadow-lg transition-shadow duration-300'
+              : ''
+          } ${
+            showDividers && variant !== 'cards' && index < badges.length - 1
+              ? 'md:border-r border-primary-200/50'
+              : ''
+          }`}
+          data-badge
+          style={`animation-delay: ${index * 100}ms`}
+        >
+          {/* Icon */}
+          <div class={`w-16 h-16 rounded-full flex items-center justify-center mb-4 ${iconClasses[variant]}`}>
+            {badge.icon === 'custom' && badge.customIcon ? (
+              <Fragment set:html={badge.customIcon} />
+            ) : (
+              <Fragment set:html={icons[badge.icon]} />
+            )}
+          </div>
+
+          {/* Value with Counter Animation */}
+          <div class={`font-serif text-4xl md:text-5xl font-bold mb-2 ${textClasses[variant]}`}>
+            {badge.prefix && <span class="text-2xl md:text-3xl">{badge.prefix}</span>}
+            <span
+              class="counter-value"
+              data-target={typeof badge.value === 'number' ? badge.value : badge.value}
+              data-is-decimal={typeof badge.value === 'number' && !Number.isInteger(badge.value)}
+            >
+              {animate ? '0' : badge.value}
+            </span>
+            {badge.suffix && <span class="text-primary">{badge.suffix}</span>}
+          </div>
+
+          {/* Label */}
+          <p class={`text-sm md:text-base font-medium ${variant === 'dark' ? 'text-white/70' : 'text-dark/60'}`}>
+            {badge.label}
+          </p>
+
+          {/* Rating Stars (special case for rating badge) */}
+          {badge.icon === 'rating' && (
+            <div class="flex items-center gap-1 mt-2">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <svg
+                  class={`w-4 h-4 ${star <= Math.floor(Number(badge.value)) ? 'text-gold' : 'text-primary-200'}`}
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Animation for badges */
+  [data-badge] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  [data-trust-badges].is-visible [data-badge] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Counter number animation */
+  .counter-value {
+    display: inline-block;
+    min-width: 1.5em;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const trustSections = document.querySelectorAll('[data-trust-badges]');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+
+          // Trigger counter animation if enabled
+          const shouldAnimate = entry.target.getAttribute('data-animate') === 'true';
+          if (shouldAnimate) {
+            const counters = entry.target.querySelectorAll('.counter-value');
+            counters.forEach(counter => animateCounter(counter as HTMLElement));
+          }
+
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    trustSections.forEach(section => observer.observe(section));
+
+    function animateCounter(element: HTMLElement) {
+      const target = parseFloat(element.getAttribute('data-target') || '0');
+      const isDecimal = element.getAttribute('data-is-decimal') === 'true';
+      const duration = 2000;
+      const start = performance.now();
+
+      function update(currentTime: number) {
+        const elapsed = currentTime - start;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Easing function (ease-out)
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const current = target * easeOut;
+
+        if (isDecimal) {
+          element.textContent = current.toFixed(1);
+        } else {
+          element.textContent = Math.floor(current).toLocaleString();
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          // Ensure final value is exact
+          element.textContent = isDecimal ? target.toFixed(1) : target.toLocaleString();
+        }
+      }
+
+      requestAnimationFrame(update);
+    }
+  });
+</script>

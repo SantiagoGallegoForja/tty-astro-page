@@ -1,0 +1,373 @@
+---
+/**
+ * Premium HeroSlider Component
+ * Full-screen hero carousel with animated content, gradient overlays, and premium navigation
+ */
+
+interface Slide {
+  desktop: string;
+  mobile: string;
+  alt: string;
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  ctaPrimary?: {
+    text: string;
+    href: string;
+  };
+  ctaSecondary?: {
+    text: string;
+    href: string;
+  };
+}
+
+interface Props {
+  slides?: Slide[];
+  autoplayDelay?: number;
+  showScrollIndicator?: boolean;
+  height?: 'full' | 'large' | 'medium';
+}
+
+const {
+  slides = [
+    {
+      desktop: "https://thetrueyou.com.co/wp-content/uploads/2025/05/mujer-cama.webp",
+      mobile: "https://thetrueyou.com.co/wp-content/uploads/2025/05/mujer-cama.webp",
+      alt: "The True You - Cirugía Plástica Premium",
+      title: "Tu Mejor Versión Te Espera",
+      subtitle: "Cirugía Plástica de Excelencia",
+      description: "Transformamos tu belleza natural con técnicas de vanguardia y resultados excepcionales.",
+      ctaPrimary: { text: "Agendar Consulta", href: "#contactForm" },
+      ctaSecondary: { text: "Conoce Nuestros Procedimientos", href: "/liposuccion" }
+    },
+    {
+      desktop: "https://thetrueyou.com.co/wp-content/uploads/2025/06/daniela-bg.webp",
+      mobile: "https://thetrueyou.com.co/wp-content/uploads/2025/06/daniela-bg.webp",
+      alt: "Dra. Daniela - Cirujana Plástica",
+      title: "Experiencia y Confianza",
+      subtitle: "Dra. Daniela Benitez",
+      description: "Más de una década dedicada a realzar la belleza natural de nuestros pacientes.",
+      ctaPrimary: { text: "Conoce a la Doctora", href: "/nosotros" },
+      ctaSecondary: { text: "Ver Resultados", href: "#galeria" }
+    },
+    {
+      desktop: "https://thetrueyou.com.co/wp-content/uploads/2025/06/Screenshot-2025-06-11-at-2.46.08-AM.png",
+      mobile: "https://thetrueyou.com.co/wp-content/uploads/2025/06/Screenshot-2025-06-11-at-2.46.08-AM.png",
+      alt: "Instalaciones Premium",
+      title: "Instalaciones de Primer Nivel",
+      subtitle: "Portanova Medical Center",
+      description: "Tecnología de punta y los más altos estándares de seguridad para tu tranquilidad.",
+      ctaPrimary: { text: "Conoce Nuestras Instalaciones", href: "/donde-opero" },
+      ctaSecondary: { text: "Contactar", href: "/contacto" }
+    }
+  ],
+  autoplayDelay = 6000,
+  showScrollIndicator = true,
+  height = 'large'
+} = Astro.props;
+
+const heightClasses = {
+  full: 'h-screen',
+  large: 'h-[85vh] min-h-[600px]',
+  medium: 'h-[70vh] min-h-[500px]'
+};
+---
+
+<section class={`relative w-full overflow-hidden ${heightClasses[height]}`} id="hero">
+  <!-- Swiper Container -->
+  <div class="swiper hero-swiper w-full h-full">
+    <div class="swiper-wrapper">
+      {slides.map((slide, index) => (
+        <div class="swiper-slide relative">
+          <!-- Background Image with Ken Burns Effect -->
+          <div class="absolute inset-0 hero-image-container">
+            <picture class="block w-full h-full">
+              <source media="(max-width: 768px)" srcset={slide.mobile} />
+              <img
+                src={slide.desktop}
+                alt={slide.alt}
+                class="w-full h-full object-cover object-center scale-105 hero-image"
+                loading={index === 0 ? "eager" : "lazy"}
+              />
+            </picture>
+          </div>
+
+          <!-- Gradient Overlay -->
+          <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+
+          <!-- Content -->
+          <div class="relative z-10 h-full flex items-center">
+            <div class="container-premium">
+              <div class="max-w-2xl text-white">
+                <!-- Badge -->
+                {slide.subtitle && (
+                  <div class="hero-content-item opacity-0 translate-y-6">
+                    <span class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium text-white/90 border border-white/20 mb-6">
+                      <span class="w-2 h-2 bg-gold rounded-full animate-pulse"></span>
+                      {slide.subtitle}
+                    </span>
+                  </div>
+                )}
+
+                <!-- Title -->
+                {slide.title && (
+                  <h1 class="hero-content-item opacity-0 translate-y-6 font-serif text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-shadow-lg">
+                    {slide.title}
+                  </h1>
+                )}
+
+                <!-- Description -->
+                {slide.description && (
+                  <p class="hero-content-item opacity-0 translate-y-6 text-lg md:text-xl text-white/90 leading-relaxed mb-8 max-w-xl">
+                    {slide.description}
+                  </p>
+                )}
+
+                <!-- CTAs -->
+                <div class="hero-content-item opacity-0 translate-y-6 flex flex-wrap gap-4">
+                  {slide.ctaPrimary && (
+                    <a
+                      href={slide.ctaPrimary.href}
+                      class="btn-primary group scroll-to-contact"
+                    >
+                      {slide.ctaPrimary.text}
+                      <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                      </svg>
+                    </a>
+                  )}
+                  {slide.ctaSecondary && (
+                    <a
+                      href={slide.ctaSecondary.href}
+                      class="inline-flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-full border border-white/30 hover:bg-white/20 transition-all duration-300 group"
+                    >
+                      {slide.ctaSecondary.text}
+                      <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                      </svg>
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Custom Navigation -->
+    <div class="absolute bottom-0 left-0 right-0 z-20">
+      <div class="container-premium pb-8 md:pb-12">
+        <div class="flex items-center justify-between">
+          <!-- Progress Pagination -->
+          <div class="flex items-center gap-3">
+            <div class="hero-pagination flex items-center gap-2"></div>
+            <span class="text-white/60 text-sm font-medium slide-counter">
+              <span class="current-slide">01</span>
+              <span class="mx-1">/</span>
+              <span class="total-slides">{String(slides.length).padStart(2, '0')}</span>
+            </span>
+          </div>
+
+          <!-- Navigation Arrows -->
+          <div class="flex items-center gap-3">
+            <button
+              class="hero-prev w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 group"
+              aria-label="Anterior"
+            >
+              <svg class="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            <button
+              class="hero-next w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 group"
+              aria-label="Siguiente"
+            >
+              <svg class="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Down Indicator -->
+  {showScrollIndicator && (
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 hidden md:flex flex-col items-center gap-2 animate-bounce-soft">
+      <span class="text-white/60 text-xs uppercase tracking-widest">Scroll</span>
+      <div class="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center pt-2">
+        <div class="w-1 h-2 bg-white/60 rounded-full animate-bounce"></div>
+      </div>
+    </div>
+  )}
+</section>
+
+<style>
+  /* Ken Burns Animation */
+  @keyframes kenBurns {
+    0% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1.15);
+    }
+  }
+
+  .swiper-slide-active .hero-image {
+    animation: kenBurns 8s ease-out forwards;
+  }
+
+  /* Content Animation */
+  .swiper-slide-active .hero-content-item {
+    animation: heroFadeUp 0.8s ease-out forwards;
+  }
+
+  .swiper-slide-active .hero-content-item:nth-child(1) { animation-delay: 0.2s; }
+  .swiper-slide-active .hero-content-item:nth-child(2) { animation-delay: 0.4s; }
+  .swiper-slide-active .hero-content-item:nth-child(3) { animation-delay: 0.6s; }
+  .swiper-slide-active .hero-content-item:nth-child(4) { animation-delay: 0.8s; }
+
+  @keyframes heroFadeUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Custom Pagination */
+  .hero-pagination :global(.swiper-pagination-bullet) {
+    width: 40px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    opacity: 1;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-pagination :global(.swiper-pagination-bullet-active) {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  .hero-pagination :global(.swiper-pagination-bullet-active)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: white;
+    animation: paginationProgress 6s linear forwards;
+  }
+
+  @keyframes paginationProgress {
+    from { width: 0%; }
+    to { width: 100%; }
+  }
+
+  /* Swiper overrides */
+  .hero-swiper {
+    --swiper-theme-color: white;
+  }
+
+  .hero-swiper :global(.swiper-slide) {
+    overflow: hidden;
+  }
+
+  /* Text shadow utility */
+  .text-shadow-lg {
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Bounce animation for scroll indicator */
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(4px); }
+  }
+
+  .animate-bounce-soft {
+    animation: bounce 2s ease-in-out infinite;
+  }
+</style>
+
+<script>
+  import Swiper from 'swiper';
+  import { Pagination, Autoplay, Navigation, EffectFade } from 'swiper/modules';
+  import 'swiper/css';
+  import 'swiper/css/pagination';
+  import 'swiper/css/navigation';
+  import 'swiper/css/effect-fade';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const heroSwiper = new Swiper('.hero-swiper', {
+      modules: [Pagination, Autoplay, Navigation, EffectFade],
+      loop: true,
+      effect: 'fade',
+      fadeEffect: {
+        crossFade: true
+      },
+      speed: 1000,
+      autoplay: {
+        delay: 6000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+      },
+      pagination: {
+        el: '.hero-pagination',
+        clickable: true,
+        renderBullet: (index: number, className: string) => {
+          return `<span class="${className}"></span>`;
+        },
+      },
+      navigation: {
+        nextEl: '.hero-next',
+        prevEl: '.hero-prev',
+      },
+      on: {
+        slideChange: function(this: Swiper) {
+          // Update slide counter
+          const currentSlide = document.querySelector('.current-slide');
+          if (currentSlide && this.realIndex !== undefined) {
+            currentSlide.textContent = String(this.realIndex + 1).padStart(2, '0');
+          }
+
+          // Reset animations for next slide
+          const activeSlide = this.slides[this.activeIndex];
+          if (activeSlide) {
+            const items = activeSlide.querySelectorAll('.hero-content-item');
+            items.forEach((item) => {
+              const el = item as HTMLElement;
+              el.style.opacity = '0';
+              el.style.transform = 'translateY(24px)';
+              // Force reflow
+              void el.offsetWidth;
+              el.style.opacity = '';
+              el.style.transform = '';
+            });
+          }
+        },
+        autoplayTimeLeft: function(this: Swiper, _time: number, progress: number) {
+          // Update progress bar on active pagination bullet
+          const activeBullet = document.querySelector('.hero-pagination .swiper-pagination-bullet-active::after') as HTMLElement;
+          if (activeBullet) {
+            activeBullet.style.width = `${(1 - progress) * 100}%`;
+          }
+        }
+      }
+    });
+
+    // Pause autoplay when user is interacting with form
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('focusin', () => {
+        heroSwiper.autoplay.stop();
+      });
+      contactForm.addEventListener('focusout', () => {
+        heroSwiper.autoplay.start();
+      });
+    }
+  });
+</script>

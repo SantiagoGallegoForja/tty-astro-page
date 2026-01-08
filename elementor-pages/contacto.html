@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The True You</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+       <style>
+    @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap');
+    </style>
+  </head>
+  <body class="bg-white font-sans text-gray-800">
+    <!-- Top bar -->
+    <div class="bg-gray-100 text-sm text-center py-2">
+      Km 2.2 Vía Rionegro-Aeropuerto Portanova Medical Center Cons. 320-321
+    </div>
+
+[wpcode id="1064"]
+
+<!-- Sección: Contáctanos -->
+    [wpcode id="870"]
+<!-- Footer -->
+[wpcode id="802"]
+<script>
+  const menuToggle = document.getElementById("menuToggle");
+  const closeMenu = document.getElementById("closeMenu");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  menuToggle.addEventListener("click", () => {
+    mobileMenu.classList.remove("translate-x-full");
+  });
+
+  closeMenu.addEventListener("click", () => {
+    mobileMenu.classList.add("translate-x-full");
+  });
+</script>
+
+
+  </body>
+</html>

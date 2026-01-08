@@ -1,0 +1,324 @@
+---
+/**
+ * Premium FAQAccordion Component
+ * Elegant accordion with numbered items, animated icons, and smooth transitions
+ */
+interface FAQ {
+  question: string;
+  answer: string;
+  category?: string;
+}
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  faqs: FAQ[];
+  image?: string;
+  imageAlt?: string;
+  variant?: 'default' | 'cards' | 'minimal';
+  showNumbers?: boolean;
+  allowMultiple?: boolean;
+  defaultOpen?: number;
+}
+
+const {
+  title = "Preguntas Frecuentes",
+  subtitle,
+  description,
+  faqs,
+  image,
+  imageAlt = "Dra. Daniela Benitez",
+  variant = 'default',
+  showNumbers = true,
+  allowMultiple = false,
+  defaultOpen = -1
+} = Astro.props;
+---
+
+<section class="w-full bg-cream py-16 md:py-24" data-faq-section>
+  <div class="container-premium">
+    <div class={`grid grid-cols-1 ${image ? 'lg:grid-cols-2' : ''} gap-12 lg:gap-16 items-start`}>
+
+      <!-- FAQ Content -->
+      <div class="animate-on-scroll">
+        <!-- Header -->
+        <div class="mb-10">
+          {subtitle && (
+            <span class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 rounded-full text-sm font-medium text-primary-700 mb-4">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              {subtitle}
+            </span>
+          )}
+
+          <h2 class="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-dark leading-tight mb-4">
+            {title}
+          </h2>
+
+          {description && (
+            <p class="text-lg text-dark/70 leading-relaxed max-w-xl">
+              {description}
+            </p>
+          )}
+        </div>
+
+        <!-- Accordion -->
+        <div
+          class={`space-y-4 ${variant === 'cards' ? 'space-y-4' : variant === 'minimal' ? 'space-y-0 divide-y divide-primary-200' : 'space-y-4'}`}
+          data-accordion
+          data-allow-multiple={allowMultiple}
+        >
+          {faqs.map((faq, index) => (
+            <div
+              class={`faq-item group ${
+                variant === 'cards'
+                  ? 'bg-white rounded-xl shadow-soft border border-primary-100 overflow-hidden hover:shadow-lg transition-shadow duration-300'
+                  : variant === 'minimal'
+                  ? 'bg-transparent'
+                  : 'bg-white rounded-xl border border-primary-200 overflow-hidden hover:border-primary-300 transition-colors duration-300'
+              }`}
+              data-faq-item
+              data-default-open={index === defaultOpen ? 'true' : 'false'}
+            >
+              <button
+                class={`w-full flex items-center gap-4 text-left transition-all duration-300 ${
+                  variant === 'minimal'
+                    ? 'py-5 text-dark hover:text-primary-600'
+                    : 'p-5 md:p-6'
+                }`}
+                data-accordion-btn
+                aria-expanded={index === defaultOpen ? 'true' : 'false'}
+              >
+                {/* Number */}
+                {showNumbers && (
+                  <span class={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 ${
+                    variant === 'minimal'
+                      ? 'bg-primary-100 text-primary-700 group-[.is-open]:bg-primary group-[.is-open]:text-white'
+                      : 'bg-primary-100 text-primary-700 group-[.is-open]:bg-primary group-[.is-open]:text-white'
+                  }`}>
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                )}
+
+                {/* Question */}
+                <span class={`flex-1 font-semibold leading-snug ${
+                  variant === 'minimal' ? 'text-base md:text-lg' : 'text-base md:text-lg text-dark'
+                }`}>
+                  {faq.question}
+                </span>
+
+                {/* Icon */}
+                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-50 flex items-center justify-center transition-all duration-300 group-[.is-open]:bg-primary group-[.is-open]:rotate-180">
+                  <svg
+                    class="w-4 h-4 text-primary-600 transition-colors duration-300 group-[.is-open]:text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                  </svg>
+                </span>
+              </button>
+
+              {/* Answer */}
+              <div
+                class="faq-content overflow-hidden transition-all duration-500 ease-out"
+                data-accordion-content
+                style={index === defaultOpen ? '' : 'max-height: 0;'}
+              >
+                <div class={`${variant === 'minimal' ? 'pb-5 pr-12' : 'px-5 md:px-6 pb-5 md:pb-6'} ${showNumbers ? 'pl-[4.5rem]' : ''}`}>
+                  <div class="prose prose-sm md:prose-base text-dark/70 leading-relaxed">
+                    <p set:html={faq.answer}></p>
+                  </div>
+
+                  {faq.category && (
+                    <span class="inline-block mt-4 px-3 py-1 bg-primary-50 text-primary-600 text-xs font-medium rounded-full">
+                      {faq.category}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="mt-10 p-6 bg-gradient-to-r from-primary-100 to-primary-50 rounded-2xl border border-primary-200">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+              </svg>
+            </div>
+            <div class="flex-1">
+              <p class="font-semibold text-dark mb-1">¿Tienes más preguntas?</p>
+              <p class="text-sm text-dark/70">Estamos aquí para ayudarte con cualquier duda</p>
+            </div>
+            <a
+              href="#contactForm"
+              class="btn-primary text-sm scroll-to-contact"
+            >
+              Contáctanos
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image Section -->
+      {image && (
+        <div class="relative animate-on-scroll lg:sticky lg:top-32">
+          <!-- Decorative elements -->
+          <div class="absolute -top-4 -left-4 w-24 h-24 bg-primary-200/50 rounded-full blur-2xl"></div>
+          <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-gold/20 rounded-full blur-2xl"></div>
+
+          <!-- Main image container -->
+          <div class="relative">
+            <!-- Frame decoration -->
+            <div class="absolute -inset-3 bg-gradient-to-br from-primary-200 via-primary-100 to-gold/30 rounded-3xl"></div>
+
+            <!-- Image -->
+            <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+              <img
+                src={image}
+                alt={imageAlt}
+                class="w-full h-auto object-cover"
+                loading="lazy"
+              />
+
+              <!-- Overlay gradient -->
+              <div class="absolute inset-0 bg-gradient-to-t from-dark/20 to-transparent"></div>
+            </div>
+
+            <!-- Trust badge -->
+            <div class="absolute -bottom-6 -right-6 bg-white rounded-2xl shadow-xl p-4 border border-primary-100">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center">
+                  <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                  </svg>
+                </div>
+                <div>
+                  <p class="font-semibold text-dark text-sm">Atención Personalizada</p>
+                  <p class="text-xs text-dark/60">Resolvemos todas tus dudas</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Smooth content transitions */
+  .faq-content {
+    max-height: 0;
+  }
+
+  .faq-item.is-open .faq-content {
+    max-height: var(--content-height, 500px);
+  }
+
+  /* Icon rotation */
+  .faq-item.is-open [data-accordion-btn] > span:last-child {
+    transform: rotate(180deg);
+  }
+
+  /* Animate on scroll */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  [data-faq-section].is-visible .animate-on-scroll {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  [data-faq-section].is-visible .animate-on-scroll:nth-child(2) {
+    transition-delay: 0.2s;
+  }
+
+  /* Prose customization */
+  .prose p {
+    margin: 0;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Intersection Observer for section visibility
+    const sections = document.querySelectorAll('[data-faq-section]');
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    sections.forEach(section => sectionObserver.observe(section));
+
+    // Accordion functionality
+    const accordions = document.querySelectorAll('[data-accordion]');
+
+    accordions.forEach(accordion => {
+      const allowMultiple = accordion.dataset.allowMultiple === 'true';
+      const items = accordion.querySelectorAll('[data-faq-item]');
+      const buttons = accordion.querySelectorAll('[data-accordion-btn]');
+
+      // Handle default open items
+      items.forEach(item => {
+        if (item.dataset.defaultOpen === 'true') {
+          item.classList.add('is-open');
+          const content = item.querySelector('[data-accordion-content]') as HTMLElement;
+          if (content) {
+            content.style.maxHeight = content.scrollHeight + 'px';
+            content.style.setProperty('--content-height', content.scrollHeight + 'px');
+          }
+        }
+      });
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const item = btn.closest('[data-faq-item]') as HTMLElement;
+          const content = item.querySelector('[data-accordion-content]') as HTMLElement;
+          const isOpen = item.classList.contains('is-open');
+
+          // Close others if not allowing multiple
+          if (!allowMultiple) {
+            items.forEach(otherItem => {
+              if (otherItem !== item && otherItem.classList.contains('is-open')) {
+                otherItem.classList.remove('is-open');
+                const otherContent = otherItem.querySelector('[data-accordion-content]') as HTMLElement;
+                if (otherContent) {
+                  otherContent.style.maxHeight = '0';
+                }
+                const otherBtn = otherItem.querySelector('[data-accordion-btn]');
+                if (otherBtn) {
+                  otherBtn.setAttribute('aria-expanded', 'false');
+                }
+              }
+            });
+          }
+
+          // Toggle current item
+          if (isOpen) {
+            item.classList.remove('is-open');
+            content.style.maxHeight = '0';
+            btn.setAttribute('aria-expanded', 'false');
+          } else {
+            item.classList.add('is-open');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            content.style.setProperty('--content-height', content.scrollHeight + 'px');
+            btn.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+    });
+  });
+</script>
