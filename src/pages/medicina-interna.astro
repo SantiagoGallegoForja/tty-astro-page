@@ -72,24 +72,176 @@ import ContactForm from '@components/ContactForm.astro';
     </div>
   </section>
 
-  <!-- Teleconsulta -->
+  <!-- Video Section -->
+  <section class="py-20 px-6 bg-light">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8">Tratamientos que mejoran tu calidad de vida</h2>
+      <div class="relative pb-[56.25%] h-0 overflow-hidden rounded-2xl shadow-xl">
+        <iframe
+          class="absolute top-0 left-0 w-full h-full"
+          src="https://www.youtube.com/embed/Q_6sKc5Chfg"
+          title="Dr. Martin Quiros - Médico Internista"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Servicios Médicos Carousel -->
   <section class="py-20 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4 text-center">Servicios Médicos</h2>
+      <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">Mi compromiso es ayudar a mis pacientes a mejorar su calidad de vida y lograr un bienestar integral a largo plazo.</p>
+
+      <div class="relative" data-services-carousel>
+        <!-- Navigation Buttons -->
+        <button
+          class="services-prev absolute left-0 md:-left-5 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-xl border border-primary/20 flex items-center justify-center hover:bg-primary/5 transition-all duration-300 group"
+          aria-label="Anterior"
+        >
+          <svg class="w-5 h-5 text-primary group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+
+        <button
+          class="services-next absolute right-0 md:-right-5 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-xl border border-primary/20 flex items-center justify-center hover:bg-primary/5 transition-all duration-300 group"
+          aria-label="Siguiente"
+        >
+          <svg class="w-5 h-5 text-primary group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+
+        <div class="overflow-hidden mx-8 md:mx-0">
+          <div class="services-track flex transition-transform duration-500 ease-out">
+            <!-- Obesidad y Metabolismo -->
+            <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-3">
+              <div class="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                <div class="aspect-[4/3]">
+                  <img src="https://thetrueyou.com.co/wp-content/uploads/2025/06/Obesidad-y-Metabolismo.jpg" alt="Obesidad y Metabolismo" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                  <h3 class="text-white font-bold text-lg mb-2">Obesidad y Metabolismo</h3>
+                  <p class="text-white/90 text-sm mb-4">Tratamiento integral para perder peso de manera sana y sostenible.</p>
+                  <a href="#contactForm" class="inline-flex items-center gap-2 text-white text-sm font-medium scroll-to-contact">
+                    Más Información
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Diabetes Mellitus -->
+            <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-3">
+              <div class="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                <div class="aspect-[4/3]">
+                  <img src="https://thetrueyou.com.co/wp-content/uploads/2025/06/Diabetes.jpg" alt="Diabetes Mellitus" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                  <h3 class="text-white font-bold text-lg mb-2">Diabetes Mellitus</h3>
+                  <p class="text-white/90 text-sm mb-4">Controla tu glucosa y recibe orientación especializada.</p>
+                  <a href="#contactForm" class="inline-flex items-center gap-2 text-white text-sm font-medium scroll-to-contact">
+                    Más Información
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chequeo Médico Preventivo -->
+            <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-3">
+              <div class="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                <div class="aspect-[4/3]">
+                  <img src="https://thetrueyou.com.co/wp-content/uploads/2025/06/checkeo-preventivo.jpg" alt="Chequeo Médico Preventivo" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                  <h3 class="text-white font-bold text-lg mb-2">Chequeo Médico Preventivo</h3>
+                  <p class="text-white/90 text-sm mb-4">Evaluación médica general para detectar enfermedades a tiempo.</p>
+                  <a href="#contactForm" class="inline-flex items-center gap-2 text-white text-sm font-medium scroll-to-contact">
+                    Más Información
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Enfermedades Gastrointestinales -->
+            <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-3">
+              <div class="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                <div class="aspect-[4/3]">
+                  <img src="https://thetrueyou.com.co/wp-content/uploads/2025/06/enefermedades-gastro.png" alt="Enfermedades Gastrointestinales" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                  <h3 class="text-white font-bold text-lg mb-2">Enfermedades Gastrointestinales</h3>
+                  <p class="text-white/90 text-sm mb-4">Atención médica para molestias digestivas e intestinales.</p>
+                  <a href="#contactForm" class="inline-flex items-center gap-2 text-white text-sm font-medium scroll-to-contact">
+                    Más Información
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Enfermedades Tiroideas -->
+            <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-3">
+              <div class="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                <div class="aspect-[4/3]">
+                  <img src="https://thetrueyou.com.co/wp-content/uploads/2025/06/Tiroides-1.jpg" alt="Enfermedades Tiroideas" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                  <h3 class="text-white font-bold text-lg mb-2">Enfermedades Tiroideas</h3>
+                  <p class="text-white/90 text-sm mb-4">Diagnóstico y control del hipotiroidismo e hipertiroidismo.</p>
+                  <a href="#contactForm" class="inline-flex items-center gap-2 text-white text-sm font-medium scroll-to-contact">
+                    Más Información
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Enfermedades Infecciosas -->
+            <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-3">
+              <div class="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                <div class="aspect-[4/3]">
+                  <img src="https://thetrueyou.com.co/wp-content/uploads/2025/06/infecciosas.jpg" alt="Enfermedades Infecciosas" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                  <h3 class="text-white font-bold text-lg mb-2">Enfermedades Infecciosas</h3>
+                  <p class="text-white/90 text-sm mb-4">Tratamiento de enfermedades causadas por virus, bacterias o parásitos.</p>
+                  <a href="#contactForm" class="inline-flex items-center gap-2 text-white text-sm font-medium scroll-to-contact">
+                    Más Información
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Teleconsulta -->
+  <section class="py-20 px-6 bg-light">
     <div class="max-w-5xl mx-auto text-center">
       <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Consultas Virtuales Disponibles</h2>
       <p class="text-gray-600 mb-12">Atendemos pacientes de todo Colombia y el exterior a través de teleconsulta.</p>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="border border-gray-200 p-6 rounded-xl">
+        <div class="bg-white border border-gray-200 p-6 rounded-xl shadow-sm">
           <h3 class="font-semibold text-lg text-dark mb-2">Teleconsulta</h3>
           <p class="text-gray-600 text-sm">Consulta médica virtual desde la comodidad de tu hogar.</p>
         </div>
 
-        <div class="border border-gray-200 p-6 rounded-xl">
+        <div class="bg-white border border-gray-200 p-6 rounded-xl shadow-sm">
           <h3 class="font-semibold text-lg text-dark mb-2">Múltiples Plataformas</h3>
           <p class="text-gray-600 text-sm">Disponible por Zoom, Google Meet o WhatsApp.</p>
         </div>
 
-        <div class="border border-gray-200 p-6 rounded-xl">
+        <div class="bg-white border border-gray-200 p-6 rounded-xl shadow-sm">
           <h3 class="font-semibold text-lg text-dark mb-2">Seguimiento</h3>
           <p class="text-gray-600 text-sm">Acompañamiento continuo en tu proceso de salud.</p>
         </div>
@@ -100,6 +252,80 @@ import ContactForm from '@components/ContactForm.astro';
       </a>
     </div>
   </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const carousel = document.querySelector('[data-services-carousel]');
+      if (!carousel) return;
+
+      const track = carousel.querySelector('.services-track') as HTMLElement;
+      const prevBtn = carousel.querySelector('.services-prev');
+      const nextBtn = carousel.querySelector('.services-next');
+      const items = track?.querySelectorAll('.flex-shrink-0');
+
+      if (!track || !items || items.length === 0) return;
+
+      let currentIndex = 0;
+      const totalItems = items.length;
+
+      function getItemsPerView() {
+        if (window.innerWidth < 768) return 1;
+        if (window.innerWidth < 1024) return 2;
+        return 3;
+      }
+
+      function updateCarousel() {
+        const itemsPerView = getItemsPerView();
+        const maxIndex = Math.max(0, totalItems - itemsPerView);
+        currentIndex = Math.min(currentIndex, maxIndex);
+        const itemWidthPercent = 100 / itemsPerView;
+        const translateX = currentIndex * itemWidthPercent;
+        track.style.transform = `translateX(-${translateX}%)`;
+      }
+
+      function next() {
+        const itemsPerView = getItemsPerView();
+        const maxIndex = Math.max(0, totalItems - itemsPerView);
+        if (currentIndex < maxIndex) {
+          currentIndex++;
+          updateCarousel();
+        }
+      }
+
+      function prev() {
+        if (currentIndex > 0) {
+          currentIndex--;
+          updateCarousel();
+        }
+      }
+
+      prevBtn?.addEventListener('click', prev);
+      nextBtn?.addEventListener('click', next);
+
+      // Touch support
+      let startX = 0;
+      let isDragging = false;
+
+      track.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+      }, { passive: true });
+
+      track.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        const endX = e.changedTouches[0].clientX;
+        const diffX = startX - endX;
+        if (Math.abs(diffX) > 50) {
+          if (diffX > 0) next();
+          else prev();
+        }
+      }, { passive: true });
+
+      window.addEventListener('resize', updateCarousel);
+      updateCarousel();
+    });
+  </script>
 
   <ContactForm />
 </BaseLayout>
