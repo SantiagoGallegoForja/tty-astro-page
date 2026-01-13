@@ -18,7 +18,8 @@
       "Bash(git commit:*)",
       "Bash(gh repo create:*)",
       "Bash(git push:*)",
-      "WebFetch(domain:thetrueyou.com.co)"
+      "WebFetch(domain:thetrueyou.com.co)",
+      "Bash(powershell -Command \"Get-ChildItem -Path ''src'' -Recurse -Include ''*.astro'' | ForEach-Object { \\(Get-Content $_FullName -Raw\\) -replace ''Daniela Benitez'', ''Daniela Correa'' | Set-Content $_FullName -NoNewline }\")"
     ]
   }
 }

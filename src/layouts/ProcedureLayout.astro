@@ -100,7 +100,7 @@ const {
 } = Astro.props;
 
 // Generar meta description si no se proporciona
-const seoDescription = metaDescription || `${procedureName} en Medellín con la Dra. Daniela Benitez. ${description[0]?.replace(/<[^>]*>/g, '').substring(0, 120)}... Consulta gratuita.`;
+const seoDescription = metaDescription || `${procedureName} en Medellín con la Dra. Daniela Correa. ${description[0]?.replace(/<[^>]*>/g, '').substring(0, 120)}... Consulta gratuita.`;
 
 // Schema.org - MedicalProcedure
 const procedureSchema = {
@@ -115,7 +115,7 @@ const procedureSchema = {
   "bodyLocation": subtitle.toLowerCase().includes('facial') ? 'Face' :
                   subtitle.toLowerCase().includes('mamari') ? 'Breast' :
                   subtitle.toLowerCase().includes('corporal') ? 'Body' : 'Body',
-  "preparation": "Consulta de valoración previa con la Dra. Daniela Benitez",
+  "preparation": "Consulta de valoración previa con la Dra. Daniela Correa",
   "followup": "Control postoperatorio incluido",
   "howPerformed": description[1]?.replace(/<[^>]*>/g, '') || description[0]?.replace(/<[^>]*>/g, ''),
   "status": "https://health-lifesci.schema.org/ActiveNotRecruiting",
@@ -133,7 +133,7 @@ const procedureSchema = {
   },
   "performer": {
     "@type": "Physician",
-    "name": "Dra. Daniela Benitez",
+    "name": "Dra. Daniela Correa",
     "medicalSpecialty": "PlasticSurgery",
     "telephone": "+573332841861"
   },
