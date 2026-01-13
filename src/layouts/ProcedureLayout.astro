@@ -47,6 +47,13 @@ interface Props {
     backgroundImage: string;
     columns: { title: string; text: string }[];
   };
+  candidatesSection?: {
+    subtitle: string;
+    title: string;
+    description: string;
+    items: string[];
+    image: string;
+  };
 }
 
 const {
@@ -68,7 +75,8 @@ const {
   ctaSubtitle,
   ctaImage = 'https://thetrueyou.com.co/wp-content/uploads/2025/05/mujer-cama.webp',
   pricingText,
-  technologySection
+  technologySection,
+  candidatesSection
 } = Astro.props;
 
 // Generar meta description si no se proporciona
@@ -288,6 +296,57 @@ const getIcon = (iconName: string) => {
       showTrustBadge={true}
       trustText="Consulta de valoración gratuita"
     />
+  )}
+
+  <!-- Candidates Section -->
+  {candidatesSection && (
+    <section class="w-full bg-white py-16 md:py-24" data-candidates-section>
+      <div class="container-premium">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <!-- Content -->
+          <div class="animate-on-scroll">
+            <span class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 rounded-full text-sm font-medium text-primary-700 mb-6">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+              {candidatesSection.subtitle}
+            </span>
+
+            <h2 class="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-dark leading-tight mb-6">
+              {candidatesSection.title}
+            </h2>
+
+            <p class="text-dark/70 mb-6 leading-relaxed" set:html={candidatesSection.description} />
+
+            <ul class="space-y-3 mb-8">
+              {candidatesSection.items.map((item) => (
+                <li class="flex items-start gap-3">
+                  <span class="flex-shrink-0 w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center mt-0.5">
+                    <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                  </span>
+                  <span class="text-dark/70">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Image -->
+          <div class="animate-on-scroll order-first lg:order-last">
+            <div class="relative">
+              <div class="absolute -inset-4 bg-gradient-to-br from-primary-100 via-cream to-gold/20 rounded-3xl"></div>
+              <img
+                src={candidatesSection.image}
+                alt={candidatesSection.title}
+                class="relative w-full rounded-2xl shadow-xl object-cover"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   )}
 
   <!-- Details Section -->
@@ -612,6 +671,7 @@ const getIcon = (iconName: string) => {
 
   [data-hero-section].is-visible .animate-on-scroll,
   [data-video-section].is-visible .animate-on-scroll,
+  [data-candidates-section].is-visible .animate-on-scroll,
   [data-details-section].is-visible .animate-on-scroll,
   [data-benefits-section].is-visible .animate-on-scroll,
   [data-results-section].is-visible .animate-on-scroll,
@@ -649,7 +709,7 @@ const getIcon = (iconName: string) => {
 
   document.addEventListener('DOMContentLoaded', () => {
     // Intersection Observer for animations
-    const sections = document.querySelectorAll('[data-hero-section], [data-video-section], [data-details-section], [data-benefits-section], [data-results-section], [data-pricing-section], [data-tech-section]');
+    const sections = document.querySelectorAll('[data-hero-section], [data-video-section], [data-candidates-section], [data-details-section], [data-benefits-section], [data-results-section], [data-pricing-section], [data-tech-section]');
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
