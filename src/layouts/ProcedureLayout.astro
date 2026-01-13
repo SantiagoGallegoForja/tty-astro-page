@@ -32,6 +32,7 @@ interface Props {
   heroImage: string;
   videoUrl?: string;
   videoType?: 'youtube' | 'mp4';
+  secondaryVideos?: string[];
   benefits?: string[];
   details?: ProcedureDetail[];
   beforeAfterImages?: string[];
@@ -82,6 +83,7 @@ const {
   heroImage,
   videoUrl,
   videoType = 'youtube',
+  secondaryVideos = [],
   benefits = [],
   details = [],
   beforeAfterImages = [],
@@ -330,6 +332,29 @@ const getIcon = (iconName: string) => {
               )}
             </div>
           </div>
+
+          <!-- Secondary Videos -->
+          {secondaryVideos.length > 0 && (
+            <div class="mt-10 animate-on-scroll">
+              <p class="text-center text-dark/60 text-sm mb-6">
+                Te invitamos a seguirnos en nuestro Canal de Youtube, donde encontrarás contenido útil sobre la Cirugía Plástica.
+              </p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {secondaryVideos.map((video) => (
+                  <div class="rounded-xl overflow-hidden shadow-lg">
+                    <iframe
+                      class="w-full aspect-video"
+                      src={video}
+                      title="Video adicional"
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen
+                    ></iframe>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>
