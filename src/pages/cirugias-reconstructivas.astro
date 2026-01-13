@@ -278,6 +278,44 @@ import PricingSection from '@components/PricingSection.astro';
     faqImage="https://thetrueyou.com.co/wp-content/uploads/2025/06/daniela.png"
   />
 
+  <!-- The True You Section with Split Background -->
+  <section class="relative w-full min-h-[450px] md:min-h-[500px] lg:min-h-[550px]">
+    <!-- Split Background -->
+    <div class="absolute inset-0 flex">
+      <!-- Left side with image and overlay -->
+      <div
+        class="w-1/2 bg-cover bg-center relative"
+        style="background-image: url('https://thetrueyou.com.co/wp-content/uploads/2025/05/bg-section.webp')"
+      >
+        <div class="absolute inset-0 bg-[#fefaf8]/80"></div>
+      </div>
+
+      <!-- Right side with reception image -->
+      <div
+        class="w-1/2 bg-cover bg-center"
+        style="background-image: url('https://thetrueyou.com.co/wp-content/uploads/2025/05/recepcion.webp')"
+      ></div>
+    </div>
+
+    <!-- Content Card -->
+    <div class="relative z-10 h-full flex items-center px-4 md:px-12 py-12">
+      <div class="bg-white/95 shadow-xl rounded-2xl p-8 md:p-10 max-w-xl">
+        <span class="text-xs tracking-widest text-primary uppercase font-medium mb-3 block">
+          The True You
+        </span>
+        <h2 class="text-2xl md:text-3xl font-serif font-bold text-dark mb-6">
+          Cirugías Reconstructivas en Colombia
+        </h2>
+        <p class="text-dark/70 leading-relaxed">
+          Cuando hablamos de procedimientos quirúrgicos, sabemos que más que corregir una parte del cuerpo afectada, estamos ayudando a un paciente a mejorar su calidad de vida y elevar su autoestima. Por eso en Colombia, las Cirugías Reconstructivas son procedimientos complejos que se realizan en las mejores salas y con el mejor equipo para brindarte una experiencia grata y de alta calidad.
+        </p>
+        <p class="text-dark/70 leading-relaxed mt-4">
+          Si deseas hacerte una Cirugía Reconstructiva en Colombia te recomendamos que no arriesgues tu salud y busques siempre profesionales reconocidos como la Dra. Daniela Benitez, una de las mejores Cirujanas Plásticas en Medellín, quien te brindará una asesoría humana y de calidad, además de un muy completo acompañamiento.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <!-- Pricing Section -->
   <PricingSection
     procedureName="Cirugías Reconstructivas"
