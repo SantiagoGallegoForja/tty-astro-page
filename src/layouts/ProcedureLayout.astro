@@ -54,6 +54,14 @@ interface Props {
     items: string[];
     image: string;
   };
+  typesSection?: {
+    title: string;
+    types: {
+      title: string;
+      description: string;
+      image: string;
+    }[];
+  };
 }
 
 const {
@@ -76,7 +84,8 @@ const {
   ctaImage = 'https://thetrueyou.com.co/wp-content/uploads/2025/05/mujer-cama.webp',
   pricingText,
   technologySection,
-  candidatesSection
+  candidatesSection,
+  typesSection
 } = Astro.props;
 
 // Generar meta description si no se proporciona
@@ -243,6 +252,38 @@ const getIcon = (iconName: string) => {
       </div>
     </div>
   </section>
+
+  <!-- Types Section -->
+  {typesSection && (
+    <section class="w-full bg-white py-16 md:py-24" data-types-section>
+      <div class="container-premium">
+        <div class="text-center mb-12 animate-on-scroll">
+          <h2 class="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-dark">
+            {typesSection.title}
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {typesSection.types.map((type) => (
+            <div class="bg-light rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group animate-on-scroll">
+              <div class="aspect-[4/3] overflow-hidden">
+                <img
+                  src={type.image}
+                  alt={type.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+              </div>
+              <div class="p-6">
+                <h3 class="font-semibold text-lg text-dark mb-2">{type.title}</h3>
+                <p class="text-dark/70 text-sm">{type.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- Video Section -->
   {videoUrl && (
