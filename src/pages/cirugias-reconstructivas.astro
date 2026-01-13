@@ -1,12 +1,12 @@
 ---
-import MainLayout from '@layouts/MainLayout.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
 import CTABanner from '@components/CTABanner.astro';
 import FAQSection from '@components/FAQSection.astro';
 import ContactForm from '@components/ContactForm.astro';
 import PricingSection from '@components/PricingSection.astro';
 ---
 
-<MainLayout
+<BaseLayout
   title="Cirugías Reconstructivas en Medellín 2025 | Dra. Daniela Benitez"
   description="Cirugías reconstructivas en Medellín. Reconstrucción mamaria, facial y corporal. Dra. Daniela Benitez, cirujana plástica certificada. Técnicas avanzadas. Resultados naturales."
 >
@@ -327,7 +327,7 @@ import PricingSection from '@components/PricingSection.astro';
 
   <!-- Contact Form -->
   <ContactForm procedureName="Cirugías Reconstructivas" />
-</MainLayout>
+</BaseLayout>
 
 <style>
   .container-premium {
