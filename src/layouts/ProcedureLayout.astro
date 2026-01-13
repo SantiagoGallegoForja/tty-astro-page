@@ -820,14 +820,16 @@ const getIcon = (iconName: string) => {
     // Results Swiper
     const resultsContainer = document.querySelector('.results-swiper');
     if (resultsContainer) {
+      const slideCount = resultsContainer.querySelectorAll('.swiper-slide').length;
       new Swiper('.results-swiper', {
         modules: [Pagination, Navigation, Autoplay],
-        loop: true,
-        autoplay: {
+        loop: slideCount > 2,
+        centeredSlides: slideCount <= 2,
+        autoplay: slideCount > 1 ? {
           delay: 4000,
           disableOnInteraction: false,
           pauseOnMouseEnter: true
-        },
+        } : false,
         slidesPerView: 1,
         spaceBetween: 16,
         pagination: {
@@ -839,9 +841,9 @@ const getIcon = (iconName: string) => {
           prevEl: '.results-prev'
         },
         breakpoints: {
-          640: { slidesPerView: 1.5, spaceBetween: 20 },
-          768: { slidesPerView: 2, spaceBetween: 24 },
-          1024: { slidesPerView: 3, spaceBetween: 24 }
+          640: { slidesPerView: Math.min(slideCount, 1.5), spaceBetween: 20 },
+          768: { slidesPerView: Math.min(slideCount, 2), spaceBetween: 24 },
+          1024: { slidesPerView: Math.min(slideCount, 3), spaceBetween: 24 }
         }
       });
     }
