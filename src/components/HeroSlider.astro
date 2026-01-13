@@ -156,53 +156,7 @@ const heightClasses = {
       ))}
     </div>
 
-    <!-- Custom Navigation -->
-    <div class="absolute bottom-0 left-0 right-0 z-20">
-      <div class="container-premium pb-8 md:pb-12">
-        <div class="flex items-center justify-between">
-          <!-- Progress Pagination -->
-          <div class="flex items-center gap-3">
-            <div class="hero-pagination flex items-center gap-2"></div>
-            <span class="text-white/60 text-sm font-medium slide-counter">
-              <span class="current-slide">01</span>
-              <span class="mx-1">/</span>
-              <span class="total-slides">{String(slides.length).padStart(2, '0')}</span>
-            </span>
-          </div>
-
-          <!-- Navigation Arrows -->
-          <div class="flex items-center gap-3">
-            <button
-              class="hero-prev w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 group"
-              aria-label="Anterior"
-            >
-              <svg class="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-              </svg>
-            </button>
-            <button
-              class="hero-next w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all duration-300 group"
-              aria-label="Siguiente"
-            >
-              <svg class="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
-
-  <!-- Scroll Down Indicator -->
-  {showScrollIndicator && (
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 hidden md:flex flex-col items-center gap-2 animate-bounce-soft">
-      <span class="text-white/60 text-xs uppercase tracking-widest">Scroll</span>
-      <div class="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center pt-2">
-        <div class="w-1 h-2 bg-white/60 rounded-full animate-bounce"></div>
-      </div>
-    </div>
-  )}
 </section>
 
 <style>
