@@ -625,7 +625,7 @@ const getIcon = (iconName: string) => {
           </button>
 
           <!-- Swiper Container -->
-          <div class="swiper results-swiper mx-8 md:mx-0">
+          <div class={`swiper results-swiper mx-8 md:mx-0 ${beforeAfterImages.length <= 2 ? 'max-w-3xl mx-auto' : ''}`} data-slide-count={beforeAfterImages.length}>
             <div class="swiper-wrapper">
               {beforeAfterImages.map((image, index) => (
                 <div class="swiper-slide">
@@ -820,16 +820,15 @@ const getIcon = (iconName: string) => {
     // Results Swiper
     const resultsContainer = document.querySelector('.results-swiper');
     if (resultsContainer) {
-      const slideCount = resultsContainer.querySelectorAll('.swiper-slide').length;
+      const slideCount = parseInt(resultsContainer.dataset.slideCount || '0');
       new Swiper('.results-swiper', {
         modules: [Pagination, Navigation, Autoplay],
         loop: slideCount > 2,
-        centeredSlides: slideCount <= 2,
-        autoplay: slideCount > 1 ? {
+        autoplay: {
           delay: 4000,
           disableOnInteraction: false,
           pauseOnMouseEnter: true
-        } : false,
+        },
         slidesPerView: 1,
         spaceBetween: 16,
         pagination: {
@@ -840,10 +839,11 @@ const getIcon = (iconName: string) => {
           nextEl: '.results-next',
           prevEl: '.results-prev'
         },
-        breakpoints: {
-          640: { slidesPerView: Math.min(slideCount, 1.5), spaceBetween: 20 },
-          768: { slidesPerView: Math.min(slideCount, 2), spaceBetween: 24 },
-          1024: { slidesPerView: Math.min(slideCount, 3), spaceBetween: 24 }
+        breakpoints: slideCount <= 2 ? {
+          768: { slidesPerView: slideCount, spaceBetween: 24 }
+        } : {
+          768: { slidesPerView: 2, spaceBetween: 24 },
+          1024: { slidesPerView: 3, spaceBetween: 24 }
         }
       });
     }
