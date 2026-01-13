@@ -1,40 +1,299 @@
 ---
-import ProcedureLayout from '@layouts/ProcedureLayout.astro';
+import MainLayout from '@layouts/MainLayout.astro';
+import CTABanner from '@components/CTABanner.astro';
+import FAQSection from '@components/FAQSection.astro';
+import ContactForm from '@components/ContactForm.astro';
+import PricingSection from '@components/PricingSection.astro';
 ---
 
-<ProcedureLayout
+<MainLayout
   title="Cirugías Reconstructivas en Medellín 2025 | Dra. Daniela Benitez"
-  metaDescription="Cirugías reconstructivas en Medellín. Reconstrucción mamaria, facial y corporal. Dra. Daniela Benitez, cirujana plástica certificada. Técnicas avanzadas. Resultados naturales. Consulta personalizada."
-  keywords="cirugía reconstructiva Medellín, reconstrucción mamaria Colombia, cirugía reparadora, reconstrucción post mastectomía, corrección cicatrices, reconstrucción facial, cirugía plástica reconstructiva, mejor cirujano reconstructivo"
-  procedureName="Cirugías Reconstructivas"
-  subtitle="Cirugía Reconstructiva en Medellín"
-  heroImage="https://thetrueyou.com.co/wp-content/uploads/2025/06/Captura-3.png"
-  description={[
-    "Las <strong>Cirugías Reconstructivas</strong> son procedimientos quirúrgicos que buscan restaurar la forma y función de partes del cuerpo afectadas por accidentes, enfermedades, defectos congénitos o cirugías previas.",
-    "En The True You ofrecemos soluciones personalizadas para cada caso, utilizando las técnicas más avanzadas para lograr resultados funcionales y estéticos."
-  ]}
-  ctaTitle="¿Necesitas una cirugía reconstructiva?"
-  ctaSubtitle="Agenda tu Cita Virtual y Déjanos conocer tu caso."
-  details={[
-    { icon: "clock", label: "Tiempo de Cirugía", value: "Variable según el caso" },
-    { icon: "calendar", label: "Anestesia", value: "General o Local según el caso" },
-    { icon: "hospital", label: "Tipo de Incapacidad", value: "Variable" },
-    { icon: "calendar", label: "Tiempo de Recuperación", value: "Variable según el procedimiento" },
-    { icon: "check", label: "Resultados", value: "Progresivos" }
-  ]}
-  benefits={[
-    "Restaura forma y función.",
-    "Mejora la calidad de vida.",
-    "Técnicas avanzadas.",
-    "Tratamiento personalizado.",
-    "Equipo especializado.",
-    "Resultados naturales."
-  ]}
-  faqs={[
-    { question: "¿Qué condiciones pueden tratarse?", answer: "Incluyen reconstrucción mamaria post-mastectomía, corrección de cicatrices, reconstrucción facial, entre otras." },
-    { question: "¿Cuántas cirugías pueden necesitarse?", answer: "Depende del caso. Algunas reconstrucciones se realizan en una sola intervención, otras requieren múltiples etapas." },
-    { question: "¿El seguro cubre estas cirugías?", answer: "Muchas cirugías reconstructivas están cubiertas por seguros médicos cuando hay indicación médica." }
-  ]}
-  faqImage="https://thetrueyou.com.co/wp-content/uploads/2025/06/daniela.png"
-  pricingText="El costo de una <strong>Cirugía Reconstructiva en Medellín</strong> varía significativamente según el tipo y complejidad del procedimiento. Consulta para una valoración personalizada."
-/>
+  description="Cirugías reconstructivas en Medellín. Reconstrucción mamaria, facial y corporal. Dra. Daniela Benitez, cirujana plástica certificada. Técnicas avanzadas. Resultados naturales."
+>
+  <!-- Hero Section -->
+  <section class="w-full bg-light py-16 md:py-24" data-hero-section>
+    <div class="container-premium">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Image -->
+        <div class="animate-on-scroll order-first">
+          <div class="relative">
+            <div class="absolute -inset-4 bg-gradient-to-br from-primary-100 via-cream to-gold/20 rounded-3xl"></div>
+            <img
+              src="https://thetrueyou.com.co/wp-content/uploads/2025/06/Captura-3.png"
+              alt="Cirugías Reconstructivas"
+              class="relative w-full rounded-2xl shadow-xl object-cover"
+              loading="eager"
+            />
+            <div class="absolute -bottom-4 -right-4 bg-white rounded-2xl shadow-xl p-4 flex items-center gap-3">
+              <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div>
+                <p class="font-semibold text-dark text-sm">Certificación</p>
+                <p class="text-xs text-dark/60">Internacional</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="animate-on-scroll">
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 rounded-full text-sm font-medium text-primary-700 mb-6">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+            Cirugía Reconstructiva en Medellín
+          </span>
+
+          <h1 class="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-dark leading-tight mb-6">
+            ¿Qué es <span class="text-primary">Cirugías Reconstructivas</span>?
+          </h1>
+
+          <div class="space-y-4 text-dark/70 mb-8">
+            <p>Las <strong class="text-dark">Cirugías Reconstructivas</strong> son procedimientos que se realizan con el fin de <strong class="text-dark">reconstruir partes del cuerpo afectadas</strong> por diversas situaciones como quemaduras, anomalías congénitas, traumatismos, enfermedades o tumores.</p>
+            <p>Lastimosamente, el cuerpo está constantemente expuesto a <strong class="text-dark">traumas corporales que pueden ocasionar deformaciones</strong>. Por eso, la <strong class="text-dark">Cirugía Reconstructiva en Medellín</strong> es una opción que favorece a muchos pacientes con el deseo de devolverle a su cuerpo <strong class="text-dark">forma, estructura estética y funcionalidad</strong>.</p>
+          </div>
+
+          <a href="#contactForm" class="btn-primary scroll-to-contact">
+            Cotizar Cirugía Reconstructiva
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tipos de Cirugías Reconstructivas -->
+  <section class="w-full bg-white py-16 md:py-24">
+    <div class="container-premium">
+      <div class="text-center mb-12">
+        <h2 class="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-dark mb-4">
+          ¿Cuáles son los tipos de Cirugías Reconstructivas?
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Card 1 -->
+        <div class="bg-light rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="https://thetrueyou.com.co/wp-content/uploads/2025/06/11.webp" alt="Reconstrucción Mamaria" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+          </div>
+          <div class="p-6">
+            <h3 class="font-semibold text-lg text-dark mb-2">Reconstrucción Mamaria</h3>
+            <p class="text-dark/70 text-sm">Se realiza con el objetivo de restaurar la seguridad y el bienestar psicológico de las pacientes que atravesaron cáncer de mama y como consecuencia se les retiró la piel y el tejido de las mamas.</p>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-light rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="https://thetrueyou.com.co/wp-content/uploads/2025/06/22.webp" alt="Reconstrucción por quemaduras" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+          </div>
+          <div class="p-6">
+            <h3 class="font-semibold text-lg text-dark mb-2">Reconstrucción por Quemaduras</h3>
+            <p class="text-dark/70 text-sm">En algunos casos específicos las quemaduras representan una ubicación corporal que representa incomodidad para la movilidad y funcionalidad del cuerpo.</p>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-light rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="https://thetrueyou.com.co/wp-content/uploads/2025/06/33.webp" alt="Reconstrucción por Traumatismo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+          </div>
+          <div class="p-6">
+            <h3 class="font-semibold text-lg text-dark mb-2">Reconstrucción por Traumatismo</h3>
+            <p class="text-dark/70 text-sm">Cuando una persona experimenta un trauma físico, éste puede afectar sus huesos, tendones y nervios impidiéndole llevar una vida con normalidad o generar dolor en tareas cotidianas.</p>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="bg-light rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="https://thetrueyou.com.co/wp-content/uploads/2025/06/44.webp" alt="Reconstrucción por anomalías congénitas" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+          </div>
+          <div class="p-6">
+            <h3 class="font-semibold text-lg text-dark mb-2">Reconstrucción por Anomalías Congénitas</h3>
+            <p class="text-dark/70 text-sm">Este tipo de procedimiento consiste en la corrección de anomalías o malformaciones como asimetrías mamarias, labio leporino, paladar hendido u otras malformaciones faciales.</p>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="bg-light rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="https://thetrueyou.com.co/wp-content/uploads/2025/06/55.webp" alt="Reconstrucción por tumores de piel" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+          </div>
+          <div class="p-6">
+            <h3 class="font-semibold text-lg text-dark mb-2">Reconstrucción por Tumores de Piel</h3>
+            <p class="text-dark/70 text-sm">En algunos casos específicos la aparición de tumores representa físicamente la aparición del mismo en una ubicación corporal que representa incomodidad para la movilidad y funcionalidad del cuerpo.</p>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="bg-light rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="https://thetrueyou.com.co/wp-content/uploads/2025/06/66.webp" alt="Reconstrucción maxilofacial" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+          </div>
+          <div class="p-6">
+            <h3 class="font-semibold text-lg text-dark mb-2">Reconstrucción Maxilofacial</h3>
+            <p class="text-dark/70 text-sm">Se realiza en pacientes cuya estructura ósea maxilofacial no favorece la estética de su rostro, generando inseguridad, por lo que buscan reconstruir la forma de su mandíbula.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Beneficios -->
+  <section class="w-full bg-light py-16 md:py-24">
+    <div class="container-premium">
+      <div class="text-center mb-12">
+        <span class="inline-block px-4 py-2 bg-primary-100 rounded-full text-sm font-medium text-primary-700 mb-4">
+          The True You – Cirugía Plástica en Medellín
+        </span>
+        <h2 class="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-dark">
+          Beneficios de las Cirugías Reconstructivas
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        {[
+          "Mejora la estructura corporal",
+          "Eleva tu autoestima",
+          "Devuelve la funcionalidad de las zonas afectadas",
+          "Si padeces dolor a causa de la afección, el dolor desaparecerá",
+          "Mejora tu Salud",
+          "Reconstrucción de la estructura corporal"
+        ].map((benefit) => (
+          <div class="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm">
+            <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center">
+              <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </span>
+            <span class="text-dark font-medium">{benefit}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <CTABanner
+    title="¿Te Encuentras Fuera de Antioquia?"
+    subtitle="Agenda tu Cita Virtual y Déjanos conocer tu caso."
+    backgroundImage="https://thetrueyou.com.co/wp-content/uploads/2025/05/mujer-cama.webp"
+    variant="standard"
+    overlay="gradient"
+    showTrustBadge={true}
+    trustText="Consulta de valoración gratuita"
+  />
+
+  <!-- Objetivo Section -->
+  <section class="w-full bg-white py-16 md:py-24">
+    <div class="container-premium">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Content -->
+        <div>
+          <span class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 rounded-full text-sm font-medium text-primary-700 mb-6">
+            Cirugías Reconstructivas en Medellín
+          </span>
+
+          <h2 class="font-serif text-2xl md:text-3xl lg:text-4xl font-bold text-dark leading-tight mb-6">
+            ¿Cuál es el objetivo de las Cirugías Reconstructivas?
+          </h2>
+
+          <div class="space-y-4 text-dark/70 mb-8">
+            <p>El objetivo de las <strong class="text-dark">Cirugías Reconstructivas en Medellín</strong> consisten, como su nombre lo dice, en reconstruir aquellas partes del cuerpo que han sido afectadas e interfieren con la estética y la funcionalidad del cuerpo de cada paciente.</p>
+            <p>Las Cirugías Reconstructivas en Medellín se pueden realizar en muchas zonas del cuerpo pero la prioridad es encontrar la parte del cuerpo que necesita recuperar su estructura.</p>
+          </div>
+
+          <!-- Details -->
+          <div class="space-y-4">
+            <div class="flex items-start gap-4 p-4 bg-light rounded-xl">
+              <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div>
+                <p class="font-semibold text-dark">Tiempo de Cirugía</p>
+                <p class="text-sm text-dark/70">El tiempo de la cirugía depende de qué tan afectada esté la zona a tratar, puede durar de 8 a 12 horas.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4 p-4 bg-light rounded-xl">
+              <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                </svg>
+              </div>
+              <div>
+                <p class="font-semibold text-dark">Anestesia</p>
+                <p class="text-sm text-dark/70">Se utiliza Anestesia General</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4 p-4 bg-light rounded-xl">
+              <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+              </div>
+              <div>
+                <p class="font-semibold text-dark">Tiempo de Recuperación</p>
+                <p class="text-sm text-dark/70">Dependiendo del caso la recuperación total puede durar 1 o 2 meses</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image -->
+        <div>
+          <div class="relative">
+            <div class="absolute -inset-4 bg-gradient-to-br from-primary-100 via-cream to-gold/20 rounded-3xl"></div>
+            <img
+              src="https://thetrueyou.com.co/wp-content/uploads/2025/05/daniela-1-e1749097501481.png"
+              alt="Dra. Daniela Benitez"
+              class="relative w-full rounded-2xl shadow-xl object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <FAQSection
+    title="Preguntas Frecuentes de las Cirugías Reconstructivas"
+    subtitle="Cirugías Reconstructivas en Colombia"
+    faqs={[
+      { question: "¿Qué precio tienen las Cirugías Reconstructivas?", answer: "Para realizar las Cirugías Reconstructivas se debe evaluar el caso de cada paciente, sus necesidades y prioridades, una vez realizado este diagnóstico el paciente sabrá el precio del procedimiento, teniendo en cuenta que además existen muchos tipos de Cirugías Reconstructivas." },
+      { question: "¿Se puede realizar Cirugías Reconstructivas en la cara?", answer: "Sí, más conocidas como Cirugías Reconstructivas faciales y se realizan ya sea por trauma, por malformación, por tumor o por quemaduras." },
+      { question: "¿Cómo es la recuperación de las Cirugías Reconstructivas?", answer: "Estos suelen ser procedimientos a los cuales debemos ponerles mucha atención, tomar los medicamentos indicados, no hacer ejercicios forzosos durante la recuperación y utilizar las prendas post operatorias indicadas para la zona reconstruida." }
+    ]}
+    faqImage="https://thetrueyou.com.co/wp-content/uploads/2025/06/daniela.png"
+  />
+
+  <!-- Pricing Section -->
+  <PricingSection
+    procedureName="Cirugías Reconstructivas"
+    pricingText="El costo de una <strong>Cirugía Reconstructiva en Medellín</strong> varía significativamente según el tipo y complejidad del procedimiento. Consulta para una valoración personalizada."
+  />
+
+  <!-- Contact Form -->
+  <ContactForm procedureName="Cirugías Reconstructivas" />
+</MainLayout>
+
+<style>
+  .container-premium {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl;
+  }
+</style>
