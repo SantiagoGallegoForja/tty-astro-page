@@ -52,60 +52,130 @@ import FAQAccordion from '@components/FAQAccordion.astro';
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-7xl mx-auto">
-      <div class="bg-white shadow-lg p-6 rounded-xl text-center">
-        <div class="text-4xl mb-4">⚡</div>
+      <!-- Energizer -->
+      <div class="bg-white shadow-lg p-6 rounded-xl text-center border border-gray-100 hover:shadow-xl transition-shadow">
+        <div class="mb-4 flex justify-center">
+          <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">Energizer</h3>
-        <p class="text-sm text-gray-600">Recarga tu energía y vitalidad con este suero rico en vitaminas del complejo B. Recarga tu energía, siéntete como nuevo y mejora tu bienestar.</p>
+        <p class="text-sm text-gray-600 mb-4">Recarga tu energía y vitalidad con este suero rico en vitaminas del complejo B. Recarga tu energía, siéntete como nuevo y mejora tu bienestar.</p>
+        <a href="https://wa.me/573332841861?text=Hola,%20me%20interesa%20el%20pack%20Energizer" target="_blank" class="text-sm text-gray-500 hover:text-primary border-b border-gray-400 hover:border-primary transition-colors">Ver Más</a>
       </div>
-      <div class="bg-white shadow-lg p-6 rounded-xl text-center">
-        <div class="text-4xl mb-4">🛡️</div>
-        <h3 class="text-xl font-semibold text-gray-800 mb-2">Defensix mix</h3>
-        <p class="text-sm text-gray-600">Con altas dosis de vitamina C este suero te ayudará a potenciar tus defensas y protegerte de los resfriados y otras infecciones virales comunes.</p>
+      <!-- Defensix mix -->
+      <div class="bg-white shadow-lg p-6 rounded-xl text-center border border-gray-100 hover:shadow-xl transition-shadow">
+        <div class="mb-4 flex justify-center">
+          <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+            <circle cx="12" cy="12" r="9"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v8M8 12h8"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">Difensix mix</h3>
+        <p class="text-sm text-gray-600 mb-4">Con altas dosis de vitamina C este suero te ayudará a potenciar tus defensas y protegerte de los resfriados y otras infecciones virales comunes.</p>
+        <a href="https://wa.me/573332841861?text=Hola,%20me%20interesa%20el%20pack%20Difensix%20mix" target="_blank" class="text-sm text-gray-500 hover:text-primary border-b border-gray-400 hover:border-primary transition-colors">Ver Más</a>
       </div>
-      <div class="bg-white shadow-lg p-6 rounded-xl text-center">
-        <div class="text-4xl mb-4">💪</div>
+      <!-- Slim Body -->
+      <div class="bg-white shadow-lg p-6 rounded-xl text-center border border-gray-100 hover:shadow-xl transition-shadow">
+        <div class="mb-4 flex justify-center">
+          <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C10 2 9 3 9 5c0 1.5.5 2.5 1 3-1.5 1-2 3-2 5 0 3 1 5 2 7 .5 1 1 2 2 2s1.5-1 2-2c1-2 2-4 2-7 0-2-.5-4-2-5 .5-.5 1-1.5 1-3 0-2-1-3-3-3z"/>
+          </svg>
+        </div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">Slim Body</h3>
-        <p class="text-sm text-gray-600">Mejora tu metabolismo y ayuda a la pérdida de peso. Este suero te ayudará a alcanzar tus objetivos y a recuperarte tras tus entrenamientos.</p>
+        <p class="text-sm text-gray-600 mb-4">Mejora tu metabolismo y ayuda a la pérdida de peso. Este suero te ayudará a alcanzar tus objetivos y a recuperarte tras tus entrenamientos.</p>
+        <a href="https://wa.me/573332841861?text=Hola,%20me%20interesa%20el%20pack%20Slim%20Body" target="_blank" class="text-sm text-gray-500 hover:text-primary border-b border-gray-400 hover:border-primary transition-colors">Ver Más</a>
       </div>
-      <div class="bg-white shadow-lg p-6 rounded-xl text-center">
-        <div class="text-4xl mb-4">🔋</div>
+      <!-- Summer Time -->
+      <div class="bg-white shadow-lg p-6 rounded-xl text-center border border-gray-100 hover:shadow-xl transition-shadow">
+        <div class="mb-4 flex justify-center">
+          <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+        </div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">Summer Time</h3>
-        <p class="text-sm text-gray-600">¡Tómate un descanso! Mejora tus niveles de energía, libérate de la fatiga crónica y renuévate como si recién llegaras de vacaciones.</p>
+        <p class="text-sm text-gray-600 mb-4">¡Tómate un descanso! Mejora tus niveles de energía, libérate de la fatiga crónica y renuévate como si recién llegaras de vacaciones.</p>
+        <a href="https://wa.me/573332841861?text=Hola,%20me%20interesa%20el%20pack%20Summer%20Time" target="_blank" class="text-sm text-gray-500 hover:text-primary border-b border-gray-400 hover:border-primary transition-colors">Ver Más</a>
       </div>
-      <div class="bg-white shadow-lg p-6 rounded-xl text-center">
-        <div class="text-4xl mb-4">🕊️</div>
+      <!-- Ave Fenix -->
+      <div class="bg-white shadow-lg p-6 rounded-xl text-center border border-gray-100 hover:shadow-xl transition-shadow">
+        <div class="mb-4 flex justify-center">
+          <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 19c-4 0-7-2-8-5 2-1 4-1 6 0 1-3 2-6 2-9 0 3 1 6 2 9 2-1 4-1 6 0-1 3-4 5-8 5z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 19v3"/>
+          </svg>
+        </div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">Ave Fenix</h3>
-        <p class="text-sm text-gray-600">Logra una recuperación rápida como coadyuvante en los procesos de cicatrización. Ayuda a mantener el balance en intervenciones quirúrgicas.</p>
+        <p class="text-sm text-gray-600 mb-4">Logra una recuperación rápida como coadyuvante en los procesos de cicatrización. Ayuda a mantener el balance en intervenciones quirúrgicas.</p>
+        <a href="https://wa.me/573332841861?text=Hola,%20me%20interesa%20el%20pack%20Ave%20Fenix" target="_blank" class="text-sm text-gray-500 hover:text-primary border-b border-gray-400 hover:border-primary transition-colors">Ver Más</a>
       </div>
-      <div class="bg-white shadow-lg p-6 rounded-xl text-center">
-        <div class="text-4xl mb-4">🧘</div>
+      <!-- Zen Master -->
+      <div class="bg-white shadow-lg p-6 rounded-xl text-center border border-gray-100 hover:shadow-xl transition-shadow">
+        <div class="mb-4 flex justify-center">
+          <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 22c-1-2-3-3-5-3 0-2 1-4 3-5-2-1-3-3-3-5 2 0 4 1 5 3 1-2 3-3 5-3 0 2-1 4-3 5 2 1 3 3 3 5-2 0-4 1-5 3z"/>
+          </svg>
+        </div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">Zen Master</h3>
-        <p class="text-sm text-gray-600">Te ayudará a disminuir niveles de estrés y ansiedad, mejorando el estado de ánimo y ayudando a dormir mejor.</p>
+        <p class="text-sm text-gray-600 mb-4">Te ayudará a disminuir niveles de estrés y ansiedad, mejorando el estado de ánimo y ayudando a dormir mejor.</p>
+        <a href="https://wa.me/573332841861?text=Hola,%20me%20interesa%20el%20pack%20Zen%20Master" target="_blank" class="text-sm text-gray-500 hover:text-primary border-b border-gray-400 hover:border-primary transition-colors">Ver Más</a>
       </div>
-      <div class="bg-white shadow-lg p-6 rounded-xl text-center">
-        <div class="text-4xl mb-4">👩‍🔬</div>
+      <!-- Néctar de Hebe -->
+      <div class="bg-white shadow-lg p-6 rounded-xl text-center border border-gray-100 hover:shadow-xl transition-shadow">
+        <div class="mb-4 flex justify-center">
+          <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+          </svg>
+        </div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">Néctar de Hebe</h3>
-        <p class="text-sm text-gray-600">Mejora los niveles de energía y síntesis de colágeno. Ideal para combatir envejecimiento y mantener piel y articulaciones saludables.</p>
+        <p class="text-sm text-gray-600 mb-4">Mejora los niveles de energía y síntesis de colágeno. Ideal para combatir envejecimiento y mantener piel y articulaciones saludables.</p>
+        <a href="https://wa.me/573332841861?text=Hola,%20me%20interesa%20el%20pack%20Néctar%20de%20Hebe" target="_blank" class="text-sm text-gray-500 hover:text-primary border-b border-gray-400 hover:border-primary transition-colors">Ver Más</a>
       </div>
-      <div class="bg-white shadow-lg p-6 rounded-xl text-center">
-        <div class="text-4xl mb-4">🍸</div>
+      <!-- Green Juice -->
+      <div class="bg-white shadow-lg p-6 rounded-xl text-center border border-gray-100 hover:shadow-xl transition-shadow">
+        <div class="mb-4 flex justify-center">
+          <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 20h6M12 4v3M8 7h8l-1 13H9L8 7z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 4L8 2M14 4l2-2"/>
+          </svg>
+        </div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">Green Juice</h3>
-        <p class="text-sm text-gray-600">Desintoxica tu cuerpo de forma natural y ayuda a eliminar toxinas acumuladas de forma efectiva.</p>
+        <p class="text-sm text-gray-600 mb-4">Desintoxica tu cuerpo de forma natural y ayuda a eliminar toxinas acumuladas de forma efectiva.</p>
+        <a href="https://wa.me/573332841861?text=Hola,%20me%20interesa%20el%20pack%20Green%20Juice" target="_blank" class="text-sm text-gray-500 hover:text-primary border-b border-gray-400 hover:border-primary transition-colors">Ver Más</a>
       </div>
-      <div class="bg-white shadow-lg p-6 rounded-xl text-center">
-        <div class="text-4xl mb-4">❤️</div>
+      <!-- Pócima de Amor -->
+      <div class="bg-white shadow-lg p-6 rounded-xl text-center border border-gray-100 hover:shadow-xl transition-shadow">
+        <div class="mb-4 flex justify-center">
+          <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+          </svg>
+        </div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">Pócima de Amor</h3>
-        <p class="text-sm text-gray-600">Vitaminas y oligoelementos para mejorar la libido, revitalizar mente y cuerpo y mejorar recuperación física.</p>
+        <p class="text-sm text-gray-600 mb-4">Vitaminas y oligoelementos para mejorar la libido, revitalizar mente y cuerpo y mejorar recuperación física.</p>
+        <a href="https://wa.me/573332841861?text=Hola,%20me%20interesa%20el%20pack%20Pócima%20de%20Amor" target="_blank" class="text-sm text-gray-500 hover:text-primary border-b border-gray-400 hover:border-primary transition-colors">Ver Más</a>
       </div>
-      <div class="bg-white shadow-lg p-6 rounded-xl text-center">
-        <div class="text-4xl mb-4">🏋️</div>
+      <!-- Hércules -->
+      <div class="bg-white shadow-lg p-6 rounded-xl text-center border border-gray-100 hover:shadow-xl transition-shadow">
+        <div class="mb-4 flex justify-center">
+          <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 10h4v8H4zM16 10h4v8h-4zM8 14h8M10 10V6a2 2 0 114 0v4"/>
+          </svg>
+        </div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">Hércules</h3>
-        <p class="text-sm text-gray-600">Para metas de masa muscular. Aumenta el rendimiento y mejora la recuperación durante entrenamientos físicos intensos.</p>
+        <p class="text-sm text-gray-600 mb-4">Para metas de masa muscular. Aumenta el rendimiento y mejora la recuperación durante entrenamientos físicos intensos.</p>
+        <a href="https://wa.me/573332841861?text=Hola,%20me%20interesa%20el%20pack%20Hércules" target="_blank" class="text-sm text-gray-500 hover:text-primary border-b border-gray-400 hover:border-primary transition-colors">Ver Más</a>
       </div>
-      <div class="bg-white shadow-lg p-6 rounded-xl text-center">
-        <div class="text-4xl mb-4">🥂</div>
+      <!-- Enfiestao -->
+      <div class="bg-white shadow-lg p-6 rounded-xl text-center border border-gray-100 hover:shadow-xl transition-shadow">
+        <div class="mb-4 flex justify-center">
+          <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8V4l-3 4h6l-3-4zM8 8h8l2 14H6l2-14z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 12h4"/>
+          </svg>
+        </div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">Enfiestao</h3>
-        <p class="text-sm text-gray-600">Recupera hidratación y electrolitos después de una noche de fiesta. Te sentirás mejor en minutos.</p>
+        <p class="text-sm text-gray-600 mb-4">Recupera hidratación y electrolitos después de una noche de fiesta. Te sentirás mejor en minutos.</p>
+        <a href="https://wa.me/573332841861?text=Hola,%20me%20interesa%20el%20pack%20Enfiestao" target="_blank" class="text-sm text-gray-500 hover:text-primary border-b border-gray-400 hover:border-primary transition-colors">Ver Más</a>
       </div>
       <div class="bg-white shadow-lg p-6 rounded-xl text-center">
         <div class="text-4xl mb-4">💡</div>
