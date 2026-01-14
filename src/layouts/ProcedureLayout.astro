@@ -100,7 +100,7 @@ const {
 } = Astro.props;
 
 // Generar meta description si no se proporciona
-const seoDescription = metaDescription || `${procedureName} en Medellín con la Dra. Daniela Correa. ${description[0]?.replace(/<[^>]*>/g, '').substring(0, 120)}... Consulta gratuita.`;
+const seoDescription = metaDescription || `${procedureName} en Medellín con la Dra. Daniela Correa. ${description[0]?.replace(/<[^>]*>/g, '').substring(0, 120)}...`;
 
 // Schema.org - MedicalProcedure
 const procedureSchema = {
@@ -369,7 +369,7 @@ const getIcon = (iconName: string) => {
       variant="standard"
       overlay="gradient"
       showTrustBadge={true}
-      trustText="Consulta de valoración gratuita"
+      trustText="Más de 3,000 procedimientos exitosos"
     />
   )}
 
@@ -675,7 +675,7 @@ const getIcon = (iconName: string) => {
         <!-- CTA -->
         <div class="text-center mt-10 animate-on-scroll">
           <a href="#contactForm" class="btn-primary scroll-to-contact">
-            Agenda Tu Consulta Gratuita
+            Agenda Tu Consulta
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
