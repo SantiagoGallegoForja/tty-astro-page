@@ -10,8 +10,8 @@ interface SuggestionPayload {
   message: string;
 }
 
-const _env = process.env;
-const GOOGLE_SHEETS_WEBHOOK = _env['SHEETS_WEBHOOK_URL'] || 'https://script.google.com/macros/s/TU_WEBHOOK_AQUI/exec';
+const _getEnv = () => globalThis.process?.env || {};
+const GOOGLE_SHEETS_WEBHOOK = _getEnv()['SHEETS_WEBHOOK_URL'] || 'https://script.google.com/macros/s/TU_WEBHOOK_AQUI/exec';
 
 export const POST: APIRoute = async ({ request }) => {
   try {

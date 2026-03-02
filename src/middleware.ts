@@ -10,8 +10,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   if (isLoginRoute) return next();
 
   const cookie = context.cookies.get(COOKIE_NAME)?.value;
-  const _env = process.env;
-  const secret = _env['ADMIN_PASSWORD'];
+  const secret = (globalThis.process?.env || {})['ADMIN_PASSWORD'];
 
   if (!cookie || !secret || !(await verifySessionCookie(cookie, secret))) {
     if (pathname.startsWith('/api/')) {

@@ -3,7 +3,7 @@ import type { APIRoute } from 'astro';
 export const prerender = false;
 
 export const GET: APIRoute = async () => {
-  const _env = process.env;
+  const _env = globalThis.process?.env || {};
   const webhookUrl = _env['SHEETS_WEBHOOK_URL'];
   const token = _env['SHEETS_READ_TOKEN'];
 
