@@ -6,7 +6,8 @@ export const prerender = false;
 export const POST: APIRoute = async ({ request, cookies }) => {
   try {
     const { password } = await request.json();
-    const adminPassword = process.env.ADMIN_PASSWORD;
+    const _env = process.env;
+    const adminPassword = _env['ADMIN_PASSWORD'];
 
     if (!password || !adminPassword || password !== adminPassword) {
       return new Response(

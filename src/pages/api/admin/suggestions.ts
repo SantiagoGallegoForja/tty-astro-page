@@ -3,8 +3,9 @@ import type { APIRoute } from 'astro';
 export const prerender = false;
 
 export const GET: APIRoute = async () => {
-  const webhookUrl = process.env.SHEETS_WEBHOOK_URL;
-  const token = process.env.SHEETS_READ_TOKEN;
+  const _env = process.env;
+  const webhookUrl = _env['SHEETS_WEBHOOK_URL'];
+  const token = _env['SHEETS_READ_TOKEN'];
 
   if (!webhookUrl || !token) {
     return new Response(JSON.stringify({ success: false, error: 'Configuración de servidor incompleta' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
