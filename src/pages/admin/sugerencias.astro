@@ -1,0 +1,206 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+export const prerender = false;
+---
+
+<AdminLayout title="Buzón de Sugerencias">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold text-gray-900 font-serif">Buzón de Sugerencias</h1>
+      <p class="text-gray-500 text-sm mt-1 font-body">Visualiza y filtra las sugerencias recibidas</p>
+    </div>
+
+    <!-- Stats bar -->
+    <div id="statsBar" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-soft">
+        <p class="text-sm text-gray-500">Total</p>
+        <p id="statTotal" class="text-2xl font-bold text-gray-900">-</p>
+      </div>
+      <div class="bg-white rounded-xl p-4 border border-red-100 shadow-soft">
+        <p class="text-sm text-red-600">Quejas</p>
+        <p id="statQuejas" class="text-2xl font-bold text-red-600">-</p>
+      </div>
+      <div class="bg-white rounded-xl p-4 border border-amber-100 shadow-soft">
+        <p class="text-sm text-amber-600">Sugerencias</p>
+        <p id="statSugerencias" class="text-2xl font-bold text-amber-600">-</p>
+      </div>
+      <div class="bg-white rounded-xl p-4 border border-green-100 shadow-soft">
+        <p class="text-sm text-green-600">Felicitaciones</p>
+        <p id="statFelicitaciones" class="text-2xl font-bold text-green-600">-</p>
+      </div>
+    </div>
+
+    <!-- Filters + Search -->
+    <div class="flex flex-col sm:flex-row gap-4 mb-6">
+      <div id="filterPills" class="flex flex-wrap gap-2">
+        <button data-filter="all" class="filter-pill active"><i class="fa-solid fa-list text-xs"></i> Todas</button>
+        <button data-filter="Queja" class="filter-pill"><i class="fa-solid fa-circle-exclamation text-xs text-red-500"></i> Quejas</button>
+        <button data-filter="Sugerencia" class="filter-pill"><i class="fa-solid fa-lightbulb text-xs text-amber-500"></i> Sugerencias</button>
+        <button data-filter="Felicitación" class="filter-pill"><i class="fa-solid fa-star text-xs text-green-500"></i> Felicitaciones</button>
+      </div>
+      <div class="relative sm:ml-auto sm:w-72">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+        <input type="text" id="searchInput" placeholder="Buscar por nombre, email, mensaje..."
+          class="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl border-2 border-gray-200 bg-white focus:border-primary-400 focus:ring-4 focus:ring-primary-300/20 focus:outline-none transition-all duration-200" />
+      </div>
+    </div>
+
+    <div id="loadingState" class="flex flex-col items-center justify-center py-20">
+      <i class="fa-solid fa-spinner fa-spin text-3xl text-primary-400 mb-4"></i>
+      <p class="text-gray-500">Cargando sugerencias...</p>
+    </div>
+
+    <div id="errorState" class="hidden flex flex-col items-center justify-center py-20">
+      <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+        <i class="fa-solid fa-triangle-exclamation text-2xl text-red-500"></i>
+      </div>
+      <p class="text-gray-900 font-semibold mb-1">Error al cargar</p>
+      <p id="errorText" class="text-gray-500 text-sm mb-4">No se pudieron cargar las sugerencias</p>
+      <button id="retryBtn" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary-300 to-primary-400 text-white font-semibold rounded-xl shadow-md hover:shadow-lg hover:from-primary-400 hover:to-primary-500 transition-all duration-200 text-sm">
+        <i class="fa-solid fa-rotate-right"></i> Reintentar
+      </button>
+    </div>
+
+    <div id="emptyState" class="hidden flex flex-col items-center justify-center py-20">
+      <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+        <i class="fa-solid fa-inbox text-2xl text-gray-400"></i>
+      </div>
+      <p class="text-gray-900 font-semibold mb-1">Sin resultados</p>
+      <p class="text-gray-500 text-sm">No se encontraron sugerencias con los filtros actuales</p>
+    </div>
+
+    <div id="cardsGrid" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  </div>
+
+  <style>
+    .filter-pill {
+      @apply inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-full border-2 border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50 transition-all duration-200 cursor-pointer;
+    }
+    .filter-pill.active {
+      @apply border-primary-400 bg-primary-50 text-primary-700;
+    }
+  </style>
+
+  <script is:inline>
+    let allSuggestions = [];
+    let activeFilter = 'all';
+    let searchQuery = '';
+
+    const grid = document.getElementById('cardsGrid');
+    const loadingState = document.getElementById('loadingState');
+    const errorState = document.getElementById('errorState');
+    const emptyState = document.getElementById('emptyState');
+    const errorTextEl = document.getElementById('errorText');
+    const searchInput = document.getElementById('searchInput');
+
+    const typeConfig = {
+      'Queja': { border: 'border-red-500', bg: 'bg-red-50', text: 'text-red-700', icon: 'fa-circle-exclamation', label: 'Queja' },
+      'Sugerencia': { border: 'border-amber-500', bg: 'bg-amber-50', text: 'text-amber-700', icon: 'fa-lightbulb', label: 'Sugerencia' },
+      'Felicitación': { border: 'border-green-500', bg: 'bg-green-50', text: 'text-green-700', icon: 'fa-star', label: 'Felicitación' },
+    };
+
+    function setState(state) {
+      loadingState.classList.toggle('hidden', state !== 'loading');
+      errorState.classList.toggle('hidden', state !== 'error');
+      emptyState.classList.toggle('hidden', state !== 'empty');
+      grid.classList.toggle('hidden', state !== 'data');
+    }
+
+    function updateStats(data) {
+      document.getElementById('statTotal').textContent = data.length;
+      document.getElementById('statQuejas').textContent = data.filter(s => s.tipo === 'Queja').length;
+      document.getElementById('statSugerencias').textContent = data.filter(s => s.tipo === 'Sugerencia').length;
+      document.getElementById('statFelicitaciones').textContent = data.filter(s => s.tipo === 'Felicitación').length;
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      try {
+        const date = new Date(dateStr);
+        if (isNaN(date.getTime())) return escapeHtml(dateStr);
+        return date.toLocaleDateString('es-CO', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+      } catch { return escapeHtml(dateStr); }
+    }
+
+    function renderCards(items) {
+      if (items.length === 0) { setState('empty'); return; }
+      setState('data');
+      grid.innerHTML = items.map(s => {
+        const tipo = s.tipo || 'Sugerencia';
+        const cfg = typeConfig[tipo] || typeConfig['Sugerencia'];
+        const nombre = escapeHtml(s.nombre || 'Sin nombre');
+        const email = escapeHtml(s.email || '');
+        const telefono = escapeHtml(s.telefono || '');
+        const mensaje = escapeHtml(s.mensaje || '');
+        const fecha = formatDate(s.fecha || s.timestamp || '');
+        return `
+          <div class="bg-white rounded-xl border-t-4 ${cfg.border} shadow-soft hover:shadow-soft-lg transition-all duration-200 overflow-hidden">
+            <div class="p-5">
+              <div class="flex items-start justify-between mb-3">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${cfg.bg} ${cfg.text}">
+                  <i class="fa-solid ${cfg.icon}"></i> ${cfg.label}
+                </span>
+                ${fecha ? `<span class="text-xs text-gray-400">${fecha}</span>` : ''}
+              </div>
+              <p class="text-gray-900 text-sm leading-relaxed mb-4">${mensaje}</p>
+              <div class="border-t border-gray-100 pt-3 space-y-1.5">
+                <div class="flex items-center gap-2 text-sm"><i class="fa-solid fa-user text-gray-400 w-4 text-center"></i><span class="text-gray-700 font-medium">${nombre}</span></div>
+                ${email ? `<div class="flex items-center gap-2 text-sm"><i class="fa-solid fa-envelope text-gray-400 w-4 text-center"></i><a href="mailto:${email}" class="text-primary-500 hover:underline">${email}</a></div>` : ''}
+                ${telefono ? `<div class="flex items-center gap-2 text-sm"><i class="fa-solid fa-phone text-gray-400 w-4 text-center"></i><span class="text-gray-600">${telefono}</span></div>` : ''}
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function applyFilters() {
+      let filtered = allSuggestions;
+      if (activeFilter !== 'all') filtered = filtered.filter(s => s.tipo === activeFilter);
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        filtered = filtered.filter(s => (s.nombre||'').toLowerCase().includes(q) || (s.email||'').toLowerCase().includes(q) || (s.mensaje||'').toLowerCase().includes(q));
+      }
+      renderCards(filtered);
+    }
+
+    async function fetchSuggestions() {
+      setState('loading');
+      try {
+        const res = await fetch('/api/admin/suggestions');
+        const json = await res.json();
+        if (!res.ok || !json.success) throw new Error(json.error || 'Error desconocido');
+        allSuggestions = json.data || [];
+        updateStats(allSuggestions);
+        applyFilters();
+      } catch (err) {
+        errorTextEl.textContent = err.message || 'No se pudieron cargar las sugerencias';
+        setState('error');
+      }
+    }
+
+    document.getElementById('filterPills').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-filter]');
+      if (!btn) return;
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      applyFilters();
+    });
+
+    let searchTimeout;
+    searchInput.addEventListener('input', () => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => { searchQuery = searchInput.value.trim(); applyFilters(); }, 250);
+    });
+
+    document.getElementById('retryBtn').addEventListener('click', fetchSuggestions);
+    fetchSuggestions();
+  </script>
+</AdminLayout>

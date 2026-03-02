@@ -1,0 +1,144 @@
+---
+import '@styles/globals.css';
+export const prerender = false;
+---
+
+<!DOCTYPE html>
+<html lang="es-CO">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login | The True You</title>
+    <meta name="robots" content="noindex, nofollow" />
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=League+Spartan:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/images/favicon" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#d9c3b9" />
+  </head>
+
+  <body class="bg-white font-body text-gray-800 antialiased">
+    <div class="min-h-screen bg-gradient-to-br from-primary-50 via-white to-gold-50/30 flex items-center justify-center px-4 py-12 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-[500px] h-[500px] bg-primary-300/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+      <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-gold-500/5 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"></div>
+
+      <div class="w-full max-w-md relative z-10">
+        <div class="bg-white rounded-3xl shadow-soft-lg border border-gray-100 overflow-hidden">
+          <div class="h-1 bg-gradient-to-r from-primary-300 via-gold-500 to-primary-500"></div>
+          <div class="p-8 sm:p-10">
+            <div class="text-center mb-8">
+              <img src="/images/logo-1-Photoroom-removebg-preview-1.png" alt="The True You" class="h-16 mx-auto mb-5" />
+              <h1 class="text-xl font-bold text-gray-900 font-serif">Panel de Administración</h1>
+              <p class="text-gray-500 text-sm mt-1.5 font-body">Ingresa tu contraseña para continuar</p>
+            </div>
+
+            <form id="loginForm" class="space-y-5">
+              <div>
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-1.5">Contraseña</label>
+                <div class="relative group">
+                  <div class="absolute left-0 top-0 bottom-0 w-12 flex items-center justify-center pointer-events-none">
+                    <i class="fa-solid fa-lock text-gray-400 group-focus-within:text-primary-400 transition-colors duration-200"></i>
+                  </div>
+                  <input type="password" id="password" name="password" required autocomplete="current-password"
+                    class="w-full pl-12 pr-12 py-3.5 bg-white border-2 border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 transition-all duration-200 hover:border-gray-300 focus:outline-none focus:border-primary-400 focus:ring-4 focus:ring-primary-300/10"
+                    placeholder="Ingresa la contraseña" />
+                  <button type="button" id="togglePassword"
+                    class="absolute right-0 top-0 bottom-0 w-12 flex items-center justify-center text-gray-400 hover:text-primary-600 transition-colors duration-200">
+                    <i class="fa-solid fa-eye text-sm"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div id="errorMsg" class="hidden">
+                <div class="flex items-center gap-2.5 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
+                  <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
+                  <span id="errorText">Contraseña incorrecta</span>
+                </div>
+              </div>
+
+              <button type="submit" id="submitBtn"
+                class="w-full px-6 py-3.5 bg-gradient-to-r from-primary-300 to-primary-400 text-white font-semibold rounded-xl shadow-md hover:shadow-lg hover:from-primary-400 hover:to-primary-500 transform hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+                <i id="btnIcon" class="fa-solid fa-right-to-bracket text-sm"></i>
+                <span id="btnText">Ingresar</span>
+                <i id="btnSpinner" class="fa-solid fa-spinner fa-spin hidden text-sm"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        <p class="text-center text-gray-400 text-xs mt-6 font-body">The True You - Cirugía Plástica</p>
+      </div>
+    </div>
+
+    <script is:inline>
+      const form = document.getElementById('loginForm');
+      const passwordInput = document.getElementById('password');
+      const toggleBtn = document.getElementById('togglePassword');
+      const errorMsg = document.getElementById('errorMsg');
+      const errorText = document.getElementById('errorText');
+      const submitBtn = document.getElementById('submitBtn');
+      const btnText = document.getElementById('btnText');
+      const btnIcon = document.getElementById('btnIcon');
+      const btnSpinner = document.getElementById('btnSpinner');
+
+      toggleBtn.addEventListener('click', () => {
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+        toggleBtn.innerHTML = isPassword ? '<i class="fa-solid fa-eye-slash text-sm"></i>' : '<i class="fa-solid fa-eye text-sm"></i>';
+      });
+
+      passwordInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); form.dispatchEvent(new Event('submit')); }
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorMsg.classList.add('hidden');
+        btnText.textContent = 'Verificando...';
+        btnIcon.classList.add('hidden');
+        btnSpinner.classList.remove('hidden');
+        submitBtn.disabled = true;
+
+        try {
+          const res = await fetch('/api/admin/login', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: passwordInput.value }),
+          });
+          const data = await res.json();
+          if (data.success) {
+            btnText.textContent = 'Acceso concedido';
+            btnSpinner.classList.add('hidden');
+            btnIcon.classList.remove('hidden');
+            btnIcon.className = 'fa-solid fa-check text-sm';
+            window.location.href = '/admin/sugerencias';
+          } else {
+            errorText.textContent = data.error || 'Contraseña incorrecta';
+            errorMsg.classList.remove('hidden');
+            passwordInput.select();
+          }
+        } catch {
+          errorText.textContent = 'Error de conexión. Intenta de nuevo.';
+          errorMsg.classList.remove('hidden');
+        } finally {
+          if (!document.querySelector('#btnIcon.fa-check')) {
+            btnText.textContent = 'Ingresar';
+            btnIcon.classList.remove('hidden');
+            btnIcon.className = 'fa-solid fa-right-to-bracket text-sm';
+            btnSpinner.classList.add('hidden');
+            submitBtn.disabled = false;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
