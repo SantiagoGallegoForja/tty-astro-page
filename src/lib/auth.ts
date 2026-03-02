@@ -22,11 +22,11 @@ export async function createSessionCookie(secret: string): Promise<string> {
   const timestamp = Math.floor(Date.now() / 1000).toString();
   const key = await getKey(secret);
   const signature = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(timestamp));
-  return `${timestamp}:${bufferToHex(signature)}`;
+  return `${timestamp}.${bufferToHex(signature)}`;
 }
 
 export async function verifySessionCookie(cookie: string, secret: string): Promise<boolean> {
-  const parts = cookie.split(':');
+  const parts = cookie.split('.');
   if (parts.length !== 2) return false;
   const [timestamp, hex] = parts;
   const ts = parseInt(timestamp, 10);
