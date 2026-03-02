@@ -6,9 +6,11 @@ export const prerender = false;
 export const POST: APIRoute = async ({ request, cookies }) => {
   try {
     const { password } = await request.json();
-    const adminPassword = process.env.ADMIN_PASSWORD || import.meta.env.ADMIN_PASSWORD;
+    const adminPassword = import.meta.env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD;
 
-    if (!password || password !== adminPassword) {
+    console.log('Login attempt:', { hasPassword: !!password, hasAdminPassword: !!adminPassword, envKeys: Object.keys(process.env).filter(k => k.includes('ADMIN')) });
+
+    if (!password || !adminPassword || password !== adminPassword) {
       return new Response(
         JSON.stringify({ success: false, error: 'Contraseña incorrecta' }),
         { status: 401, headers: { 'Content-Type': 'application/json' } }
